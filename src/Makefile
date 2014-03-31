@@ -1,0 +1,2 @@
+COMPONENT=SensorNetworkForAnimalHusbandryAppC
+include $(MAKERULES)
