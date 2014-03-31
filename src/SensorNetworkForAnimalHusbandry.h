@@ -11,4 +11,10 @@ typedef nx_struct BlinkToRadioMsg {
   	nx_uint16_t counter;
 } BlinkToRadioMsg;
 
+typedef nx_struct GPSCoordinate {
+	nx_uint16_t nodeid;
+	nx_uint16_t x;
+	nx_uint16_t y;
+} GPSCoordinate;
+
 #endif

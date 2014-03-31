@@ -18,7 +18,7 @@ implementation {
 	message_t pkt; 
 
 	event void Boot.booted() {
-		dbg("BlinkToRadioC", "BlinkToRadioC: timer fired, counter is %hu.\n", counter);
+		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: timer fired, counter is %hu.\n", counter);
 		call AMControl.start();
 	}
 	
@@ -42,16 +42,16 @@ implementation {
  
 	event void Timer0.fired() {
 		counter++;
-		dbg("BlinkToRadioC", "BlinkToRadioC: timer fired, counter is %hu.\n", counter);
+		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: timer fired, counter is %hu.\n", counter);
 		call Leds.set(counter);
 	
 		if (!busy && TOS_NODE_ID == 1) {
 			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)(call Packet.getPayload(&pkt, sizeof (BlinkToRadioMsg)));
 			btrpkt->nodeid = TOS_NODE_ID;
-			dbg("BlinkToRadioC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
+			dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
 			btrpkt->counter = counter;
 			if (call AMSend.send(TOS_NODE_ID + 1, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
-				dbg("BlinkToRadioC", "BlinkToRadioC: packet sent.\n", counter);	
+				dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n", counter);	
 				busy = TRUE;
 			}
 		}
@@ -62,16 +62,16 @@ implementation {
 		if (len == sizeof(BlinkToRadioMsg)) {
 			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)payload;
 			call Leds.set(btrpkt->counter);
-			dbg("BlinkToRadioC", "Received packet of length %hhu and from %hhu.\n", len, btrpkt->nodeid);
+			dbg("SensorNetworkForAnimalHusbandryC", "Received packet of length %hhu and from %hhu.\n", len, btrpkt->nodeid);
 		}
 	
 		if (!busy) {
 			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)(call Packet.getPayload(&pkt, sizeof (BlinkToRadioMsg)));
 			btrpkt->nodeid = TOS_NODE_ID;
-			dbg("BlinkToRadioC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
+			dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
 			btrpkt->counter = counter;
 			if (call AMSend.send(TOS_NODE_ID + 1, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
-				dbg("BlinkToRadioC", "BlinkToRadioC: packet sent.\n", counter);	
+				dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n", counter);	
 				busy = TRUE;
 			}
 		}

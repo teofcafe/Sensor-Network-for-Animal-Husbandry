@@ -13,7 +13,7 @@ for line in f:
     print " ", s[0], " ", s[1], " ", s[2];
     r.add(int(s[0]), int(s[1]), float(s[2]))
 
-t.addChannel("RadioCountToLedsC", sys.stdout)
+t.addChannel("SensorNetworkForAnimalHusbandryC", sys.stdout)
 t.addChannel("Boot", sys.stdout)
 
 noise = open("meyer-heavy.txt", "r")
