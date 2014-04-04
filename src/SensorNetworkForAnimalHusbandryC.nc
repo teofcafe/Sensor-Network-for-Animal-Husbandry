@@ -10,6 +10,7 @@ module SensorNetworkForAnimalHusbandryC {
 	uses interface AMSend;
 	uses interface SplitControl as AMControl;
 	uses interface Receive;
+	uses interface PacketTimeStamp<TMilli, uint32_t> as TimeStamp0;
 }
 
 implementation {
@@ -45,12 +46,12 @@ implementation {
 		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: timer fired, counter is %hu.\n", counter);
 		call Leds.set(counter);
 	
-		if (!busy && TOS_NODE_ID == 1) {
+		if (!busy) {
 			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)(call Packet.getPayload(&pkt, sizeof (BlinkToRadioMsg)));
 			btrpkt->nodeid = TOS_NODE_ID;
 			dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
 			btrpkt->counter = counter;
-			if (call AMSend.send(TOS_NODE_ID + 1, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
+			if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
 				dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n", counter);	
 				busy = TRUE;
 			}
@@ -63,17 +64,6 @@ implementation {
 			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)payload;
 			call Leds.set(btrpkt->counter);
 			dbg("SensorNetworkForAnimalHusbandryC", "Received packet of length %hhu and from %hhu.\n", len, btrpkt->nodeid);
-		}
-	
-		if (!busy) {
-			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)(call Packet.getPayload(&pkt, sizeof (BlinkToRadioMsg)));
-			btrpkt->nodeid = TOS_NODE_ID;
-			dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
-			btrpkt->counter = counter;
-			if (call AMSend.send(TOS_NODE_ID + 1, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
-				dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n", counter);	
-				busy = TRUE;
-			}
 		}
 	
 		return msg;
