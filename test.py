@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 from TOSSIM import *
+from RadioCountMsg import *
 import sys
 
 t = Tossim([])
@@ -28,9 +29,13 @@ for i in range(1, 4):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel()
 
-t.getNode(1).bootAtTime(100001);
-t.getNode(2).bootAtTime(800008);
-t.getNode(3).bootAtTime(1800009);
+#t.getNode(1).bootAtTime(100001);
+#t.getNode(2).bootAtTime(800008);
+#t.getNode(3).bootAtTime(1800009);
+
+t.getNode(1).turnOn();
+t.getNode(2).turnOn();
+t.getNode(3).turnOn();
 
 for i in range(100):
 	t.runNextEvent()

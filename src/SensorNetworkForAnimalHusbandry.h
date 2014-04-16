@@ -2,24 +2,30 @@
 #define SENSORNETWORKFORANIMALHUSBANDRY_H
 
 enum {
-	AM_SENSORNETWORKFORANIMALHUSBANDRY = 6,
-  	TIMER_PERIOD_MILLI = 250
+		AM_SENSORNETWORKFORANIMALHUSBANDRY = 6,
+	TIMER_PERIOD_MILLI = 250,
+	AM_REQUEST_MSG = 6
 };
-
-typedef nx_struct BlinkToRadioMsg {
-  	nx_uint16_t nodeid;
-  	nx_uint16_t counter;
-} BlinkToRadioMsg;
 
 typedef nx_struct GPSCoordinate {
 	nx_uint16_t x;
 	nx_uint16_t y;
 } GPSCoordinate;
 
-typedef nx_struct MoteMsg {
-  	GPSCoordinate gpsCoordinate;
-  	nx_uint16_t nodeID;
-  	nx_uint16_t timeStamp;
-} MoteMsg;
+typedef nx_struct MoteMessage {
+	GPSCoordinate gpsCoordinate;
+	nx_uint16_t nodeID;
+	nx_uint16_t sender;
+	nx_uint16_t timeStamp;
+} MoteMessage;
+
+typedef nx_struct KnownMotes {
+	nx_uint16_t nodeID;
+	GPSCoordinate gpsCoordinate;
+} KnownMotes;
+
+typedef nx_struct request_msg {
+	  nx_uint16_t counter;
+} request_msg;
 
 #endif

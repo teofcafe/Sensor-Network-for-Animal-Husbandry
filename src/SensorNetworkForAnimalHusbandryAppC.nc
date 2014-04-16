@@ -7,15 +7,16 @@ configuration SensorNetworkForAnimalHusbandryAppC {
 
 implementation {
 	components MainC;
-   	components LedsC;
+   	//components LedsC;
    	components SensorNetworkForAnimalHusbandryC as App;
    	components new TimerMilliC() as Timer0;
  	components ActiveMessageC;
-  	components new AMSenderC(AM_SENSORNETWORKFORANIMALHUSBANDRY);
-	components new AMReceiverC(AM_SENSORNETWORKFORANIMALHUSBANDRY);
+  	components new AMSenderC(AM_REQUEST_MSG);
+	components new AMReceiverC(AM_REQUEST_MSG);
+//	components new AMSenderC(AM_REQUEST_MSG)as AMSenderC0;
+//  	components new AMReceiverC(AM_REQUEST_MSG)as AMReceiverC0;
 
    	App.Boot -> MainC;
-   	App.Leds -> LedsC;
    	App.Timer0 -> Timer0;
 	App.Packet -> AMSenderC;
   	App.AMPacket -> AMSenderC;

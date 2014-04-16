@@ -1,7 +1,8 @@
 #! /usr/bin/python
 
-from TOSSIM import *
 import sys
+from TOSSIM import *
+from RequestMsg import *
 
 t = Tossim([])
 r = t.radio()
@@ -28,9 +29,23 @@ for i in range(1, 4):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel()
 
-t.getNode(1).bootAtTime(100001);
-t.getNode(2).bootAtTime(800008);
-t.getNode(3).bootAtTime(1800009);
+#t.getNode(1).bootAtTime(100001);
+#t.getNode(2).bootAtTime(800008);
+#t.getNode(3).bootAtTime(1800009);
+
+t.getNode(1).turnOn();
+t.getNode(2).turnOn();
+t.getNode(3).turnOn();
+
+msg = RequestMsg()
+msg.set_counter(7)
+pkt = t.newPacket()
+pkt.setData(msg.data)
+pkt.setType(msg.get_amType())
+pkt.setDestination(1)
+
+print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
+pkt.deliver(1, t.time() + 100)
 
 for i in range(100):
 	t.runNextEvent()

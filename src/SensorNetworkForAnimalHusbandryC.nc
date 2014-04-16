@@ -10,16 +10,33 @@ module SensorNetworkForAnimalHusbandryC {
 	uses interface AMSend;
 	uses interface SplitControl as AMControl;
 	uses interface Receive;
+	uses interface Queue<KnownMotes>;
 	uses interface PacketTimeStamp<TMilli, uint32_t> as TimeStamp0;
 }
 
 implementation {
 	uint16_t counter = 0;
+	bool firstMessage = TRUE;
 	bool busy = FALSE;
 	message_t pkt; 
+	
+	void SendBroadcastMessage() {
+
+		MoteMessage* mmpkt = (MoteMessage*)(call Packet.getPayload(&pkt, sizeof (MoteMessage)));
+		//mmpkt->nodeID = TOS_NODE_ID;
+		//mmpkt->counter = counter;
+	
+		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteMessage)) == SUCCESS) {
+	
+			//dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu | TimeStamp: %hhu.\n", TOS_NODE_ID, mmpkt->timeStamp);	
+			dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n");	
+			busy = TRUE;
+			firstMessage = FALSE;
+		}
+	}
 
 	event void Boot.booted() {
-		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: timer fired, counter is %hu.\n", counter);
+		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: boot fired, counter is %hu.\n", counter);
 		call AMControl.start();
 	}
 	
@@ -44,28 +61,37 @@ implementation {
 	event void Timer0.fired() {
 		counter++;
 		dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: timer fired, counter is %hu.\n", counter);
-		call Leds.set(counter);
-	
-		if (!busy) {
-			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)(call Packet.getPayload(&pkt, sizeof (BlinkToRadioMsg)));
-			btrpkt->nodeid = TOS_NODE_ID;
-			dbg("SensorNetworkForAnimalHusbandryC", "TOS_NODE_ID: %hhu.\n", TOS_NODE_ID);	
-			btrpkt->counter = counter;
-			if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(BlinkToRadioMsg)) == SUCCESS) {
-				dbg("SensorNetworkForAnimalHusbandryC", "SensorNetworkForAnimalHusbandryC: packet sent.\n", counter);	
-				busy = TRUE;
-			}
-		}
+		//call Leds.set(counter);	
 	}
 
 	event message_t* Receive.receive(message_t* msg, void* payload, uint8_t len) {
 
-		if (len == sizeof(BlinkToRadioMsg)) {
-			BlinkToRadioMsg* btrpkt = (BlinkToRadioMsg*)payload;
-			call Leds.set(btrpkt->counter);
-			dbg("SensorNetworkForAnimalHusbandryC", "Received packet of length %hhu and from %hhu.\n", len, btrpkt->nodeid);
-		}
+		if(len == sizeof(request_msg)) {
+			//call Leds.set(btrpkt->counter);
+			request_msg* rpkt = (request_msg*)payload;
 	
-		return msg;
+			dbg("SensorNetworkForAnimalHusbandryC", "[REQUEST-MESSAGE] Received request message of length %hhu with counter %hhu.\n", len, rpkt->counter);
+			dbg("SensorNetworkForAnimalHusbandryC", "BUSY: %hhu | FIRSTMESSAGE: %hhu.\n", busy, firstMessage);
+	
+	
+			if (!busy)
+				if(firstMessage)
+				SendBroadcastMessage();
+	
+			return msg;
+		}
+
+		else if (len == sizeof(MoteMessage)) {
+			MoteMessage* mmpkt = (MoteMessage*)payload;
+			//call Leds.set(btrpkt->counter);
+			dbg("SensorNetworkForAnimalHusbandryC", "[MOTE-MESSAGE] Received packet of length %hhu, from %hhu with timeStamp %hhu.\n", len, mmpkt->nodeID, mmpkt->timeStamp);
+	
+	
+			if (!busy)
+				if(firstMessage)
+				SendBroadcastMessage();
+			return msg;
+		}
 	}
+
 }
