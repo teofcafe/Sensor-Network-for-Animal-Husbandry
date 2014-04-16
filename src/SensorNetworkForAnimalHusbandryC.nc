@@ -19,6 +19,7 @@ implementation {
 	bool firstMessage = TRUE;
 	bool busy = FALSE;
 	message_t pkt; 
+	GPSCoordinate coordinate;
 	
 	void SendBroadcastMessage() {
 
@@ -77,8 +78,17 @@ implementation {
 			if (!busy)
 				if(firstMessage)
 				SendBroadcastMessage();
+		}
 	
-			return msg;
+		else if(len == sizeof(GPSCoordinate)) {
+			//call Leds.set(btrpkt->counter);
+			GPSCoordinate* GPSpkt = (GPSCoordinate*)payload;
+	
+			dbg("SensorNetworkForAnimalHusbandryC", "[GPS] Received coordinate (%hhu, %hhu) with length %hhu.\n", GPSpkt->x, GPSpkt->y, len);
+
+			coordinate.x = GPSpkt->x;
+			coordinate.y = GPSpkt->y;
+
 		}
 
 		else if (len == sizeof(MoteMessage)) {
@@ -90,8 +100,9 @@ implementation {
 			if (!busy)
 				if(firstMessage)
 				SendBroadcastMessage();
-			return msg;
 		}
+	
+		return msg;
 	}
 
 }

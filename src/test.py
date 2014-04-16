@@ -1,8 +1,12 @@
 #! /usr/bin/python
 
 import sys
+import random
+import time
+
 from TOSSIM import *
 from RequestMsg import *
+from GPSCoordinate import *
 
 t = Tossim([])
 r = t.radio()
@@ -28,14 +32,16 @@ for line in noise:
 for i in range(1, 4):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel()
-
-#t.getNode(1).bootAtTime(100001);
-#t.getNode(2).bootAtTime(800008);
-#t.getNode(3).bootAtTime(1800009);
-
-t.getNode(1).turnOn();
-t.getNode(2).turnOn();
-t.getNode(3).turnOn();
+  t.getNode(i).turnOn()
+  coord = GPSCoordinate()
+  pkt = t.newPacket()
+  coord.set_x(random.randrange(1, 10))
+  coord.set_y(random.randrange(1, 10))
+  pkt.setData(coord.data)
+  pkt.setType(coord.get_amType())
+  pkt.setDestination(i)
+  pkt.deliver(i, i * 100)
+  print "Delivering " + str(coord) + " for ", i; 
 
 msg = RequestMsg()
 msg.set_counter(7)
@@ -45,7 +51,7 @@ pkt.setType(msg.get_amType())
 pkt.setDestination(1)
 
 print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
-pkt.deliver(1, t.time() + 100)
+pkt.deliver(1, t.time() + 1000)
 
 for i in range(100):
 	t.runNextEvent()
