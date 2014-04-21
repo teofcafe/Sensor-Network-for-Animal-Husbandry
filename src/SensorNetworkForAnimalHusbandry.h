@@ -14,19 +14,29 @@ typedef nx_struct GPSCoordinate {
 } GPSCoordinate;
 
 typedef nx_struct MoteMessage {
-	GPSCoordinate gpsCoordinate;
 	nx_uint16_t nodeID;
-	nx_uint16_t sender;
-	nx_uint16_t timeStamp;
+	nx_uint16_t x;
+	nx_uint16_t y;
+	nx_uint16_t counter;
+	nx_uint16_t reply;
+	nx_uint16_t senderID;
+	nx_uint16_t senderHierarchyLevel;
 } MoteMessage;
 
-typedef nx_struct KnownMotes {
+typedef nx_struct MoteInformation {
 	nx_uint16_t nodeID;
-	GPSCoordinate gpsCoordinate;
-} KnownMotes;
+    nx_uint16_t x;
+	nx_uint16_t y;
+    nx_uint16_t adjacentNodeID;
+    nx_uint8_t migrated;
+} MoteInformation;
+
+typedef nx_struct AdjacentMote {
+	nx_uint16_t nodeID;
+    nx_uint16_t hierarchyLevel;
+} AdjacentMote;
 
 typedef nx_struct request_msg {
-	nx_uint16_t counter;
 } request_msg;
 
 #endif

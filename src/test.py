@@ -26,10 +26,10 @@ for line in noise:
   str1 = line.strip()
   if str1:
     val = int(str1)
-    for i in range(1, 4):
+    for i in range(1, 6):
       t.getNode(i).addNoiseTraceReading(val)
 
-for i in range(1, 4):
+for i in range(1, 6):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel()
   t.getNode(i).turnOn()
@@ -44,7 +44,6 @@ for i in range(1, 4):
   print "Delivering " + str(coord) + " for ", i; 
 
 msg = RequestMsg()
-msg.set_counter(7)
 pkt = t.newPacket()
 pkt.setData(msg.data)
 pkt.setType(msg.get_amType())
@@ -53,5 +52,5 @@ pkt.setDestination(1)
 print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
 pkt.deliver(1, t.time() + 1000)
 
-for i in range(100):
+for i in range(1000):
 	t.runNextEvent()
