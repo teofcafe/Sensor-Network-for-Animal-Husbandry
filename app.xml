@@ -26,7 +26,7 @@
         <short>&#10; Please refer to TEP 115 for more information about this interface and its&#10; intended use.&#60;br>&#60;br>&#10;&#10; This is the split-phase counterpart to the StdContol interface.</short>
         <long>&#10; Please refer to TEP 115 for more information about this interface and its&#10; intended use.&#60;br>&#60;br>&#10;&#10; This is the split-phase counterpart to the StdContol interface.  It&#10; should be used for switching between the on and off power states of&#10; the component providing it.  For each &#60;code>start()&#60;/code> or&#10; &#60;code>stop()&#60;/code> command, if the command returns SUCCESS, then a&#10; corresponding  &#60;code>startDone()&#60;/code> or &#60;code>stopDone()&#60;/code> event&#10; must be signalled.&#10;&#10; @author Joe Polastre&#10; @author Kevin Klues (klueska@cs.wustl.edu)&#10;</long>
       </documentation>
-      <function event="" provided="0" name="startDone" ref="0x406eb738" loc="113:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+      <function event="" provided="0" name="startDone" ref="0x406ee280" loc="113:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
         <documentation loc="106:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
           <short> &#10; Notify caller that the component has been started and is ready to&#10; receive other commands.</short>
           <long> &#10; Notify caller that the component has been started and is ready to&#10; receive other commands.&#10;&#10; @param &#60;b>error&#60;/b> -- SUCCESS if the component was successfully&#10;                        turned on, FAIL otherwise&#10;</long>
@@ -41,14 +41,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="error" ref="0x406eb5e0" loc="113:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+          <variable name="error" ref="0x406ee128" loc="113:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="error_t" ref="0x40626a00"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function event="" provided="0" name="stopDone" ref="0x406ff730" loc="138:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+      <function event="" provided="0" name="stopDone" ref="0x406ed010" loc="138:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
         <documentation loc="132:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
           <short>&#10; Notify caller that the component has been stopped.</short>
           <long>&#10; Notify caller that the component has been stopped.&#10;&#10; @param &#60;b>error&#60;/b> -- SUCCESS if the component was successfully&#10;                        turned off, FAIL otherwise&#10;</long>
@@ -63,14 +63,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="error" ref="0x406ff5d8" loc="138:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+          <variable name="error" ref="0x406eee70" loc="138:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="error_t" ref="0x40626a00"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="start" ref="0x406d8db0" loc="104:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+      <function command="" provided="0" name="start" ref="0x406d49f0" loc="104:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
         <documentation loc="89:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
           <short>&#10; Start this component and all of its subcomponents.</short>
           <long>&#10; Start this component and all of its subcomponents.  Return&#10; values of SUCCESS will always result in a &#60;code>startDone()&#60;/code>&#10; event being signalled.&#10;&#10; @return SUCCESS if the device is already in the process of &#10;         starting or the device was off and the device is now ready to turn &#10;         on.  After receiving this return value, you should expect a &#10;         &#60;code>startDone&#60;/code> event in the near future.&#60;br>&#10;         EBUSY if the component is in the middle of powering down&#10;               i.e. a &#60;code>stop()&#60;/code> command has been called,&#10;               and a &#60;code>stopDone()&#60;/code> event is pending&#60;br>&#10;         EALREADY if the device is already on &#60;br>&#10;         FAIL Otherwise&#10;</long>
@@ -86,7 +86,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="stop" ref="0x406ebc48" loc="130:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
+      <function command="" provided="0" name="stop" ref="0x406ee790" loc="130:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
         <documentation loc="115:/opt/tinyos-2.1.2/tos/interfaces/SplitControl.nc">
           <short>&#10; Start this component and all of its subcomponents.</short>
           <long>&#10; Start this component and all of its subcomponents.  Return&#10; values of SUCCESS will always result in a &#60;code>startDone()&#60;/code>&#10; event being signalled.&#10;&#10; @return SUCCESS if the device is already in the process of &#10;         stopping or the device was on and the device is now ready to turn &#10;         off.  After receiving this return value, you should expect a &#10;         &#60;code>stopDone&#60;/code> event in the near future.&#60;br>&#10;         EBUSY if the component is in the middle of powering up&#10;               i.e. a &#60;code>start()&#60;/code> command has been called,&#10;               and a &#60;code>startDone()&#60;/code> event is pending&#60;br>&#10;         EALREADY if the device is already off &#60;br>&#10;         FAIL Otherwise&#10;</long>
@@ -105,23 +105,23 @@
     </interfacedef>
     <interfacedef qname="PacketTimeStamp" loc="35:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
       <parameters>
-        <typedef name="precision_tag" ref="0x406ec418" loc="35:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+        <typedef name="precision_tag" ref="0x406ffa60" loc="35:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <interfacedef-ref qname="PacketTimeStamp"/>
-          <type-var size="U:" alignment="U:"><typedef-ref name="precision_tag" scoped="" ref="0x406ec418"/></type-var>
+          <type-var size="U:" alignment="U:"><typedef-ref name="precision_tag" scoped="" ref="0x406ffa60"/></type-var>
         </typedef>
-        <typedef name="size_type" ref="0x406ec580" loc="35:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+        <typedef name="size_type" ref="0x406ffbc8" loc="35:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <interfacedef-ref qname="PacketTimeStamp"/>
-          <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ec580"/></type-var>
+          <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ffbc8"/></type-var>
         </typedef>
       </parameters>
-      <function command="" provided="0" name="timestamp" ref="0x406fa788" loc="63:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+      <function command="" provided="0" name="timestamp" ref="0x406eadf0" loc="63:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
         <documentation loc="51:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <short>&#10; </short>
           <long>&#10; @param 'message_t *ONE msg' Message to get timestamp from.&#10;&#10; Return the time stamp for the given message. Please check with the&#10; isValid command if this value can be relied upon. If this command is&#10; called after transmission, then the transmit time of the packet&#10; is returned (the time when the frame synchronization byte was&#10; transmitted). If this command is called after the message is received,&#10; the tne receive time of the message is returned. It is recommended that&#10; the timestamp command be called only from the receive or sendDone event&#10; handler.&#10;</long>
         </documentation>
         <interfacedef-ref qname="PacketTimeStamp"/>
         <type-function size="I:1" alignment="I:1">
-          <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ec580"/></type-var>
+          <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ffbc8"/></type-var>
           <function-parameters>
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
@@ -131,7 +131,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406fa630" loc="63:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+          <variable name="msg" ref="0x406eac98" loc="63:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -140,7 +140,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="clear" ref="0x406fb240" loc="70:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+      <function command="" provided="0" name="clear" ref="0x406fe9c0" loc="70:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
         <documentation loc="65:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <short>&#10; </short>
           <long>&#10; @param 'message_t *ONE msg' Message to modify.&#10;&#10; Sets the isValid flag to FALSE.&#10;</long>
@@ -157,7 +157,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406fb0e8" loc="70:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+          <variable name="msg" ref="0x406fe868" loc="70:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -166,7 +166,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="isValid" ref="0x406ecc08" loc="49:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+      <function command="" provided="0" name="isValid" ref="0x406ea2a0" loc="49:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
         <documentation loc="37:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <short>&#10; </short>
           <long>&#10; @param 'message_t *ONE msg' Message to examine.&#10;&#10; Returns TRUE if the time stamp of the message is valid. Under special&#10; circumstances the radio chip might not be able to correctly assign a&#10; precise time value to an incoming packet (e.g. under very heavy traffic&#10; multiple interrupts can occur before they could be serviced, and even&#10; if capture registers are used, it is not possible to get the time stamp&#10; for the first or last unserviced event), in which case the time stamp&#10; value should not be used. It is recommended that the isValid command be&#10; called from the receive or sendDone event handler.&#10;</long>
@@ -185,7 +185,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406ecab0" loc="49:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+          <variable name="msg" ref="0x406ea148" loc="49:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -194,7 +194,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="set" ref="0x406fbd00" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+      <function command="" provided="0" name="set" ref="0x406fc4b8" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
         <documentation loc="72:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
           <short>&#10; </short>
           <long>&#10; @param 'message_t *ONE msg' Message to modify.&#10;&#10; Sets the isValid flag to TRUE and the time stamp value to the&#10; specified value.&#10;</long>
@@ -208,19 +208,19 @@
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
-            <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ec580"/></type-var>
+            <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ffbc8"/></type-var>
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406fb990" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+          <variable name="msg" ref="0x406fc148" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="value" ref="0x406fbba0" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
-            <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ec580"/></type-var>
+          <variable name="value" ref="0x406fc358" loc="78:/opt/tinyos-2.1.2/tos/interfaces/PacketTimeStamp.nc">
+            <type-var size="U:" alignment="U:"><typedef-ref name="size_type" scoped="" ref="0x406ffbc8"/></type-var>
           </variable>
         </parameters>
       </function>
@@ -230,7 +230,7 @@
         <short>&#10; Interface that notifies components when TinyOS has booted&#10; (initialized all of its components), as discussed in TEP 107.</short>
         <long>&#10; Interface that notifies components when TinyOS has booted&#10; (initialized all of its components), as discussed in TEP 107.&#10;&#10; @author Philip Levis&#10; @date   January 5 2005&#10;</long>
       </documentation>
-      <function event="" provided="0" name="booted" ref="0x406d01f0" loc="60:/opt/tinyos-2.1.2/tos/interfaces/Boot.nc">
+      <function event="" provided="0" name="booted" ref="0x406d0e00" loc="60:/opt/tinyos-2.1.2/tos/interfaces/Boot.nc">
         <documentation loc="51:/opt/tinyos-2.1.2/tos/interfaces/Boot.nc">
           <short>&#10; Signaled when the system has booted successfully.</short>
           <long>&#10; Signaled when the system has booted successfully. Components can&#10; assume the system has been initialized properly. Services may&#10; need to be started to work, however.&#10;&#10; @see StdControl&#10; @see SplitConrol&#10; @see TEP 107: Boot Sequence&#10;</long>
@@ -282,7 +282,7 @@
         <short> &#10; The basic message data type accessors.</short>
         <long> &#10; The basic message data type accessors. Protocols may use&#10; additional packet interfaces for their protocol specific&#10; data/metadata.&#10;&#10; @author Philip Levis&#10; @date   January 5 2005&#10; @see    TEP 116: Packet Protocols&#10;</long>
       </documentation>
-      <function command="" provided="0" name="clear" ref="0x406c9c20" loc="65:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+      <function command="" provided="0" name="clear" ref="0x406dc9c8" loc="65:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
         <documentation loc="58:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
           <short>&#10; Clear out this packet.</short>
           <long>&#10; Clear out this packet.  Note that this is a deep operation and&#10; total operation: calling clear() on any layer will completely&#10; clear the packet for reuse.&#10; @param  'message_t* ONE msg'    the packet to clear&#10;</long>
@@ -299,7 +299,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406c9ac8" loc="65:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="msg" ref="0x406dc870" loc="65:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -308,7 +308,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="payloadLength" ref="0x406e9628" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+      <function command="" provided="0" name="payloadLength" ref="0x406d93b8" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
         <documentation loc="67:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
           <short>&#10; Return the length of the payload of msg.</short>
           <long>&#10; Return the length of the payload of msg. This value may be less&#10; than what maxPayloadLength() returns, if the packet is smaller than&#10; the MTU. If a communication component does not support variably&#10; sized data regions, then payloadLength() will always return&#10; the same value as maxPayloadLength(). &#10;&#10; @param  'message_t* ONE msg'    the packet to examine&#10; @return        the length of its current payload&#10;</long>
@@ -327,7 +327,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406e94d0" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="msg" ref="0x406d9260" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -336,7 +336,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="getPayload" ref="0x406e8648" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+      <function command="" provided="0" name="getPayload" ref="0x406d5370" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
         <documentation loc="109:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
           <short>&#10; Return a pointer to a protocol's payload region in a packet.</short>
           <long>&#10; Return a pointer to a protocol's payload region in a packet.&#10; If the caller intends to write to the payload region then&#10; the &#60;tt>len&#60;/tt> parameter must reflect the maximum required&#10; length. If the caller (only) wants to read from the payload&#10; region, then &#60;tt>len&#60;/tt> may be set to the value of&#10; payloadLength(). If the payload region is smaller than &#10; &#60;tt>len&#60;/tt> this command returns NULL. The offset where&#10; the payload region starts within a packet is fixed, i.e. for&#10; a given &#60;tt>msg&#60;/tt> this command will always return the same&#10; pointer or NULL.&#10;&#10; @param 'message_t* ONE msg'   the packet &#10; @param len   the length of payload required&#10; @return 'void* COUNT_NOK(len)'     a pointer to the packet's data payload for this layer&#10;              or NULL if &#60;tt>len&#60;/tt> is too big&#10;</long>
@@ -358,21 +358,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406e82e8" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="msg" ref="0x406d5010" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="len" ref="0x406e84c8" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="len" ref="0x406d51f0" loc="126:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="maxPayloadLength" ref="0x406d4ce8" loc="106:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+      <function command="" provided="0" name="maxPayloadLength" ref="0x406d79c0" loc="106:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
         <documentation loc="96:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
           <short>&#10; Return the maximum payload length that this communication layer&#10; can provide.</short>
           <long>&#10; Return the maximum payload length that this communication layer&#10; can provide. Note that, depending on protocol fields, a given&#10; request to send a packet may not be able to send the maximum&#10; payload length (e.g., if there are variable length&#10; fields). Protocols may provide specialized interfaces for these&#10; circumstances.&#10;&#10; @return   the maximum size payload allowed by this layer&#10;</long>
@@ -388,7 +388,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="setPayloadLength" ref="0x406d4350" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+      <function command="" provided="0" name="setPayloadLength" ref="0x406d7028" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
         <documentation loc="80:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
           <short>&#10; Set the length field of the packet.</short>
           <long>&#10; Set the length field of the packet. This value is not checked&#10; for validity (e.g., if it is larger than the maximum payload&#10; size). This command is not used when sending packets, as calls&#10; to send include a length parameter. Rather, it is used by&#10; components, such as queues, that need to buffer requests to&#10; send.  This command allows the component to store the length&#10; specified in the request and later recover it when actually&#10; sending.&#10;&#10; @param 'message_t* ONE msg'   the packet&#10; @param len   the value to set its length field to&#10;</long>
@@ -408,14 +408,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406d4010" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="msg" ref="0x406d9cd8" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="len" ref="0x406d41f0" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
+          <variable name="len" ref="0x406d9eb8" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Packet.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
             </type-int>
@@ -428,7 +428,7 @@
         <short>&#10; </short>
         <long>&#10; @author Phil Levis&#10; @author David Gay&#10; Revision:  $Revision: 1.12 $&#10;&#10; Defines global error codes for error_t in TinyOS.&#10;</long>
       </documentation>
-      <function command="" provided="0" name="send" ref="0x406f1908" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+      <function command="" provided="0" name="send" ref="0x406f43f0" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
         <documentation loc="60:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
           <short> &#10; Send a packet with a data payload of &#60;tt>len&#60;/tt> to address&#10; &#60;tt>addr&#60;/tt>.</short>
           <long> &#10; Send a packet with a data payload of &#60;tt>len&#60;/tt> to address&#10; &#60;tt>addr&#60;/tt>. To determine the maximum available size, use the&#10; Packet interface of the component providing AMSend. If send&#10; returns SUCCESS, then the component will signal the sendDone&#10; event in the future; if send returns an error, it will not&#10; signal the event.  Note that a component may accept a send&#10; request which it later finds it cannot satisfy; in this case, it&#10; will signal sendDone with error code.&#10;&#10; @param addr   address to which to send the packet&#10; @param 'message_t* ONE msg'    the packet&#10; @param len    the length of the data in the packet payload&#10; @return       SUCCESS if the request to send succeeded and a&#10;               sendDone will be signaled later, EBUSY if the&#10;               abstraction cannot send now but will be able to&#10;               later, or FAIL if the communication layer is not&#10;               in a state that can send (e.g., off).&#10; @see          sendDone&#10;</long>
@@ -453,26 +453,26 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="addr" ref="0x406f13a8" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="addr" ref="0x406dae78" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:2">
               <typename><typedef-ref name="am_addr_t" ref="0x4068a170"/></typename>
             </type-int>
           </variable>
-          <variable name="msg" ref="0x406f15c0" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="msg" ref="0x406f40a8" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="len" ref="0x406f17a0" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="len" ref="0x406f4288" loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="getPayload" ref="0x406ed558" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+      <function command="" provided="0" name="getPayload" ref="0x406f1190" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
         <documentation loc="126:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
           <short>&#10; Return a pointer to a protocol's payload region in a packet.</short>
           <long>&#10; Return a pointer to a protocol's payload region in a packet.&#10; This command behaves identically to &#60;tt>Packet.getPayload&#60;/tt>&#10; (minus the length parameter) and is included in this interface&#10; as a convenience.&#10;&#10; @param  'message_t* ONE msg'    the packet&#10; @return 'void* COUNT(len)'      the payload of the packet&#10;</long>
@@ -494,21 +494,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406ed1f8" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="msg" ref="0x406f2d60" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="len" ref="0x406ed3d8" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="len" ref="0x406f1010" loc="135:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="maxPayloadLength" ref="0x406f0c70" loc="123:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+      <function command="" provided="0" name="maxPayloadLength" ref="0x406f2800" loc="123:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
         <documentation loc="113:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
           <short>&#10; Return the maximum payload length that this communication layer&#10; can provide.</short>
           <long>&#10; Return the maximum payload length that this communication layer&#10; can provide. This command behaves identically to&#10; &#60;tt>Packet.maxPayloadLength&#60;/tt> and is included in this&#10; interface as a convenience.&#10;&#10; @return the maximum payload length&#10;</long>
@@ -524,7 +524,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="cancel" ref="0x406ef5e0" loc="96:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+      <function command="" provided="0" name="cancel" ref="0x406f3168" loc="96:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
         <documentation loc="82:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
           <short>&#10; Cancel a requested transmission.</short>
           <long>&#10; Cancel a requested transmission. Returns SUCCESS if the &#10; transmission was canceled properly (not sent in its&#10; entirety). Note that the component may not know&#10; if the send was successfully canceled, if the radio is&#10; handling much of the logic; in this case, a component&#10; should be conservative and return an appropriate error code.&#10; A successful call to cancel must always result in a &#10; sendFailed event, and never a sendSucceeded event.&#10; &#10; @param  'message_t* ONE msg'    the packet whose transmission should be cancelled.&#10; @return SUCCESS if the transmission was cancelled, FAIL otherwise.&#10; @see    sendDone&#10;</long>
@@ -543,7 +543,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406ef488" loc="96:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="msg" ref="0x406f3010" loc="96:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -552,7 +552,7 @@
           </variable>
         </parameters>
       </function>
-      <function event="" provided="0" name="sendDone" ref="0x406f0368" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+      <function event="" provided="0" name="sendDone" ref="0x406f3e58" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
         <documentation loc="98:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
           <short> &#10; Signaled in response to an accepted send request.</short>
           <long> &#10; Signaled in response to an accepted send request. &#60;tt>msg&#60;/tt> is&#10; the message buffer sent, and &#60;tt>error&#60;/tt> indicates whether&#10; the send was successful.&#10;&#10; @param  'message_t* ONE msg'   the packet which was submitted as a send request&#10; @param  error SUCCESS if it was sent successfully, FAIL if it was not,&#10;               ECANCEL if it was cancelled&#10; @see send&#10; @see cancel&#10;</long>
@@ -572,14 +572,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406f0010" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="msg" ref="0x406f3b00" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="error" ref="0x406f0208" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
+          <variable name="error" ref="0x406f3cf8" loc="110:/opt/tinyos-2.1.2/tos/interfaces/AMSend.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="error_t" ref="0x40626a00"/></typename>
             </type-int>
@@ -592,7 +592,7 @@
         <short>&#10; </short>
         <long>&#10; @author Phil Levis&#10; @author David Gay&#10; Revision:  $Revision: 1.12 $&#10;&#10; Defines global error codes for error_t in TinyOS.&#10;</long>
       </documentation>
-      <function event="" provided="0" name="receive" ref="0x406d6c38" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
+      <function event="" provided="0" name="receive" ref="0x406ec480" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
         <documentation loc="58:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
           <short>&#10; Receive a packet buffer, returning a buffer for the signaling&#10; component to use for the next reception.</short>
           <long>&#10; Receive a packet buffer, returning a buffer for the signaling&#10; component to use for the next reception. The return value&#10; can be the same as &#60;tt>msg&#60;/tt>, as long as the handling&#10; component copies out the data it needs.&#10;&#10; &#60;b>Note&#60;/b> that misuse of this interface is one of the most&#10; common bugs in TinyOS code. For example, if a component both calls a&#10; send on the passed message and returns it, then it is possible&#10; the buffer will be reused before the send occurs, overwriting&#10; the component's data. This would cause the mote to possibly&#10; instead send a packet it most recently received.&#10;&#10; @param  'message_t* ONE msg'        the receied packet&#10; @param  'void* COUNT(len) payload'  a pointer to the packet's payload&#10; @param  len      the length of the data region pointed to by payload&#10; @return 'message_t* ONE'              a packet buffer for the stack to use for the next&#10;                  received packet.&#10;</long>
@@ -619,193 +619,23 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="msg" ref="0x406d66f0" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
+          <variable name="msg" ref="0x406edf20" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="payload" ref="0x406d68d0" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
+          <variable name="payload" ref="0x406ec118" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-void size="I:1" alignment="I:1"></type-void>
             </type-pointer>
           </variable>
-          <variable name="len" ref="0x406d6ab0" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
+          <variable name="len" ref="0x406ec2f8" loc="78:/opt/tinyos-2.1.2/tos/interfaces/Receive.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
             </type-int>
           </variable>
-        </parameters>
-      </function>
-    </interfacedef>
-    <interfacedef qname="Leds" loc="51:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-      <documentation loc="33:/opt/tinyos-2.1.2/tos/types/Leds.h">
-        <short>&#10; Constants for manipulating LEDs.</short>
-        <long>&#10; Constants for manipulating LEDs.&#10;&#10; @author Philip Levis&#10; @date   March 21, 2005&#10;</long>
-      </documentation>
-      <function command="" provided="0" name="led0Off" ref="0x406cea18" loc="61:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="58:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn off LED 0.</short>
-          <long>&#10; Turn off LED 0. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led0Toggle" ref="0x406cee60" loc="67:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="63:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Toggle LED 0; if it was off, turn it on, if was on, turn it off.</short>
-          <long>&#10; Toggle LED 0; if it was off, turn it on, if was on, turn it off.&#10; The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led1On" ref="0x406cd2f0" loc="72:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="69:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn on LED 1.</short>
-          <long>&#10; Turn on LED 1. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led1Toggle" ref="0x406cdb60" loc="83:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="79:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Toggle LED 1; if it was off, turn it on, if was on, turn it off.</short>
-          <long>&#10; Toggle LED 1; if it was off, turn it on, if was on, turn it off.&#10; The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led2Toggle" ref="0x406cc880" loc="100:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="96:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Toggle LED 2; if it was off, turn it on, if was on, turn it off.</short>
-          <long>&#10; Toggle LED 2; if it was off, turn it on, if was on, turn it off.&#10; The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="get" ref="0x406ccd28" loc="117:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="103:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Get the current LED settings as a bitmask.</short>
-          <long>&#10; Get the current LED settings as a bitmask. Each bit corresponds to&#10; whether an LED is on; bit 0 is LED 0, bit 1 is LED 1, etc. You can&#10; also use the enums LEDS_LED0, LEDS_LED1. For example, this expression&#10; will determine whether LED 2 is on:&#10;&#10; &#60;pre> (call Leds.get() &#38; LEDS_LED2) &#60;/pre>&#10;&#10; This command supports up to 8 LEDs; if a platform has fewer, then&#10; those LEDs should always be off (their bit is zero). Also see&#10; &#60;tt>set()&#60;/tt>.&#10;&#10; @return a bitmask describing which LEDs are on and which are off&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
-            <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
-          </type-int>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led1Off" ref="0x406cd718" loc="77:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="74:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn off LED 1.</short>
-          <long>&#10; Turn off LED 1. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="set" ref="0x406ca640" loc="134:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="120:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Set the current LED configuration using a bitmask.</short>
-          <long>&#10; Set the current LED configuration using a bitmask.  Each bit&#10; corresponds to whether an LED is on; bit 0 is LED 0, bit 1 is LED&#10; 1, etc. You can also use the enums LEDS_LED0, LEDS_LED1. For example,&#10; this statement will configure the LEDs so LED 0 and LED 2 are on:&#10;&#10; &#60;pre> call Leds.set(LEDS_LED0 | LEDS_LED2); &#60;/pre>&#10;&#10; This statement will turn LED 1 on if it was not already:&#10;&#10; &#60;pre>call Leds.set(call Leds.get() | LEDS_LED1);&#60;/pre>&#10;&#10; @param  val   a bitmask describing the on/off settings of the LEDs&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-            <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
-              <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
-            </type-int>
-          </function-parameters>
-        </type-function>
-        <parameters>
-          <variable name="val" ref="0x406ca4e8" loc="134:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-            <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
-              <typename><typedef-ref name="uint8_t" ref="0x401c9250"/></typename>
-            </type-int>
-          </variable>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led0On" ref="0x406ce5f0" loc="56:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="53:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn on LED 0.</short>
-          <long>&#10; Turn on LED 0. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led2On" ref="0x406cc010" loc="89:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="86:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn on LED 2.</short>
-          <long>&#10; Turn on LED 2. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
-        </parameters>
-      </function>
-      <function command="" provided="0" name="led2Off" ref="0x406cc438" loc="94:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-        <documentation loc="91:/opt/tinyos-2.1.2/tos/interfaces/Leds.nc">
-          <short>&#10; Turn off LED 2.</short>
-          <long>&#10; Turn off LED 2. The color of this LED depends on the platform.&#10;</long>
-        </documentation>
-        <interfacedef-ref qname="Leds"/>
-        <type-function size="I:1" alignment="I:1">
-          <type-void size="I:1" alignment="I:1"></type-void>
-          <function-parameters>
-          </function-parameters>
-        </type-function>
-        <parameters>
         </parameters>
       </function>
     </interfacedef>
@@ -814,7 +644,7 @@
         <short>&#10; The Active Message accessors, which provide the AM local address and&#10; functionality for querying packets.</short>
         <long>&#10; The Active Message accessors, which provide the AM local address and&#10; functionality for querying packets. Active Messages are a single-hop&#10; communication protocol. Therefore, fields such as source and destination&#10; represent the single-hop source and destination. Multihop sources and&#10; destinations are defined by the corresponding multihop protocol (if any).&#10; Also see the Packet interface.&#10;&#10; @author Philip Levis &#10; @date   January 18 2005&#10; @see    Packet&#10; @see    AMSend&#10; @see    TEP 116: Packet Protocols&#10;</long>
       </documentation>
-      <function command="" provided="0" name="group" ref="0x406df9e8" loc="177:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="group" ref="0x406e3488" loc="177:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="164:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Get the AM group of the AM packet.</short>
           <long>&#10; Get the AM group of the AM packet. The AM group is a logical&#10; identifier that distinguishes sets of nodes which may share&#10; a physical communication medium but wish to not communicate.&#10; The AM group logically separates the sets of nodes. When&#10; a node sends a packet, it fills in its AM group, and typically&#10; nodes only receive packets whose AM group field matches their&#10; own.&#10;&#10; @param 'message_t* ONE amsg' the packet&#10; @return the AM group of this packet&#10;</long>
@@ -833,7 +663,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406df890" loc="177:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e3330" loc="177:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -842,7 +672,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="source" ref="0x406e4168" loc="88:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="source" ref="0x406e9dc8" loc="88:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="80:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Return the AM address of the source of the AM packet.</short>
           <long>&#10; Return the AM address of the source of the AM packet.&#10; If &#60;tt>amsg&#60;/tt> is not an AM packet, the results of this command&#10; are undefined.&#10; @param 'message_t* ONE amsg'  the packet&#10; @return      the source address of the packet.&#10;</long>
@@ -861,7 +691,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e4010" loc="88:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e9c70" loc="88:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -870,7 +700,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="address" ref="0x406e7010" loc="68:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="address" ref="0x406dbd10" loc="68:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="63:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Return the node's active message address associated with this AM stack.</short>
           <long>&#10; Return the node's active message address associated with this AM stack.&#10; @return The address&#10;</long>
@@ -886,7 +716,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="destination" ref="0x406e76a8" loc="78:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="destination" ref="0x406e93c8" loc="78:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="70:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Return the AM address of the destination of the AM packet.</short>
           <long>&#10; Return the AM address of the destination of the AM packet.&#10; If &#60;tt>amsg&#60;/tt> is not an AM packet, the results of this command&#10; are undefined.&#10; @param 'message_t* ONE amsg'    the packet&#10; @return        the destination address of the packet.&#10;</long>
@@ -905,7 +735,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e7550" loc="78:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e9270" loc="78:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -914,7 +744,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="setSource" ref="0x406e3bd8" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="setSource" ref="0x406e5710" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="105:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Set the AM address of the source field of the AM packet.</short>
           <long>&#10; Set the AM address of the source field of the AM packet.  As&#10; the AM address is set as part of sending with the AMSend&#10; interface, this command is not used for sending packets.  Rather,&#10; it is used when a component, such as a queue, needs to buffer a&#10; request to send. The component can save the source address&#10; and then recover it when actually sending. As an AM layer generally&#10; sets the source address to be the local address, this interface&#10; is not commonly used except when a system is bypassing the AM&#10; layer (e.g., a protocol bridge). If &#60;tt>amsg&#60;/tt> is&#10; not an AM packet, the results of this command are undefined.&#10;&#10; @param  'message_t* ONE amsg'   the packet&#10; @param  addr   the address&#10;</long>
@@ -934,21 +764,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e3870" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e53a8" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="addr" ref="0x406e3a78" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="addr" ref="0x406e55b0" loc="121:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:2">
               <typename><typedef-ref name="am_addr_t" ref="0x4068a170"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="setDestination" ref="0x406e4d50" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="setDestination" ref="0x406e69e8" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="90:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Set the AM address of the destination field of the AM packet.</short>
           <long>&#10; Set the AM address of the destination field of the AM packet.  As&#10; the AM address is set as part of sending with the AMSend&#10; interface, this command is not used for sending packets.  Rather,&#10; it is used when a component, such as a queue, needs to buffer a&#10; request to send. The component can save the destination address&#10; and then recover it when actually sending. If &#60;tt>amsg&#60;/tt> is&#10; not an AM packet, the results of this command are undefined.&#10;&#10; @param  'message_t* ONE amsg'   the packet&#10; @param  addr   the address&#10;</long>
@@ -968,21 +798,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e49e8" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e6680" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="addr" ref="0x406e4bf0" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="addr" ref="0x406e6888" loc="103:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:2">
               <typename><typedef-ref name="am_addr_t" ref="0x4068a170"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="type" ref="0x406e1310" loc="147:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="type" ref="0x406e7e28" loc="147:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="138:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Return the AM type of the AM packet.</short>
           <long>&#10; Return the AM type of the AM packet.&#10; If &#60;tt>amsg&#60;/tt> is not an AM packet, the results of this command&#10; are undefined.&#10;&#10; @param  'message_t* ONE amsg'   the packet&#10; @return        the AM type&#10;</long>
@@ -1001,7 +831,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e11b8" loc="147:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e7cd0" loc="147:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -1010,7 +840,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="setType" ref="0x406e1e48" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="setType" ref="0x406e2978" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="149:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Set the AM type of the AM packet.</short>
           <long>&#10; Set the AM type of the AM packet.  As the AM type is set as part&#10; of sending with the AMSend interface, this command is not used&#10; for sending packets. Instead, it is used when a component, such&#10; as a queue, needs to buffer a request to send. The component can&#10; save the AM type in the packet then recover it when actually&#10; sending. If &#60;tt>amsg&#60;/tt> is not an AM packet, the results of&#10; this command are undefined.&#10; &#10; @param  'message_t* ONE amsg'    the packet&#10; @param  t       the AM type&#10;</long>
@@ -1030,21 +860,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e1b18" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e2648" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="t" ref="0x406e1ce8" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="t" ref="0x406e2818" loc="162:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="am_id_t" ref="0x40678ca0"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="isForMe" ref="0x406e07c0" loc="136:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="isForMe" ref="0x406e72f0" loc="136:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="123:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Return whether &#60;tt>amsg&#60;/tt> is destined for this mote.</short>
           <long>&#10; Return whether &#60;tt>amsg&#60;/tt> is destined for this mote. This is&#10; partially a shortcut for testing whether the return value of&#10; &#60;tt>destination&#60;/tt> and &#60;tt>address&#60;/tt> are the same. It&#10; may, however, include additional logic. For example, there&#10; may be an AM broadcast address: &#60;tt>destination&#60;/tt> will return&#10; the broadcast address, but &#60;tt>address&#60;/tt> will still be&#10; the mote's local address. If &#60;tt>amsg&#60;/tt> is not an AM packet,&#10; the results of this command are undefined.&#10;&#10; @param  'message_t* ONE amsg'   the packet&#10; @return        whether the packet is addressed to this AM stack&#10;</long>
@@ -1063,7 +893,7 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406e0668" loc="136:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e7198" loc="136:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
@@ -1072,7 +902,7 @@
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="setGroup" ref="0x406f3688" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="setGroup" ref="0x406e1170" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="179:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Set the AM group field of a packet.</short>
           <long>&#10; Set the AM group field of a packet. Note that most data link&#10; stacks will set this field automatically on a send request, which&#10; may overwrite changes made with this command.&#10;&#10; @param 'message_t* ONE amsg' the packet&#10; @param group the packet's new AM group value&#10;</long>
@@ -1092,21 +922,21 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="amsg" ref="0x406f3328" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="amsg" ref="0x406e3da8" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-pointer size="I:4" alignment="I:4">
               <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
                 <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
               </type-tag>
             </type-pointer>
           </variable>
-          <variable name="grp" ref="0x406f3528" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+          <variable name="grp" ref="0x406e1010" loc="187:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
             <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
               <typename><typedef-ref name="am_group_t" ref="0x40678ef8"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="localGroup" ref="0x406f3f00" loc="195:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
+      <function command="" provided="0" name="localGroup" ref="0x406e19e8" loc="195:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
         <documentation loc="189:/opt/tinyos-2.1.2/tos/interfaces/AMPacket.nc">
           <short>&#10; Provides the current AM group of this communication interface.</short>
           <long>&#10; Provides the current AM group of this communication interface.&#10;&#10; @return The AM group.&#10;</long>
@@ -1179,12 +1009,12 @@
         <long>&#10; A Timer is TinyOS's general purpose timing interface. For more precise&#10; timing, you may wish to use a (platform-specific) component offering&#10; an Alarm interface.&#10;&#10; &#60;p>A Timer is parameterised by its &#34;precision&#34; (milliseconds,&#10; microseconds, etc), identified by a type. This prevents, e.g.,&#10; unintentionally mixing components expecting milliseconds with those&#10; expecting microseconds as those interfaces have a different type.&#10;&#10; &#60;p>See TEP102 for more details.&#10;&#10; @param precision_tag A type indicating the precision of this Alarm.&#10;&#10; @author Cory Sharp &#60;cssharp@eecs.berkeley.edu>&#10;</long>
       </documentation>
       <parameters>
-        <typedef name="precision_tag" ref="0x406d2c48" loc="53:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+        <typedef name="precision_tag" ref="0x406cca58" loc="53:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <interfacedef-ref qname="Timer"/>
-          <type-var size="U:" alignment="U:"><typedef-ref name="precision_tag" scoped="" ref="0x406d2c48"/></type-var>
+          <type-var size="U:" alignment="U:"><typedef-ref name="precision_tag" scoped="" ref="0x406cca58"/></type-var>
         </typedef>
       </parameters>
-      <function command="" provided="0" name="getNow" ref="0x406da520" loc="136:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="getNow" ref="0x406de250" loc="136:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="132:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Return the current time.</short>
           <long>&#10; Return the current time.&#10; @return Current time.&#10;</long>
@@ -1200,7 +1030,7 @@
         <parameters>
         </parameters>
       </function>
-      <function event="" provided="0" name="fired" ref="0x406dd210" loc="83:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function event="" provided="0" name="fired" ref="0x406ca0c8" loc="83:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="80:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Signaled when the timer expires (one-shot) or repeats (periodic).</short>
           <long>&#10; Signaled when the timer expires (one-shot) or repeats (periodic).&#10;</long>
@@ -1214,7 +1044,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="startPeriodicAt" ref="0x406dc378" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="startPeriodicAt" ref="0x406c9220" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="100:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Set a periodic timer to repeat every dt time units.</short>
           <long>&#10; Set a periodic timer to repeat every dt time units. Replaces any&#10; current timer settings. The &#60;code>fired&#60;/code> will be signaled every&#10; dt units (first event at t0+dt units). Periodic timers set in the past&#10; will get a bunch of events in succession, until the timer &#34;catches up&#34;.&#10;&#10; &#60;p>Because the current time may wrap around, it is possible to use&#10; values of t0 greater than the &#60;code>getNow&#60;/code>'s result. These&#10; values represent times in the past, i.e., the time at which getNow()&#10; would last of returned that value.&#10;&#10; @param t0 Base time for timer.&#10; @param dt Time until the timer fires.&#10;</long>
@@ -1232,19 +1062,19 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="t0" ref="0x406dc030" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="t0" ref="0x406caec0" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
-          <variable name="dt" ref="0x406dc218" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="dt" ref="0x406c90c0" loc="114:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="isOneShot" ref="0x406ddb60" loc="98:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="isOneShot" ref="0x406caa18" loc="98:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="94:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Check if this is a one-shot timer.</short>
           <long>&#10; Check if this is a one-shot timer.&#10; @return TRUE for one-shot timers, FALSE for periodic timers.&#10;</long>
@@ -1260,7 +1090,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="getdt" ref="0x406dae98" loc="151:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="getdt" ref="0x406debc8" loc="151:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="146:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Return the delay or period for the previously started timer.</short>
           <long>&#10; Return the delay or period for the previously started timer. The next&#10; fired event will occur at gett0() + getdt().&#10; @return Timer's interval.&#10;</long>
@@ -1276,7 +1106,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="gett0" ref="0x406da968" loc="144:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="gett0" ref="0x406de698" loc="144:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="138:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Return the time anchor for the previously started timer or the time of&#10; the previous event for periodic timers.</short>
           <long>&#10; Return the time anchor for the previously started timer or the time of&#10; the previous event for periodic timers. The next fired event will occur&#10; at gett0() + getdt().&#10; @return Timer's base time.&#10;</long>
@@ -1292,7 +1122,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="isRunning" ref="0x406dd6a0" loc="92:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="isRunning" ref="0x406ca558" loc="92:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="86:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Check if timer is running.</short>
           <long>&#10; Check if timer is running. Periodic timers run until stopped or&#10; replaced, one-shot timers run until their deadline expires.&#10;&#10; @return TRUE if the timer is still running.&#10;</long>
@@ -1308,7 +1138,7 @@
         <parameters>
         </parameters>
       </function>
-      <function command="" provided="0" name="startPeriodic" ref="0x406de2b0" loc="64:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="startPeriodic" ref="0x406cb168" loc="64:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="56:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Set a periodic timer to repeat every dt time units.</short>
           <long>&#10; Set a periodic timer to repeat every dt time units. Replaces any&#10; current timer settings. Equivalent to startPeriodicAt(getNow(),&#10; dt). The &#60;code>fired&#60;/code> will be signaled every dt units (first&#10; event in dt units).&#10;&#10; @param dt Time until the timer fires.&#10;</long>
@@ -1323,14 +1153,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="dt" ref="0x406de158" loc="64:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="dt" ref="0x406cb010" loc="64:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="startOneShotAt" ref="0x406dcd60" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="startOneShotAt" ref="0x406c9c08" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="116:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Set a single-short timer to time t0+dt.</short>
           <long>&#10; Set a single-short timer to time t0+dt. Replaces any current timer&#10; settings. The &#60;code>fired&#60;/code> will be signaled when the timer&#10; expires. Timers set in the past will fire &#34;soon&#34;.&#10;&#10; &#60;p>Because the current time may wrap around, it is possible to use&#10; values of t0 greater than the &#60;code>getNow&#60;/code>'s result. These&#10; values represent times in the past, i.e., the time at which getNow()&#10; would last of returned that value.&#10;&#10; @param t0 Base time for timer.&#10; @param dt Time until the timer fires.&#10;</long>
@@ -1348,19 +1178,19 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="t0" ref="0x406dca18" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="t0" ref="0x406c98c0" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
-          <variable name="dt" ref="0x406dcc00" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="dt" ref="0x406c9aa8" loc="129:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="startOneShot" ref="0x406de948" loc="73:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="startOneShot" ref="0x406cb800" loc="73:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="66:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Set a single-short timer to some time units in the future.</short>
           <long>&#10; Set a single-short timer to some time units in the future. Replaces&#10; any current timer settings. Equivalent to startOneShotAt(getNow(),&#10; dt). The &#60;code>fired&#60;/code> will be signaled when the timer expires.&#10;&#10; @param dt Time until the timer fires.&#10;</long>
@@ -1375,14 +1205,14 @@
           </function-parameters>
         </type-function>
         <parameters>
-          <variable name="dt" ref="0x406de7f0" loc="73:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+          <variable name="dt" ref="0x406cb6a8" loc="73:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
             <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
               <typename><typedef-ref name="uint32_t" ref="0x401c96b0"/></typename>
             </type-int>
           </variable>
         </parameters>
       </function>
-      <function command="" provided="0" name="stop" ref="0x406dee18" loc="78:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
+      <function command="" provided="0" name="stop" ref="0x406cbcd0" loc="78:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
         <documentation loc="75:/opt/tinyos-2.1.2/tos/lib/timer/Timer.nc">
           <short>&#10; Cancel a timer.</short>
           <long>&#10; Cancel a timer.&#10;</long>
@@ -1449,9 +1279,6 @@
         <type-int cname="int" size="I:4" alignment="I:4"></type-int>
       </field>
     </struct>
-    <enum loc="43:/opt/tinyos-2.1.2/tos/types/Leds.h" ref="0x406d09e0" defined="" size="I:4" alignment="I:4">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </enum>
     <struct name="itimerspec" loc="161:/usr/include/time.h" ref="0x405ebc20" defined="" size="I:16" alignment="I:4">
       <field name="it_interval" ref="0x405e9070" bit-offset="I:0" size="I:8">
         <type-tag size="I:8" alignment="I:4"><struct-ref name="timespec" ref="0x4030c508"/></type-tag>
@@ -1524,6 +1351,18 @@
         <type-float cname="double" size="I:8" alignment="I:8"></type-float>
       </field>
     </struct>
+    <nx_struct name="FeedingSpot" loc="40:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d2b88" defined="" size="I:3" alignment="I:1">
+      <field name="feedingSpotID" ref="0x406d1050" bit-offset="I:0" size="I:1">
+        <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1" network="nx_uint8_t">
+          <typename><typedef-ref name="nx_uint8_t" ref="0x402b2728"/></typename>
+        </type-int>
+      </field>
+      <field name="foodAmount" ref="0x406d10b0" bit-offset="I:8" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+    </nx_struct>
     <struct loc="85:/usr/include/i386-linux-gnu/bits/waitstatus.h" ref="0x402e50d0" defined="" size="I:4" alignment="I:4">
       <field name="__w_stopval" ref="0x402e51e0" bit-offset="I:0" bit-size="I:8">
         <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4"></type-int>
@@ -1539,6 +1378,18 @@
     </attribute>
     <attribute name="number"  loc="NONE" ref="0x4002dcf0" size="V:" alignment="V:">
     </attribute>
+    <nx_struct name="AdjacentMote" loc="35:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d23f0" defined="" size="I:4" alignment="I:1">
+      <field name="nodeID" ref="0x406d2880" bit-offset="I:0" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="hierarchyLevel" ref="0x406d28e0" bit-offset="I:16" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+    </nx_struct>
     <struct ref="0x40025f48" size="V:" alignment="V:">
     </struct>
     <struct name="node" loc="62:/opt/tinyos-2.1.2/tos/lib/tossim/heap.c" ref="0x405174f8" defined="" size="I:12" alignment="I:4">
@@ -1704,16 +1555,6 @@
         </type-tag>
       </field>
     </union>
-    <nx_struct name="KnownMote" loc="23:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406bff58" defined="" size="I:6" alignment="I:1">
-      <field name="nodeID" ref="0x406d3428" bit-offset="I:0" size="I:2">
-        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
-          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
-        </type-int>
-      </field>
-      <field name="gpsCoordinate" ref="0x406d3488" bit-offset="I:16" size="I:4">
-        <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406c0d68"/></type-tag>
-      </field>
-    </nx_struct>
     <nx_struct name="serial_header" loc="123:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h" ref="0x40684330" defined="" size="I:7" alignment="I:1">
       <field name="dest" ref="0x40684b58" bit-offset="I:0" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
@@ -1913,6 +1754,33 @@
     <enum loc="94:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h" ref="0x40687010" defined="" size="I:4" alignment="I:4">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </enum>
+    <nx_struct name="MoteInformation" loc="27:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406be750" defined="" size="I:10" alignment="I:1">
+      <field name="nodeID" ref="0x406befa0" bit-offset="I:0" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="x" ref="0x406d2018" bit-offset="I:16" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="y" ref="0x406d2078" bit-offset="I:32" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="adjacentNodeID" ref="0x406d20d8" bit-offset="I:48" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="migrated" ref="0x406d2138" bit-offset="I:64" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+    </nx_struct>
     <enum loc="63:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.c" ref="0x404e5328" defined="" size="I:4" alignment="I:4">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </enum>
@@ -2274,6 +2142,13 @@
         </type-pointer>
       </field>
     </struct>
+    <nx_struct name="UpdateFoodAmountOfAnimal" loc="45:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d13e0" defined="" size="I:2" alignment="I:1">
+      <field name="newAmount" ref="0x406d1768" bit-offset="I:0" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+    </nx_struct>
     <union loc="101:/usr/include/i386-linux-gnu/bits/pthreadtypes.h" ref="0x4031bbb0" defined="" size="I:4" alignment="I:4">
       <field name="__size" ref="0x4031bcc0" bit-offset="I:0" size="I:4">
         <type-array elements="I:4" size="I:4" alignment="I:1">
@@ -2369,6 +2244,18 @@
     <enum loc="102:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h" ref="0x40687f18" defined="" size="I:4" alignment="I:4">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </enum>
+    <nx_struct name="UpdateFoodAmountOfFeedingSpot" loc="49:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d1ac8" defined="" size="I:4" alignment="I:1">
+      <field name="feedingSpotID" ref="0x406d0050" bit-offset="I:0" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="newAmount" ref="0x406d00b0" bit-offset="I:16" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+    </nx_struct>
     <union loc="86:/usr/include/wchar.h" ref="0x404647f8" defined="" size="I:4" alignment="I:4">
       <field name="__wch" ref="0x40464908" bit-offset="I:0" size="I:4">
         <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4"></type-int>
@@ -2559,23 +2446,38 @@
         </type-array>
       </field>
     </struct>
-    <nx_struct name="MoteMessage" loc="16:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406bf470" defined="" size="I:10" alignment="I:1">
-      <field name="gpsCoordinate" ref="0x406bfba0" bit-offset="I:0" size="I:4">
-        <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406c0d68"/>
-          <typename><typedef-ref name="GPSCoordinate" ref="0x406bf280"/></typename>
-        </type-tag>
-      </field>
-      <field name="nodeID" ref="0x406bfc00" bit-offset="I:32" size="I:2">
+    <nx_struct name="MoteMessage" loc="17:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406bf700" defined="" size="I:14" alignment="I:1">
+      <field name="nodeID" ref="0x406be240" bit-offset="I:0" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
           <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
         </type-int>
       </field>
-      <field name="counter" ref="0x406bfc60" bit-offset="I:48" size="I:2">
+      <field name="x" ref="0x406be2a0" bit-offset="I:16" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
           <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
         </type-int>
       </field>
-      <field name="reply" ref="0x406bfcc0" bit-offset="I:64" size="I:2">
+      <field name="y" ref="0x406be300" bit-offset="I:32" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="counter" ref="0x406be360" bit-offset="I:48" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="reply" ref="0x406be3c0" bit-offset="I:64" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="senderID" ref="0x406be420" bit-offset="I:80" size="I:2">
+        <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
+          <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
+        </type-int>
+      </field>
+      <field name="senderHierarchyLevel" ref="0x406be480" bit-offset="I:96" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
           <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
         </type-int>
@@ -2648,13 +2550,13 @@
         </type-int>
       </field>
     </nx_struct>
-    <nx_struct name="GPSCoordinate" loc="11:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406c0d68" defined="" size="I:4" alignment="I:1">
-      <field name="x" ref="0x406bf168" bit-offset="I:0" size="I:2">
+    <nx_struct name="GPSCoordinate" loc="12:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406bf010" defined="" size="I:4" alignment="I:1">
+      <field name="x" ref="0x406bf3f8" bit-offset="I:0" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
           <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
         </type-int>
       </field>
-      <field name="y" ref="0x406bf1c8" bit-offset="I:16" size="I:2">
+      <field name="y" ref="0x406bf458" bit-offset="I:16" size="I:2">
         <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:1" network="nx_uint16_t">
           <typename><typedef-ref name="nx_uint16_t" ref="0x402b2ba0"/></typename>
         </type-int>
@@ -2720,7 +2622,7 @@
     <enum loc="4:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406c0208" defined="" size="I:4" alignment="I:4">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </enum>
-    <nx_struct name="request_msg" loc="28:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d3730" defined="" size="I:0" alignment="I:1">
+    <nx_struct name="request_msg" loc="54:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h" ref="0x406d0358" defined="" size="I:0" alignment="I:1">
     </nx_struct>
     <attribute name="atomic_hwevent"  loc="NONE" ref="0x4002f5b8" size="V:" alignment="V:">
     </attribute>
@@ -2794,7 +2696,7 @@
       </type-array>
     </variable>
     <variable name="outputs" ref="0x404e5c40" loc="67:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.c">
-      <type-array elements="I:61" size="I:488" alignment="I:4">
+      <type-array elements="I:66" size="I:528" alignment="I:4">
         <type-tag size="I:8" alignment="I:4"><struct-ref name="sim_log_output" ref="0x404d82c8"/>
           <typename><typedef-ref name="sim_log_output_t" ref="0x404d87b0"/></typename>
         </type-tag>
@@ -2996,44 +2898,86 @@
     <variable name="i97" ref="0x405dd500" loc="40:/opt/tinyos-2.1.2/tos/lib/tossim/randomlib.c">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </variable>
-    <variable name="pkt" ref="0x406f85c0" loc="20:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+    <variable name="requestersNodeID" ref="0x406faaa8" loc="22:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-array elements="I:100" size="I:400" alignment="I:4">
+        <type-int cname="int" size="I:4" alignment="I:4"></type-int>
+      </type-array>
+    </variable>
+    <variable name="adjacentMotesIndex" ref="0x406f9340" loc="25:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
+    </variable>
+    <variable name="pkt" ref="0x406fbec8" loc="18:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
       <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
       <type-tag size="I:41" alignment="I:1"><nx_struct-ref name="message_t" ref="0x40694248"/>
         <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
       </type-tag>
     </variable>
-    <variable name="adjacentNodes" ref="0x406f8b70" loc="22:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+    <variable name="requestersNodeIDIndex" ref="0x406fad08" loc="23:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
       <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
-      <type-array elements="I:100" size="I:600" alignment="I:1">
-        <type-tag size="I:6" alignment="I:1"><nx_struct-ref name="KnownMote" ref="0x406bff58"/></type-tag>
+      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
+    </variable>
+    <variable name="feedingSpots" ref="0x406f96f8" loc="26:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-array elements="I:100" size="I:300" alignment="I:1">
+        <type-tag size="I:3" alignment="I:1"><nx_struct-ref name="FeedingSpot" ref="0x406d2b88"/>
+          <typename><typedef-ref name="FeedingSpot" ref="0x406d1168"/></typename>
+        </type-tag>
       </type-array>
     </variable>
-    <variable name="firstMessage" ref="0x406f8068" loc="18:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
-      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
-      <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
-        <typename><typedef-ref name="bool" ref="0x404c0548"/></typename>
-      </type-int>
-    </variable>
-    <variable name="counter" ref="0x406fed68" loc="17:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+    <variable name="hierarchyLevel" ref="0x406fb710" loc="16:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
       <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
       <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:2">
         <typename><typedef-ref name="uint16_t" ref="0x401c9490"/></typename>
       </type-int>
     </variable>
-    <variable name="adjacentNodesIndex" ref="0x406f8db0" loc="23:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
-      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </variable>
-    <variable name="busy" ref="0x406f8300" loc="19:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+    <variable name="firstMessage" ref="0x406fb9f0" loc="17:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
       <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
       <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
         <typename><typedef-ref name="bool" ref="0x404c0548"/></typename>
       </type-int>
     </variable>
-    <variable name="coordinate" ref="0x406f8838" loc="21:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+    <variable name="counter" ref="0x406fb4a0" loc="16:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
       <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
-      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406c0d68"/>
-        <typename><typedef-ref name="GPSCoordinate" ref="0x406bf280"/></typename>
+      <type-int cname="unsigned short" unsigned="" size="I:2" alignment="I:2">
+        <typename><typedef-ref name="uint16_t" ref="0x401c9490"/></typename>
+      </type-int>
+    </variable>
+    <variable name="motesInformationIndex" ref="0x406fa738" loc="21:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
+    </variable>
+    <variable name="busy" ref="0x406fbc08" loc="17:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1">
+        <typename><typedef-ref name="bool" ref="0x404c0548"/></typename>
+      </type-int>
+    </variable>
+    <variable name="adjacentMotes" ref="0x406f9100" loc="24:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-array elements="I:100" size="I:400" alignment="I:1">
+        <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="AdjacentMote" ref="0x406d23f0"/>
+          <typename><typedef-ref name="AdjacentMote" ref="0x406d2998"/></typename>
+        </type-tag>
+      </type-array>
+    </variable>
+    <variable name="feedingSpotsIndex" ref="0x406f99b0" loc="27:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
+    </variable>
+    <variable name="motesInformation" ref="0x406fa4d8" loc="20:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-array elements="I:100" size="I:1000" alignment="I:1">
+        <type-tag size="I:10" alignment="I:1"><nx_struct-ref name="MoteInformation" ref="0x406be750"/>
+          <typename><typedef-ref name="MoteInformation" ref="0x406d21f0"/></typename>
+        </type-tag>
+      </type-array>
+    </variable>
+    <variable name="coordinate" ref="0x406fa178" loc="19:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandryC.nc">
+      <component-ref qname="SensorNetworkForAnimalHusbandryC"/>
+      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406bf010"/>
+        <typename><typedef-ref name="GPSCoordinate" ref="0x406bf510"/></typename>
       </type-tag>
     </variable>
     <variable name="sim_scheduler_event_pending" ref="0x406ae470" loc="66:/opt/tinyos-2.1.2/tos/lib/tossim/SimSchedulerBasicP.nc">
@@ -3070,9 +3014,6 @@
     </variable>
   </variables>
   <constants>
-    <constant cst="I:16" name="LEDS_LED4" ref="0x406cf898" loc="48:/opt/tinyos-2.1.2/tos/types/Leds.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
     <constant cst="I:255" name="TOS_SERIAL_UNKNOWN_ID" ref="0x40687db8" loc="98:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
@@ -3100,9 +3041,6 @@
     <constant cst="I:4" name="EOFF" ref="0x40561268" loc="56:/opt/tinyos-2.1.2/tos/types/TinyError.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
-    <constant cst="I:128" name="LEDS_LED7" ref="0x406ce150" loc="51:/opt/tinyos-2.1.2/tos/types/Leds.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
     <constant cst="I:67" name="SERIAL_PROTO_ACK" ref="0x40686158" loc="103:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
@@ -3122,9 +3060,6 @@
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:-115" name="NOISE_MIN" ref="0x4055c0a0" loc="52:/opt/tinyos-2.1.2/tos/lib/tossim/sim_noise.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
-    <constant cst="I:4" name="LEDS_LED2" ref="0x406cf2e8" loc="46:/opt/tinyos-2.1.2/tos/types/Leds.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:-5" name="NOISE_MAX" ref="0x4055c2f8" loc="53:/opt/tinyos-2.1.2/tos/lib/tossim/sim_noise.h">
@@ -3154,10 +3089,10 @@
     <constant cst="I:8" name="DEFAULT_CHANNEL_SIZE" ref="0x404d80b8" loc="48:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.c">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
-    <constant cst="I:32" name="LEDS_LED5" ref="0x406cfb70" loc="49:/opt/tinyos-2.1.2/tos/types/Leds.h">
+    <constant cst="I:6" name="AM_GPSCOORDINATE" ref="0x406c0b50" loc="8:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
-    <constant cst="I:6" name="AM_GPSCOORDINATE" ref="0x406c0b60" loc="8:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+    <constant cst="I:6" name="AM_FEEDINGSPOT" ref="0x406c0d80" loc="9:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:5" name="NOISE_QUANTIZE_INTERVAL" ref="0x4055c820" loc="55:/opt/tinyos-2.1.2/tos/lib/tossim/sim_noise.h">
@@ -3187,13 +3122,7 @@
     <constant cst="I:11" name="ELAST" ref="0x406261e8" loc="64:/opt/tinyos-2.1.2/tos/types/TinyError.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
-    <constant cst="I:1" name="LEDS_LED0" ref="0x406d0c78" loc="44:/opt/tinyos-2.1.2/tos/types/Leds.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
     <constant cst="I:3" name="_ISOC_" ref="0x40446aa8" loc="301:/usr/include/math.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
-    <constant cst="I:8" name="LEDS_LED3" ref="0x406cf5c0" loc="47:/opt/tinyos-2.1.2/tos/types/Leds.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:0" name="__codecvt_ok" ref="0x4046ab20" loc="208:/usr/include/libio.h">
@@ -3241,13 +3170,10 @@
     <constant cst="I:11" name="ENOACK" ref="0x40626010" loc="63:/opt/tinyos-2.1.2/tos/types/TinyError.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
-    <constant cst="I:61" name="SIM_LOG_OUTPUT_COUNT" ref="0x404e5868" loc="64:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.c">
+    <constant cst="I:66" name="SIM_LOG_OUTPUT_COUNT" ref="0x404e5868" loc="64:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.c">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:126" name="HDLC_FLAG_BYTE" ref="0x40688c18" loc="88:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
-    <constant cst="I:64" name="LEDS_LED6" ref="0x406cfe48" loc="50:/opt/tinyos-2.1.2/tos/types/Leds.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:7" name="ERETRY" ref="0x405617d0" loc="59:/opt/tinyos-2.1.2/tos/types/TinyError.h">
@@ -3299,9 +3225,6 @@
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:0" name="ITIMER_REAL" ref="0x40555d30" loc="96:/usr/include/i386-linux-gnu/sys/time.h">
-      <type-int cname="int" size="I:4" alignment="I:4"></type-int>
-    </constant>
-    <constant cst="I:2" name="LEDS_LED1" ref="0x406cf010" loc="45:/opt/tinyos-2.1.2/tos/types/Leds.h">
       <type-int cname="int" size="I:4" alignment="I:4"></type-int>
     </constant>
     <constant cst="I:1" name="TRUE" ref="0x404c09f0" loc="76:/opt/tinyos-2.1.2/tos/lib/tossim/tos.h">
@@ -3418,6 +3341,11 @@
         <typename><typedef-ref name="sim_time_t" ref="0x404bf010"/></typename>
       </type-int>
     </typedef>
+    <typedef name="FeedingSpot" ref="0x406d1168" loc="43:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:3" alignment="I:1"><nx_struct-ref name="FeedingSpot" ref="0x406d2b88"/>
+        <typename><typedef-ref name="FeedingSpot" ref="0x406d1168"/></typename>
+      </type-tag>
+    </typedef>
     <typedef name="__caddr_t" ref="0x402fcd08" loc="186:/usr/include/i386-linux-gnu/bits/types.h">
       <type-pointer size="I:4" alignment="I:4">
         <type-int cname="char" size="I:1" alignment="I:1"></type-int>
@@ -3463,6 +3391,11 @@
       <type-int cname="unsigned int" unsigned="" size="I:4" alignment="I:4">
         <typename><typedef-ref name="__uint32_t" ref="0x402f3e48"/></typename>
       </type-int>
+    </typedef>
+    <typedef name="AdjacentMote" ref="0x406d2998" loc="38:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="AdjacentMote" ref="0x406d23f0"/>
+        <typename><typedef-ref name="AdjacentMote" ref="0x406d2998"/></typename>
+      </type-tag>
     </typedef>
     <typedef name="TMicro" ref="0x406c00c8" loc="44:/opt/tinyos-2.1.2/tos/lib/timer/Timer.h">
       <type-tag size="I:4" alignment="I:4"><struct-ref ref="0x406b1ea0"/>
@@ -3669,11 +3602,6 @@
         <typename><typedef-ref name="fsid_t" ref="0x402ff250"/></typename>
       </type-tag>
     </typedef>
-    <typedef name="KnownMotes" ref="0x406d3540" loc="26:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
-      <type-tag size="I:6" alignment="I:1"><nx_struct-ref name="KnownMote" ref="0x406bff58"/>
-        <typename><typedef-ref name="KnownMotes" ref="0x406d3540"/></typename>
-      </type-tag>
-    </typedef>
     <typedef name="sim_packet_t" ref="0x4066deb0" loc="59:/opt/tinyos-2.1.2/tos/lib/tossim/sim_packet.h">
       <documentation loc="32:/opt/tinyos-2.1.2/tos/lib/tossim/sim_packet.h">
         <short>&#10;&#10; TOSSIM packet abstract data type, so C++ code can call into nesC&#10; code that does the native-to-network type translation.</short>
@@ -3742,6 +3670,11 @@
       <type-int cname="unsigned long long" unsigned="" size="I:8" alignment="I:1" network="nxle_uint64_t">
         <typename><typedef-ref name="nxle_uint64_t" ref="0x402b3968"/></typename>
       </type-int>
+    </typedef>
+    <typedef name="MoteInformation" ref="0x406d21f0" loc="33:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:10" alignment="I:1"><nx_struct-ref name="MoteInformation" ref="0x406be750"/>
+        <typename><typedef-ref name="MoteInformation" ref="0x406d21f0"/></typename>
+      </type-tag>
     </typedef>
     <typedef name="nx_uint8_t" ref="0x402b2728" loc="435:/usr/lib/ncc/nesc_nx.h">
       <type-int cname="unsigned char" unsigned="" size="I:1" alignment="I:1" network="nx_uint8_t">
@@ -4059,6 +3992,11 @@
         <typename><typedef-ref name="nx_uint32_t" ref="0x402b0030"/></typename>
       </type-int>
     </typedef>
+    <typedef name="UpdateFoodAmountOfAnimal" ref="0x406d1820" loc="47:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:2" alignment="I:1"><nx_struct-ref name="UpdateFoodAmountOfAnimal" ref="0x406d13e0"/>
+        <typename><typedef-ref name="UpdateFoodAmountOfAnimal" ref="0x406d1820"/></typename>
+      </type-tag>
+    </typedef>
     <typedef name="hashtable_t" ref="0x404d1978" loc="10:/opt/tinyos-2.1.2/tos/lib/tossim/hashtable.h">
       <documentation loc="32:/opt/tinyos-2.1.2/tos/lib/tossim/sim_log.h">
         <short>&#10; The TOSSIM logging system.</short>
@@ -4141,6 +4079,11 @@
       <type-int cname="int" size="I:4" alignment="I:4">
         <typename><typedef-ref name="__gwchar_t" ref="0x401cde40"/></typename>
       </type-int>
+    </typedef>
+    <typedef name="UpdateFoodAmountOfFeedingSpot" ref="0x406d0168" loc="52:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="UpdateFoodAmountOfFeedingSpot" ref="0x406d1ac8"/>
+        <typename><typedef-ref name="UpdateFoodAmountOfFeedingSpot" ref="0x406d0168"/></typename>
+      </type-tag>
     </typedef>
     <typedef name="register_t" ref="0x40308580" loc="206:/usr/include/i386-linux-gnu/sys/types.h">
       <type-int cname="int" size="I:4" alignment="I:4">
@@ -4406,9 +4349,9 @@
         <typename><typedef-ref name="__FILE" ref="0x404640d8"/></typename>
       </type-tag>
     </typedef>
-    <typedef name="MoteMessage" ref="0x406bfd78" loc="21:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
-      <type-tag size="I:10" alignment="I:1"><nx_struct-ref name="MoteMessage" ref="0x406bf470"/>
-        <typename><typedef-ref name="MoteMessage" ref="0x406bfd78"/></typename>
+    <typedef name="MoteMessage" ref="0x406be538" loc="25:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:14" alignment="I:1"><nx_struct-ref name="MoteMessage" ref="0x406bf700"/>
+        <typename><typedef-ref name="MoteMessage" ref="0x406be538"/></typename>
       </type-tag>
     </typedef>
     <typedef name="__gnuc_va_list" ref="0x40461b98" loc="40:/usr/lib/gcc/i486-linux-gnu/4.7/include/stdarg.h">
@@ -4472,9 +4415,9 @@
         <typename><typedef-ref name="message_t" ref="0x40692010"/></typename>
       </type-tag>
     </typedef>
-    <typedef name="GPSCoordinate" ref="0x406bf280" loc="14:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
-      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406c0d68"/>
-        <typename><typedef-ref name="GPSCoordinate" ref="0x406bf280"/></typename>
+    <typedef name="GPSCoordinate" ref="0x406bf510" loc="15:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:4" alignment="I:1"><nx_struct-ref name="GPSCoordinate" ref="0x406bf010"/>
+        <typename><typedef-ref name="GPSCoordinate" ref="0x406bf510"/></typename>
       </type-tag>
     </typedef>
     <typedef name="__socklen_t" ref="0x403001a0" loc="192:/usr/include/i386-linux-gnu/bits/types.h">
@@ -4569,9 +4512,9 @@
         <typename><typedef-ref name="__pthread_slist_t" ref="0x403131f8"/></typename>
       </type-tag>
     </typedef>
-    <typedef name="request_msg" ref="0x406d3918" loc="29:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
-      <type-tag size="I:0" alignment="I:1"><nx_struct-ref name="request_msg" ref="0x406d3730"/>
-        <typename><typedef-ref name="request_msg" ref="0x406d3918"/></typename>
+    <typedef name="request_msg" ref="0x406d0540" loc="55:/home/crunchbang/workspace/SensorNetworkForAnimalHusbandry/src/SensorNetworkForAnimalHusbandry.h">
+      <type-tag size="I:0" alignment="I:1"><nx_struct-ref name="request_msg" ref="0x406d0358"/>
+        <typename><typedef-ref name="request_msg" ref="0x406d0540"/></typename>
       </type-tag>
     </typedef>
     <typedef name="uart_id_t" ref="0x40688878" loc="83:/opt/tinyos-2.1.2/tos/lib/serial/Serial.h">

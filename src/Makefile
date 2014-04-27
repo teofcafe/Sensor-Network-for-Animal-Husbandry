@@ -1,23 +1,23 @@
-COMPONENT=SensorNetworkForAnimalHusbandryAppC
-BUILD_EXTRA_DEPS = RequestMsg.py RequestMsg.class GPSCoordinate.py GPSCoordinate.class
-CLEAN_EXTRA = RequestMsg.py RequestMsg.class RequestMsg.java GPSCoordinate.py GPSCoordinate.class GPSCoordinate.java
+COMPONENT=SensorMoteAppC
+BUILD_EXTRA_DEPS = GPSCoordinateMessage.py GPSCoordinateMessage.class FeedingSpotMessage.py FeedingSpotMessage.class
+CLEAN_EXTRA = GPSCoordinateMessage.py GPSCoordinateMessage.pyc GPSCoordinateMessage.class GPSCoordinateMessage.java FeedingSpotMessage.py FeedingSpotMessage.pyc FeedingSpotMessage.class FeedingSpotMessage.java
+	
+GPSCoordinateMessage.py: SensorMote.h
+	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=GPSCoordinateMessage SensorMote.h GPSCoordinateMessage -o $@
 
-RequestMsg.py: SensorNetworkForAnimalHusbandry.h
-	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=RequestMsg SensorNetworkForAnimalHusbandry.h request_msg -o $@
+GPSCoordinateMessage.class: GPSCoordinateMessage.java
+	javac GPSCoordinateMessage.java
+	
+GPSCoordinateMessage.java: SensorMote.h
+	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=GPSCoordinateMessage SensorMote.h GPSCoordinateMessage -o $@
+	
+FeedingSpotMessage.py: SensorMote.h
+	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=FeedingSpotMessage SensorMote.h FeedingSpotMessage -o $@
 
-RequestMsg.class: RequestMsg.java
-	javac RequestMsg.java
+FeedingSpotMessage.class: FeedingSpotMessage.java
+	javac FeedingSpotMessage.java
 	
-RequestMsg.java: SensorNetworkForAnimalHusbandry.h
-	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=RequestMsg SensorNetworkForAnimalHusbandry.h request_msg -o $@
-	
-GPSCoordinate.py: SensorNetworkForAnimalHusbandry.h
-	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=GPSCoordinate SensorNetworkForAnimalHusbandry.h GPSCoordinate -o $@
+FeedingSpotMessage.java: SensorMote.h
+	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=FeedingSpotMessage SensorMote.h FeedingSpotMessage -o $@
 
-GPSCoordinate.class: GPSCoordinate.java
-	javac GPSCoordinate.java
-	
-GPSCoordinate.java: SensorNetworkForAnimalHusbandry.h
-	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=GPSCoordinate SensorNetworkForAnimalHusbandry.h GPSCoordinate -o $@
-	
 include $(MAKERULES)
