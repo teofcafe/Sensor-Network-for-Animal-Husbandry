@@ -13,7 +13,7 @@ implementation {
    	components MemoryC as Memory;
    	components new TimerMilliC() as Timer;
  	components ActiveMessageC;
-  	//components new AMSenderC(AM_REQUEST_MSG);
+  	components new AMSenderC(AM_REQUEST_MSG);
 	components new AMReceiverC(AM_REQUEST_MSG);
 
    	SensorMote.Boot -> MainC;
@@ -25,4 +25,8 @@ implementation {
 	RadioFrequencySensor.MyCoordinate -> GPSCoordinateSensor.GPSCoordinateSensor; 
 	RadioFrequencySensor.Receive -> AMReceiverC;
 	RadioFrequencySensor.Memory -> Memory.Memory;
+	RadioFrequencySensor.AMSend -> AMSenderC;
+  	RadioFrequencySensor.AMControl -> ActiveMessageC;
+  	RadioFrequencySensor.Packet -> AMSenderC;
+  	RadioFrequencySensor.AMPacket -> AMSenderC;
 }
