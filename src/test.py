@@ -8,7 +8,7 @@ from TOSSIM import *
 from RequestMsg import *
 from GPSCoordinateMessage import *
 from FeedingSpotMessage import *
-#from AnimalEat import *
+from RFID_test_message import *
 
 t = Tossim([])
 r = t.radio()
@@ -24,6 +24,7 @@ t.addChannel("SensorMoteC", sys.stdout)
 t.addChannel("GPSCoordinateSensorC", sys.stdout)
 t.addChannel("RadioFrequencySensorC", sys.stdout)
 t.addChannel("MemoryC", sys.stdout)
+t.addChannel("RFIDSensorC", sys.stdout)
 
 noise = open("meyer-heavy.txt", "r")
 for line in noise:
@@ -59,15 +60,6 @@ for j in range(1, 10):
 	pkt.deliver(i, i * 100)
 	print "sending to ", i;
   print "Delivering " + str(feedingSpot) + " for ", i;
- 
-#ae = AnimalEat()
-#ae.set_feedingSpotID(3)
-#pkt = t.newPacket()
-#pkt.setData(ae.data)
-#pkt.setType(ae.get_amType())
-#pkt.setDestination(1)
-#print "Delivering " + str(ae) + " to 1 at " + str(t.time() + 3);
-#pkt.deliver(1, t.time() + 1000)  
 
 msg = RequestMsg()
 pkt = t.newPacket()
@@ -76,6 +68,15 @@ pkt.setType(msg.get_amType())
 pkt.setDestination(1)
 print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
 pkt.deliver(1, t.time() + 1000)
+
+mskt = RFID_test_message()
+pcktrfid = t.newPacket()
+mskt.set_feedingSpot(4)
+pcktrfid.setData(mskt.data)
+pcktrfid.setType(mskt.get_amType())
+pcktrfid.setDestination(1)
+print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
+pcktrfid.deliver(1, t.time() + 1000)
 
 for i in range(1000):
 	t.runNextEvent()
