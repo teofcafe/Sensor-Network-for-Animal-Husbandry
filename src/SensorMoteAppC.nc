@@ -15,6 +15,7 @@ implementation {
  	components ActiveMessageC;
   	components new AMSenderC(AM_REQUEST_MSG);
 	components new AMReceiverC(AM_REQUEST_MSG);
+	components RFIDSensorC as RFIDSensorC;
 
    	SensorMote.Boot -> MainC;
    	SensorMote.Timer -> Timer;
@@ -30,4 +31,6 @@ implementation {
   	RadioFrequencySensor.Packet -> AMSenderC;
   	RadioFrequencySensor.AMPacket -> AMSenderC;
   	RadioFrequencySensor.Ack -> AMSenderC;
+  	RFIDSensorC.Receive -> AMReceiverC;
+  	RFIDSensorC.Memory ->Memory.Memory;
 }
