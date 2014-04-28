@@ -17,11 +17,11 @@ implementation {
 	components new AMReceiverC(AM_REQUEST_MSG);
 
    	SensorMote.Boot -> MainC;
-   	SensorMote.Timer -> Timer;
   	SensorMote.AMControl -> ActiveMessageC;
 	
 	GPSCoordinateSensor.Receive -> AMReceiverC;	
 	
+	RadioFrequencySensor.Timer -> Timer;
 	RadioFrequencySensor.MyCoordinate -> GPSCoordinateSensor.GPSCoordinateSensor; 
 	RadioFrequencySensor.Receive -> AMReceiverC;
 	RadioFrequencySensor.Memory -> Memory.Memory;
@@ -30,4 +30,4 @@ implementation {
   	RadioFrequencySensor.Packet -> AMSenderC;
   	RadioFrequencySensor.AMPacket -> AMSenderC;
   	RadioFrequencySensor.Ack -> AMSenderC;
-}
+  }

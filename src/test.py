@@ -59,7 +59,7 @@ for j in range(1, 10):
 	pkt.deliver(i, i * 100)
 	print "sending to ", i;
   print "Delivering " + str(feedingSpot) + " for ", i;
-  
+ 
 #ae = AnimalEat()
 #ae.set_feedingSpotID(3)
 #pkt = t.newPacket()
