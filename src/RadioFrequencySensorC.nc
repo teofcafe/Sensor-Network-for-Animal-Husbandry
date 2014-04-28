@@ -19,6 +19,11 @@ implementation{
 			FeedingSpotMessage* feedingSpotpkt = (FeedingSpotMessage*) payload;
 			call Memory.setCurrentFoodAmount(feedingSpotpkt->feedingSpotID, feedingSpotpkt->foodAmount);
 		}
+		
+		else if(len == sizeof(request_msg)) {
+			dbg("RadioFrequencySensorC", "[REQUEST-MESSAGE] Received request message.\n");
+	
+		}
 
 		return msg;
 	}

@@ -19,4 +19,7 @@ typedef nx_struct FeedingSpotMessage {
 	nx_uint8_t foodAmount;
 } FeedingSpotMessage;
 
+typedef nx_struct request_msg {
+} request_msg;
+
 #endif

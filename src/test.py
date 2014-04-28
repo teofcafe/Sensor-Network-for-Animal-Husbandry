@@ -5,7 +5,7 @@ import random
 import time
 
 from TOSSIM import *
-#from RequestMsg import *
+from RequestMsg import *
 from GPSCoordinateMessage import *
 from FeedingSpotMessage import *
 #from AnimalEat import *
@@ -69,13 +69,13 @@ for j in range(1, 10):
 #print "Delivering " + str(ae) + " to 1 at " + str(t.time() + 3);
 #pkt.deliver(1, t.time() + 1000)  
 
-#msg = RequestMsg()
-#pkt = t.newPacket()
-#pkt.setData(msg.data)
-#pkt.setType(msg.get_amType())
-#pkt.setDestination(1)
-#print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
-#pkt.deliver(1, t.time() + 1000)
+msg = RequestMsg()
+pkt = t.newPacket()
+pkt.setData(msg.data)
+pkt.setType(msg.get_amType())
+pkt.setDestination(1)
+print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
+pkt.deliver(1, t.time() + 1000)
 
 for i in range(1000):
 	t.runNextEvent()
