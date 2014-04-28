@@ -30,5 +30,5 @@ interface Memory{
 	command void setFoodEatenByMe();
 	command nx_uint16_t getFoodEatenByMe();
 	command nx_uint16_t getQuantityOfFoodThatICanEat();
-	command void updateFeedingSpotAfterEat(nx_uint16_t feedingSpotID, nx_uint16_t quantity);
+	command void updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID);
 }

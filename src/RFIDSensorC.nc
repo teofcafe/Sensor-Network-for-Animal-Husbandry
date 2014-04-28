@@ -19,15 +19,18 @@ implementation {
 	
 		if(len == sizeof(RFID_test_message)) {
 			RFID_test_message* RFIDpkt = (RFID_test_message*)payload;
-			dbg("RFIDSensorC", "[RFID] Received test order to eat.\n");
-			call RFIDSensor.eatFromFeedingSpot(RFIDpkt->feedingSpot, RFIDpkt->quantityToEat);
+			dbg("RFIDSensorC", "....[RFID] Received test order to eat....\n");
+			dbg("RFIDSensorC", "....[RFID] Force animal to eat, food provided....\n");
+			call RFIDSensor.eatFromFeedingSpot(RFIDpkt->feedingSpot);
+			dbg("RFIDSensorC", "....[RFID]Animal Finish eating....\n");
+			dbg("RFIDSensorC", "....[RFID]Move Update To persistent Memory of device....\n");
 		}	
 
 		return msg;
 	}
 
-	command void RFIDSensor.eatFromFeedingSpot(nx_uint16_t feedingSpotID, nx_uint8_t quantity){
-		call Memory.updateFeedingSpotAfterEat(feedingSpotID, quantity);
+	command void RFIDSensor.eatFromFeedingSpot(nx_uint8_t feedingSpotID){
+		call Memory.updateFeedingSpotAfterEat(feedingSpotID);
 	}
 
 }

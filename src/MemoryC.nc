@@ -126,7 +126,7 @@ implementation{
 		return quantityOfFoodThatICanEat;
 	}
 	
-	command void Memory.updateFeedingSpotAfterEat(nx_uint16_t feedingSpotID, nx_uint16_t quantity){
+	command void Memory.updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID){
 		uint16_t eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);
 		foodEatenByMe = foodEatenByMe + eatedNow;
 		feedingSpots[feedingSpotID] =  max((feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat), 0);

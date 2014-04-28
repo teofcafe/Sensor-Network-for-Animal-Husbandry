@@ -1,6 +1,6 @@
 COMPONENT=SensorMoteAppC
-BUILD_EXTRA_DEPS = RequestMsg.py RequestMsg.class GPSCoordinateMessage.py GPSCoordinateMessage.class FeedingSpotMessage.py FeedingSpotMessage.class
-CLEAN_EXTRA = RequestMsg.py RequestMsg.pyc RequestMsg.class RequestMsg.java GPSCoordinateMessage.py GPSCoordinateMessage.pyc GPSCoordinateMessage.class GPSCoordinateMessage.java FeedingSpotMessage.py FeedingSpotMessage.pyc FeedingSpotMessage.class FeedingSpotMessage.java
+BUILD_EXTRA_DEPS = RequestMsg.py RequestMsg.class GPSCoordinateMessage.py GPSCoordinateMessage.class FeedingSpotMessage.py FeedingSpotMessage.class RFID_test_message.py RFID_test_message.class
+CLEAN_EXTRA = RequestMsg.py RequestMsg.pyc RequestMsg.class RequestMsg.java GPSCoordinateMessage.py GPSCoordinateMessage.pyc GPSCoordinateMessage.class GPSCoordinateMessage.java FeedingSpotMessage.py FeedingSpotMessage.pyc FeedingSpotMessage.class FeedingSpotMessage.java RFID_test_message.py RFID_test_message.pyc RFID_test_message.class RFID_test_message.java
 	
 RequestMsg.py: SensorMote.h
 	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=RequestMsg SensorMote.h request_msg -o $@
@@ -28,5 +28,14 @@ FeedingSpotMessage.class: FeedingSpotMessage.java
 	
 FeedingSpotMessage.java: SensorMote.h
 	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=FeedingSpotMessage SensorMote.h FeedingSpotMessage -o $@
+	
+RFID_test_message.py: SensorMote.h
+	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=RFID_test_message SensorMote.h RFID_test_message -o $@
+
+RFID_test_message.class: RFID_test_message.java
+	javac RFID_test_message.java
+	
+RFID_test_message.java: SensorMote.h
+	mig java -target=$(PLATFORM) $(CFLAGS) -java-classname=RFID_test_message SensorMote.h RFID_test_message -o $@
 
 include $(MAKERULES)
