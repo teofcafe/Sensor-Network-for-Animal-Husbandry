@@ -65,20 +65,18 @@ implementation{
 			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] NODE %hhu IS ON (%hhu, %hhu) -> SENDED BY %hhu [%hhu].\n", mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
 
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
-				if(call Memory.hasAdjacentNode(mmpkt->senderNodeId)) 
-					if(call Memory.getAdjacentNodeHierarchyLevel(mmpkt->senderNodeId)) {
-					call Memory.setAdjacentNodeHierarchyLevel(mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
-					call Memory.setAdjacentMoteInMoteInformation(mmpkt->nodeID, mmpkt->senderNodeId); 
+				if(call Memory.hasAdjacentNode(mmpkt->senderNodeId)) {
+					if(call Memory.getAdjacentNodeHierarchyLevel(mmpkt->senderNodeId) > mmpkt->senderNodeHierarchyLevel) {
+						call Memory.setAdjacentNodeHierarchyLevel(mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
+						call Memory.setAdjacentMoteInMoteInformation(mmpkt->nodeID, mmpkt->senderNodeId); 
+					} 
 				} else call Memory.addAdjacentNode(mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
-			} else 
-
-		call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
+			} else call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
 
 			if(mmpkt->reply == 0) {
 				if(mmpkt->senderNodeHierarchyLevel + 1 < hierarchyLevel || hierarchyLevel == 0) {
 					hierarchyLevel = ++(mmpkt->senderNodeHierarchyLevel);
 					dbg("RadioFrequencySensorC", "HierarchyLevel = %hhu.\n", hierarchyLevel);
-	
 				}
 			}
 	
@@ -136,13 +134,17 @@ implementation{
 		MoteInformation moteInformation;
 		++counter;
 
-		if(counter >= 15) {
+		if(counter >= 15 && hierarchyLevel > 1) {
 			dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);
 	
 			for(i; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 				adjacentMote = call Memory.getAdjacentNodeInformation(i);
 				for(j; j < call Memory.getNumberOfKnownNodes(); j++) {
 					moteInformation = call Memory.getNodeInformation(j);
+//				dbg("RadioFrequencySensorC", "****************************************************************\n");
+//				dbg("RadioFrequencySensorC", "Is mote %hhu migrated? -> %hhu\n", moteInformation.nodeID, moteInformation.migrated);
+//				if(moteInformation.migrated == 1) dbg("RadioFrequencySensorC", "Estou mesmo a 1!\n");
+//				dbg("RadioFrequencySensorC", "****************************************************************\n");	
 					if(adjacentMote.adjacentNodeHierarchyLevel < hierarchyLevel && (adjacentMote.adjacentNodeID != moteInformation.nodeID || adjacentMote.adjacentNodeID != moteInformation.adjacentNodeID) && moteInformation.migrated == 0) {
 						dbg("RadioFrequencySensorC", "SENDING %hhu TO %hhu.\n", moteInformation.nodeID, adjacentMote.adjacentNodeID);
 						informationToSend = PrepareMoteInformationMessage(moteInformation);

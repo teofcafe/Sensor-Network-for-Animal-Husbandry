@@ -38,8 +38,10 @@ implementation{
 		motesInformation[motesInformationIndex].adjacentNodeID = adjacentNodeID;
 		motesInformation[motesInformationIndex++].migrated = 0;
 		dbg("MemoryC", "[MoteInformation] Received Mote with ID %hhu, in (%hhu, %hhu) and has eaten %hhu.\n", nodeID, x, y, foodEaten);	
-		//TODO falta verificar se já temos aquele mote como adjacente antes de adicionar
-		call Memory.addAdjacentNode(adjacentNodeID, adjacentNodeHierarchyLevel);
+		if(call Memory.hasAdjacentNode(adjacentNodeID) == TRUE) {
+			if(call Memory.getAdjacentNodeHierarchyLevel(adjacentNodeID) > adjacentNodeHierarchyLevel) 
+				call Memory.setAdjacentNodeHierarchyLevel(adjacentNodeID, adjacentNodeHierarchyLevel);
+		} else call Memory.addAdjacentNode(adjacentNodeID, adjacentNodeHierarchyLevel);
 	}
 
 	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint8_t foodEaten){
@@ -130,7 +132,7 @@ implementation{
 		uint16_t eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);
 		foodEatenByMe = foodEatenByMe + eatedNow;
 		feedingSpots[feedingSpotID] =  max((feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat), 0);
-	    //TO DO Evento no RadioFrequency que expanda as mudancas aos outros nodes;	
+		//TO DO Evento no RadioFrequency que expanda as mudancas aos outros nodes;	
 	}
 	
 }
