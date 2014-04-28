@@ -5,13 +5,15 @@ module MemoryC{
 }
 
 implementation{
-	nx_uint8_t feedingSpots[100];
+	nx_uint16_t feedingSpots[100];
+	uint16_t quantityOfFoodThatICanEat = 0;
 	nx_struct MoteInformation motesInformation[10000];
 	uint16_t motesInformationIndex = 0;
 	nx_struct AdjacentMoteInformation adjacentNodesInformation[100];
 	uint16_t adjacentNodesInformationIndex = 0;
+	uint16_t foodEatenByMe= 0;
 	
-	command nx_uint8_t Memory.getCurrentFoodAmount(nx_uint16_t feedingSpotID){
+	command nx_uint16_t Memory.getCurrentFoodAmount(nx_uint16_t feedingSpotID){
 		return feedingSpots[feedingSpotID];
 	}
 
@@ -28,6 +30,7 @@ implementation{
 	
 
 	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint8_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
+
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
 		motesInformation[motesInformationIndex].y = y;
@@ -110,4 +113,24 @@ implementation{
 			if(motesInformation[i].nodeID == nodeID)
 			(motesInformation[i].adjacentNodeID = adjacentNodeID);					
 	}
+	
+	command nx_uint16_t Memory.getFoodEatenByMe(){
+		return foodEatenByMe;	
+	}
+	
+	command void Memory.setFoodEatenByMe(){
+		foodEatenByMe+=	foodEatenByMe;
+	}
+	
+	command nx_uint16_t Memory.getQuantityOfFoodThatICanEat(){
+		return quantityOfFoodThatICanEat;
+	}
+	
+	command void Memory.updateFeedingSpotAfterEat(nx_uint16_t feedingSpotID, nx_uint16_t quantity){
+		uint16_t eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);
+		foodEatenByMe = foodEatenByMe + eatedNow;
+		feedingSpots[feedingSpotID] =  max((feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat), 0);
+	    //TO DO Evento no RadioFrequency que expanda as mudancas aos outros nodes;	
+	}
+	
 }

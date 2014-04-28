@@ -3,7 +3,7 @@
 interface Memory{
 	
 	// MoteInformation
-	command nx_uint8_t getCurrentFoodAmount(nx_uint16_t feedingSpotID); 
+	command nx_uint16_t getCurrentFoodAmount(nx_uint16_t feedingSpotID); 
 	command void insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint8_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel);
 	command nx_int16_t getNumberOfKnownNodes();
 	command MoteInformation getNodeInformation(nx_uint16_t nodeID);
@@ -25,4 +25,10 @@ interface Memory{
 	
 	// AdjacentMoteInformation - UPDATES
 	command void setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel);
+	
+	
+	command void setFoodEatenByMe();
+	command nx_uint16_t getFoodEatenByMe();
+	command nx_uint16_t getQuantityOfFoodThatICanEat();
+	command void updateFeedingSpotAfterEat(nx_uint16_t feedingSpotID, nx_uint16_t quantity);
 }
