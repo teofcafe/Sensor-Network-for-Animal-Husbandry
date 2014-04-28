@@ -10,6 +10,7 @@ module RadioFrequencySensorC {
 		interface Memory;
 		interface AMSend;
 		interface SplitControl as AMControl;
+		interface PacketAcknowledgements as Ack;
 	}
 }
 
@@ -30,8 +31,10 @@ implementation{
 		mmpkt->senderNodeId = TOS_NODE_ID;
 		mmpkt->senderNodeHierarchyLevel = hierarchyLevel;
 		mmpkt->reply = 0;
-		
+	
 		dbg("RadioFrequencySensorC", "Starting BROADCAST message...\n");
+	
+		call Ack.requestAck(&pkt);
 	
 		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
 			dbg("RadioFrequencySensorC", "Success BROADCAST message...\n");	
@@ -93,8 +96,18 @@ implementation{
 	}
 
 	event void AMSend.sendDone(message_t* msg, error_t error) {
+		bool result = FALSE;
+		
+		result = call Ack.wasAcked(&pkt);
+		dbg("RadioFrequencySensorC", "[RESULT] %hhu.\n", result);
+		
+		if (result != TRUE)
+			SendBroadcastMessage();
+			
 		if (&pkt == msg) {
 			busy = FALSE;
 		}
+		
+	
 	}
 }

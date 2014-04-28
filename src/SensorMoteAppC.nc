@@ -29,4 +29,5 @@ implementation {
   	RadioFrequencySensor.AMControl -> ActiveMessageC;
   	RadioFrequencySensor.Packet -> AMSenderC;
   	RadioFrequencySensor.AMPacket -> AMSenderC;
+  	RadioFrequencySensor.Ack -> AMSenderC;
 }
