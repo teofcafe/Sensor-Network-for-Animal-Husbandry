@@ -22,4 +22,13 @@ typedef nx_struct FeedingSpotMessage {
 typedef nx_struct request_msg {
 } request_msg;
 
+typedef nx_struct MoteInformationMessage {
+	nx_uint8_t nodeID;
+	nx_uint8_t foodEaten;
+	nx_uint8_t x;
+	nx_uint8_t y;
+	nx_uint8_t senderNodeId;
+	nx_uint8_t senderNodeHierarchyLevel;
+} MoteInformationMessage;
+
 #endif
