@@ -34,7 +34,7 @@ implementation{
 	
 		dbg("RadioFrequencySensorC", "Starting BROADCAST message...\n");
 	
-		call Ack.requestAck(&pkt);
+		//call Ack.requestAck(&pkt);
 	
 		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
 			dbg("RadioFrequencySensorC", "Success BROADCAST message...\n");	
@@ -96,18 +96,14 @@ implementation{
 	}
 
 	event void AMSend.sendDone(message_t* msg, error_t error) {
-		bool result = FALSE;
+		//bool result = FALSE;
 		
-		result = call Ack.wasAcked(&pkt);
-		dbg("RadioFrequencySensorC", "[RESULT] %hhu.\n", result);
-		
-		if (result != TRUE)
-			SendBroadcastMessage();
+		//result = call Ack.wasAcked(&pkt);
+		//dbg("RadioFrequencySensorC", "[RESULT] %hhu.\n", result);
 			
 		if (&pkt == msg) {
 			busy = FALSE;
 		}
-		
 	
 	}
 }
