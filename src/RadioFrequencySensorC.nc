@@ -14,10 +14,10 @@ module RadioFrequencySensorC {
 }
 
 implementation{
-	uint16_t hierarchyLevel = 0;
+	int hierarchyLevel = 0;
 	bool firstMessage = TRUE, busy = FALSE;
 	message_t pkt;
-	uint16_t foodEaten = 10;
+	uint8_t foodEaten = 0;
 	
 	
 	void SendBroadcastMessage() {
@@ -25,11 +25,12 @@ implementation{
 	
 		mmpkt->x = call MyCoordinate.getCoordX();
 		mmpkt->y = call MyCoordinate.getCoordY();
-		mmpkt ->nodeID = TOS_NODE_ID;
-		mmpkt -> foodEaten = foodEaten;
-		mmpkt ->senderNodeId = TOS_NODE_ID;
-		mmpkt -> senderNodeHierarchyLevel = hierarchyLevel;
-	
+		mmpkt->nodeID = TOS_NODE_ID;
+		mmpkt->foodEaten = foodEaten;
+		mmpkt->senderNodeId = TOS_NODE_ID;
+		mmpkt->senderNodeHierarchyLevel = hierarchyLevel;
+		mmpkt->reply = 0;
+		
 		dbg("RadioFrequencySensorC", "Starting BROADCAST message...\n");
 	
 		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
@@ -55,11 +56,31 @@ implementation{
 				if(firstMessage)
 				SendBroadcastMessage();
 		}
+	
+		else if (len == sizeof(MoteInformationMessage)) {
+			MoteInformationMessage* mmpkt = (MoteInformationMessage*)payload;
+	
+			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] NODE %hhu IS ON (%hhu, %hhu) -> SENDED BY %hhu [%hhu].\n", mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
+	
+			call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
+
+			if(mmpkt->reply == 0) {
+				if(mmpkt->senderNodeHierarchyLevel + 1 < hierarchyLevel || hierarchyLevel == 0) {
+					hierarchyLevel = ++(mmpkt->senderNodeHierarchyLevel);
+					dbg("RadioFrequencySensorC", "HierarchyLevel = %hhu.\n", hierarchyLevel);
+	
+				}
+			}
+	
+			if(!busy)
+				if(firstMessage)
+				SendBroadcastMessage();
+		}
 
 		return msg;
 	}
 
-		event void AMControl.startDone(error_t err) {
+	event void AMControl.startDone(error_t err) {
 		if (err == SUCCESS) {
 			;
 		}

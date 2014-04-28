@@ -19,7 +19,7 @@ implementation{
 	}
 	
 
-	command void Memory.insertNewMoteInformation(nx_uint8_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint8_t foodEaten, nx_uint8_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
+	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint8_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
 		motesInformation[nodeID].x = x;
 		motesInformation[nodeID].y = y;
 		motesInformation[nodeID].foodEaten = foodEaten;
@@ -31,11 +31,11 @@ implementation{
 		dbg("MemoryC", "[AdjacentMoteInformation] Received Adjacent Mote with ID %hhu with %hhu hierarchy level.\n", adjacentNodeID, adjacentNodeHierarchyLevel);	
 	}
 
-	command void Memory.setFoodEatenByMote(nx_uint8_t nodeID, nx_uint8_t foodEaten){
+	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint8_t foodEaten){
 		// TODO Auto-generated method stub
 	}
 
-	command void Memory.setMoteCoordinate(nx_uint8_t nodeID, nx_uint8_t x, nx_uint8_t y){
+	command void Memory.setMoteCoordinate(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y){
 		// TODO Auto-generated method stub
 	}
 }
