@@ -78,5 +78,5 @@ pcktrfid.setDestination(1)
 print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
 pcktrfid.deliver(1, t.time() + 1000)
 
-for i in range(1000):
+for i in range(2000):
 	t.runNextEvent()
