@@ -27,8 +27,8 @@ implementation {
 	RadioFrequencySensor.Receive -> AMReceiverC;
 	RadioFrequencySensor.Memory -> Memory.Memory;
 	RadioFrequencySensor.AMSend -> AMSenderC;
-  	RadioFrequencySensor.AMControl -> ActiveMessageC;
   	RadioFrequencySensor.Packet -> AMSenderC;
+  	RadioFrequencySensor.AMControl -> ActiveMessageC;
   	RadioFrequencySensor.AMPacket -> AMSenderC;
   	RadioFrequencySensor.Ack -> AMSenderC;
 

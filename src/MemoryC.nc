@@ -45,8 +45,8 @@ implementation{
 	}
 
 	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint16_t foodEaten){
-		int i = 0;
-		for(i; i < motesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 			motesInformation[i].foodEaten = foodEaten;
 	}
@@ -73,8 +73,8 @@ implementation{
 	}
 	
 	command void Memory.setInformationMigration(nx_uint16_t nodeID, nx_uint16_t migrationValue) {
-		int i = 0;
-		for(i; i < motesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID) {
 			motesInformation[i].migrated = migrationValue;
 			break;
@@ -82,39 +82,39 @@ implementation{
 	}
 
 	command bool Memory.hasMoteInformation(nx_uint16_t nodeID){
-		int i = 0;
-		for(i; i < motesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID) 
 			return TRUE;
 		return FALSE;
 	}
 
 	command void Memory.setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel){
-		int i = 0;
-		for(i; i < adjacentNodesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].adjacentNodeID == adjacentNodeID) 
 			adjacentNodesInformation[i].adjacentNodeHierarchyLevel = hierarchyLevel;
 	}
 
 	command bool Memory.hasAdjacentNode(nx_uint16_t adjacentNodeID){
-		int i = 0;
-		for(i; i < adjacentNodesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].adjacentNodeID == adjacentNodeID) 
 			return TRUE;
 		return FALSE;
 	}
 	
 	command nx_uint8_t Memory.getAdjacentNodeHierarchyLevel(nx_uint16_t nodeID) {
-		int i = 0;
-		for(i; i < adjacentNodesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].adjacentNodeID == nodeID) 
 			return adjacentNodesInformation[i].adjacentNodeHierarchyLevel;
 		return 0;
 	}
 	
 	command void Memory.setAdjacentMoteInMoteInformation(nx_uint16_t nodeID, nx_uint16_t adjacentNodeID) {
-		int i = 0;
-		for(i; i < motesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 			(motesInformation[i].adjacentNodeID = adjacentNodeID);					
 	}
@@ -142,8 +142,8 @@ implementation{
 	}
 	
 	command nx_uint16_t Memory.getAmountOfFoodEatenByNode(nx_uint16_t nodeID) {
-		int i = 0;
-		for(i; i < motesInformationIndex; i++) 
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 			return motesInformation[i].foodEaten;	
 		return 0;

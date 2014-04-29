@@ -52,12 +52,12 @@ implementation{
 	
 	
 	void migrateData(){
-		uint16_t i = 0, j = 0;
+		uint16_t i, j;
 		MoteInformationMessage* informationToSend;
 		nx_struct AdjacentMoteInformation adjacentMote;
 		MoteInformation moteInformation;
 	
-		for(i; i < call Memory.getNumberOfAdjacentNodes(); i++) {
+		for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 			adjacentMote = call Memory.getAdjacentNodeInformation(i);
 			for(j = 0; j < call Memory.getNumberOfKnownNodes(); j++) {
 				moteInformation = call Memory.getNodeInformation(j);
@@ -74,9 +74,6 @@ implementation{
 	}
 	
 	void SendBroadcastMessage() {
-		int i = 0;
-		int j = 0;
-	
 		MoteInformationMessage* mmpkt = (MoteInformationMessage*)(call Packet.getPayload(&pkt, sizeof (MoteInformationMessage)));
 	
 		mmpkt->x = call MyCoordinate.getCoordX();
@@ -147,15 +144,12 @@ implementation{
 			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
 				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] FS ID: %hhu | FS Amount: %hhu | NODE ID: %hhu | FoodEaten: %hhu.\n", mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
-				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] %hhu VS %hhu.\n", call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID), mmpkt->foodEaten);
 				if(call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID) != mmpkt->foodEaten) {
 					call Memory.setFoodEatenByMote(mmpkt->nodeID, mmpkt->foodEaten);
 					call Memory.setCurrentFoodAmount(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount);
 					call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
 				} 
 			} else dbg("RadioFrequencySensorC", ".::[STOP]::.\n");
-	
-	
 		}	
 
 		return msg;
@@ -173,10 +167,10 @@ implementation{
 	event void AMControl.stopDone(error_t err) {}
 
 	void sendUpdateOfFeedingSpot(UpdateFeedingSpot* updateMessage) {
-		uint16_t i = 0;
+		uint16_t i;
 		nx_struct AdjacentMoteInformation adjacentMote;
 	
-		for(i; i < call Memory.getNumberOfAdjacentNodes(); i++) {
+		for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 			adjacentMote = call Memory.getAdjacentNodeInformation(i);	
 			if(adjacentMote.adjacentNodeID != updateMessage->nodeID) {
 				dbg("RadioFrequencySensorC", "[FEEDING SPOT UPDATE] SENDING TO %hhu.\n", adjacentMote.adjacentNodeID);

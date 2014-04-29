@@ -8,9 +8,7 @@ module RFIDSensorC {
 		interface RadioFrequencySensor;
 	}
 	
-	provides {
-		interface RFIDSensor;
-	}
+	provides interface RFIDSensor;
 }
 
 implementation {
@@ -20,8 +18,7 @@ implementation {
 	
 		if(len == sizeof(RFID_test_message)) {
 			RFID_test_message* RFIDpkt = (RFID_test_message*)payload;
-			dbg("RFIDSensorC", "....[RFID] Received test order to eat....\n");
-			dbg("RFIDSensorC", "....[RFID] Force animal to eat, food provided....\n");
+			dbg("RFIDSensorC", "[RFID] I'm going to eat'....\n");
 			call RFIDSensor.eatFromFeedingSpot(RFIDpkt->feedingSpot);
 		}	
 
@@ -30,8 +27,7 @@ implementation {
 
 	command void RFIDSensor.eatFromFeedingSpot(nx_uint8_t feedingSpotID){
 		call Memory.updateFeedingSpotAfterEat(feedingSpotID);
-		dbg("RFIDSensorC", "....[RFID]Animal Finish eating....\n");
-		dbg("RFIDSensorC", "....[RFID]Move Update To persistent Memory of device....\n");
+		dbg("RFIDSensorC", "[RFID] Finished eating on feedingspot %hhu.\n", feedingSpotID);
 		call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(feedingSpotID, call Memory.getCurrentFoodAmount(feedingSpotID), TOS_NODE_ID, call Memory.getFoodEatenByMe());
 	}
 

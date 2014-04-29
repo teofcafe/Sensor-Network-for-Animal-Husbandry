@@ -17,7 +17,7 @@ implementation {
 	
 	event void AMControl.startDone(error_t err) {
 		if (err == SUCCESS) {
-			; //TODO
+			; 
 		} else {
 			call AMControl.start();
 		}
