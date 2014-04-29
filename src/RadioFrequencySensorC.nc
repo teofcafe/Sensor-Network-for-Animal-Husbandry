@@ -13,6 +13,7 @@ module RadioFrequencySensorC {
 		interface PacketAcknowledgements as Ack;
 		interface Timer<TMilli> as Timer;
 	}
+	provides interface RadioFrequencySensor;
 }
 
 implementation{
@@ -156,5 +157,9 @@ implementation{
 			for(j = 0; j < call Memory.getNumberOfKnownNodes(); j++)
 				call Memory.setInformationMigration(j, 1);
 		}
+	}
+
+	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint16_t nodeID, nx_uint16_t quantityEated, nx_uint16_t feedingSpotFoodQuantiy){
+		;
 	}
 }

@@ -5,6 +5,7 @@ module RFIDSensorC {
 	uses {
 		interface Receive;
 		interface Memory;
+		interface RadioFrequencySensor;
 	}
 	
 	provides {
@@ -31,6 +32,7 @@ implementation {
 
 	command void RFIDSensor.eatFromFeedingSpot(nx_uint8_t feedingSpotID){
 		call Memory.updateFeedingSpotAfterEat(feedingSpotID);
+		call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(TOS_NODE_ID , call Memory.getFoodEatenByMe(), call Memory.getCurrentFoodAmount(feedingSpotID));
 	}
 
 }

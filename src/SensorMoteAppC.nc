@@ -34,4 +34,5 @@ implementation {
 
   	RFIDSensorC.Receive -> AMReceiverC;
   	RFIDSensorC.Memory ->Memory.Memory;
+  	RFIDSensorC.RadioFrequencySensor -> RadioFrequencySensor.RadioFrequencySensor;
 }
