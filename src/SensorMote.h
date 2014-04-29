@@ -17,7 +17,7 @@ typedef nx_struct GPSCoordinateMessage {
 
 typedef nx_struct FeedingSpotMessage {
 	nx_uint16_t feedingSpotID;
-	nx_uint8_t foodAmount;
+	nx_uint16_t foodAmount;
 } FeedingSpotMessage;
 
 typedef nx_struct request_msg {
@@ -25,7 +25,7 @@ typedef nx_struct request_msg {
 
 typedef nx_struct MoteInformationMessage {
 	nx_uint16_t nodeID;
-	nx_uint8_t foodEaten;
+	nx_uint16_t foodEaten;
 	nx_uint8_t x;
 	nx_uint8_t y;
 	nx_uint16_t senderNodeId;
@@ -43,5 +43,5 @@ typedef nx_struct RFID_test_message {
  * tem apenas como fim servir de ponto de comunicacao entre o script e o modulo RFID,
  * para fazer testes;
  */
-
+ 
 #endif

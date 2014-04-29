@@ -1,5 +1,6 @@
 #include "SensorMote.h"
 #include "Memory.h"
+#include "RadioFrequencySensor.h"
 
 module RadioFrequencySensorC {
 	uses {
@@ -21,19 +22,17 @@ implementation{
 	bool firstMessage = TRUE, busy = FALSE;
 	message_t pkt;
 	uint8_t foodEaten = 0;
-	uint16_t counter = 0;
-	uint16_t migratede[100][100];
-	bool done = TRUE;
-	bool migrated = FALSE;
-	bool fofd = FALSE;
+	uint16_t counter = 0;	
+	uint32_t timeControl;
 	
+	void SendMoteInformationToNode(MoteInformationMessage* moteInformationMessage, uint16_t nodeID) {
 	
-
-		void SendMoteInformationToNode(MoteInformationMessage* moteInformationMessage, uint16_t nodeID) {
 		call Ack.requestAck(&pkt);
 		if (call AMSend.send(nodeID, &pkt, sizeof(MoteInformationMessage)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
 			busy = TRUE;
 			firstMessage = FALSE;
+			timeControl = call Timer.getNow();
+			dbg("RadioFrequencySensorC", "[1] TimeStamp: %hhu.\n", timeControl);
 		}
 	}
 	
@@ -52,7 +51,7 @@ implementation{
 	
 	
 	
-	 void migrateData(){
+	void migrateData(){
 		uint16_t i = 0, j = 0;
 		MoteInformationMessage* informationToSend;
 		nx_struct AdjacentMoteInformation adjacentMote;
@@ -94,21 +93,12 @@ implementation{
 			dbg("RadioFrequencySensorC", "Success BROADCAST message...\n");	
 			busy = TRUE;
 			firstMessage = FALSE;
-		}
-	
-		for(i; i < 100; i++)
-			for(j; j<100; j++)
-			migratede[i][j]= 0;
-			
-			migrateData();
+		}				
 	}
 	
 
 
 	event message_t* Receive.receive(message_t* msg, void* payload, uint8_t len) {
-	
-
-	
 		if(len == sizeof(FeedingSpotMessage)) {
 			FeedingSpotMessage* feedingSpotpkt = (FeedingSpotMessage*) payload;
 			call Memory.setCurrentFoodAmount(feedingSpotpkt->feedingSpotID, feedingSpotpkt->foodAmount);
@@ -150,7 +140,23 @@ implementation{
 			if(!busy)
 				if(firstMessage)
 				SendBroadcastMessage();
+			else migrateData();
 		}
+	
+		else if (len == sizeof(UpdateFeedingSpot)) {
+			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;
+			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
+				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] FS ID: %hhu | FS Amount: %hhu | NODE ID: %hhu | FoodEaten: %hhu.\n", mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
+				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] %hhu VS %hhu.\n", call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID), mmpkt->foodEaten);
+				if(call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID) != mmpkt->foodEaten) {
+					call Memory.setFoodEatenByMote(mmpkt->nodeID, mmpkt->foodEaten);
+					call Memory.setCurrentFoodAmount(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount);
+					call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
+				} 
+			} else dbg("RadioFrequencySensorC", ".::[STOP]::.\n");
+	
+	
+		}	
 
 		return msg;
 	}
@@ -164,43 +170,57 @@ implementation{
 		}
 	}
 
-	event void AMControl.stopDone(error_t err) {
-	}
+	event void AMControl.stopDone(error_t err) {}
 
-	event void AMSend.sendDone(message_t* msg, error_t error) {
-		//dbg("RadioFrequencySensorC", "RadioFrequencySensorC: packet sent.\n");	
+	void sendUpdateOfFeedingSpot(UpdateFeedingSpot* updateMessage) {
+		uint16_t i = 0;
+		nx_struct AdjacentMoteInformation adjacentMote;
+	
+		for(i; i < call Memory.getNumberOfAdjacentNodes(); i++) {
+			adjacentMote = call Memory.getAdjacentNodeInformation(i);	
+			if(adjacentMote.adjacentNodeID != updateMessage->nodeID) {
+				dbg("RadioFrequencySensorC", "[FEEDING SPOT UPDATE] SENDING TO %hhu.\n", adjacentMote.adjacentNodeID);
+				if (call AMSend.send(adjacentMote.adjacentNodeID, &pkt, sizeof(UpdateFeedingSpot)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
+					dbg("RadioFrequencySensorC", "[1] TimeStamp: %hhu.\n", timeControl);
+					busy = TRUE;
+					firstMessage = FALSE;
+				}
+			}
+		}
+	}
+	
+	event void AMSend.sendDone(message_t* msg, error_t error) {	
+	
 		if (&pkt == msg) {
-			
-		if(call Ack.wasAcked(&pkt) == TRUE){
-			dbg("RadioFrequencySensorC", "RadioFrequencySeDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDnsorC: packet sent.\n");
-			/*migratede[adjacentMote.adjacentNodeID][moteInformation.nodeID] = 1;*/
-		}
-		else
-		{if (fofd == TRUE)
-			migrateData();
-		}
-			
-			busy = FALSE;
+			if(call Ack.wasAcked(&pkt) == TRUE) {
+				dbg("RadioFrequencySensorC", "[2] TimeStamp: %hhu.\n", call Timer.getNow());
+				dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet sent.\n");			
+				busy = FALSE;
+			} else if(call Timer.getNow() > timeControl + 10) {
+				dbg("RadioFrequencySensorC", "[3] TimeStamp: %hhu.\n", call Timer.getNow());
+				dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet resent.\n");	
+				if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage))
+					migrateData();
+				else if(call Packet.payloadLength(msg) == sizeof(UpdateFeedingSpot)) 
+					sendUpdateOfFeedingSpot(call Packet.getPayload(msg, call Packet.payloadLength(msg)));
+			}
 		}
 	}
-	
-
-	
 	
 	event void Timer.fired() {
-		dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);
-	
-		++counter;
-		if(counter == 15) {
-			
-			fofd = TRUE;
-			dbg("RadioFrequencySensorC", "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
-			
-		}
-
+		counter++;
+		//dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);
 	}
 
-	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint16_t nodeID, nx_uint16_t quantityEated, nx_uint16_t feedingSpotFoodQuantiy){
-		;
+	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint8_t feedingSpotID, nx_uint16_t feedingSpotAmount, nx_uint16_t nodeID, nx_uint16_t quantityEated) {
+		UpdateFeedingSpot* ufspkt = (UpdateFeedingSpot*)(call Packet.getPayload(&pkt, sizeof (UpdateFeedingSpot)));
+		dbg("RadioFrequencySensorC", "[FEEDING SPOT PREPARE] Preparing update to send...\n");
+	
+		ufspkt->feedingSpotID = feedingSpotID;
+		ufspkt->feedingSpotFoodAmount = feedingSpotAmount;
+		ufspkt->nodeID = nodeID;
+		ufspkt->foodEaten = quantityEated;
+	
+		sendUpdateOfFeedingSpot(ufspkt);
 	}
 }

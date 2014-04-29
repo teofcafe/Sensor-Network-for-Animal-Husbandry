@@ -69,6 +69,9 @@ pkt.setDestination(1)
 print "Delivering " + str(msg) + " to 1 at " + str(t.time() + 3);
 pkt.deliver(1, t.time() + 1000)
 
+for i in range(1000):
+	t.runNextEvent()
+
 mskt = RFID_test_message()
 pcktrfid = t.newPacket()
 mskt.set_feedingSpot(4)
@@ -78,5 +81,5 @@ pcktrfid.setDestination(1)
 print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
 pcktrfid.deliver(1, t.time() + 1000)
 
-for i in range(2000):
+for i in range(1000):
 	t.runNextEvent()

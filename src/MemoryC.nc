@@ -6,18 +6,18 @@ module MemoryC{
 
 implementation{
 	nx_uint16_t feedingSpots[100];
-	uint16_t quantityOfFoodThatICanEat = 0;
+	uint16_t quantityOfFoodThatICanEat = 50;
 	nx_struct MoteInformation motesInformation[10000];
 	uint16_t motesInformationIndex = 0;
 	nx_struct AdjacentMoteInformation adjacentNodesInformation[100];
 	uint16_t adjacentNodesInformationIndex = 0;
-	uint16_t foodEatenByMe= 0;
+	uint16_t foodEatenByMe = 0;
 	
-	command nx_uint16_t Memory.getCurrentFoodAmount(nx_uint16_t feedingSpotID){
+	command nx_uint16_t Memory.getCurrentFoodAmount(nx_uint8_t feedingSpotID){
 		return feedingSpots[feedingSpotID];
 	}
 
-	command void Memory.setCurrentFoodAmount(nx_uint16_t feedingSpotID, nx_uint8_t currentFoodAmount){
+	command void Memory.setCurrentFoodAmount(nx_uint8_t feedingSpotID, nx_uint16_t currentFoodAmount){
 		dbg("MemoryC", "[FeedingSpot] Received FeedingSpot %hhu with %hhu amount of food.\n", feedingSpotID, currentFoodAmount);
 		feedingSpots[feedingSpotID] = currentFoodAmount;
 	}
@@ -29,7 +29,7 @@ implementation{
 	}
 	
 
-	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint8_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
+	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint16_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
 
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
@@ -44,15 +44,18 @@ implementation{
 		} else call Memory.addAdjacentNode(adjacentNodeID, adjacentNodeHierarchyLevel);
 	}
 
-	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint8_t foodEaten){
-		// TODO Auto-generated method stub
+	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint16_t foodEaten){
+		int i = 0;
+		for(i; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID)
+			motesInformation[i].foodEaten = foodEaten;
 	}
 
 	command void Memory.setMoteCoordinate(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y){
 		// TODO Auto-generated method stub
 	}
 
-	command nx_int16_t Memory.getNumberOfAdjacentNodes(){
+	command nx_uint16_t Memory.getNumberOfAdjacentNodes() {
 		return adjacentNodesInformationIndex;
 	}
 	
@@ -65,7 +68,7 @@ implementation{
 		return motesInformation[nodeID];
 	}
 
-	command nx_int16_t Memory.getNumberOfKnownNodes(){
+	command nx_uint16_t Memory.getNumberOfKnownNodes(){
 		return motesInformationIndex;
 	}
 	
@@ -129,10 +132,21 @@ implementation{
 	}
 	
 	command void Memory.updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID){
-		uint16_t eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);
+		uint16_t eatedNow;
+		eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);
 		foodEatenByMe = foodEatenByMe + eatedNow;
-		feedingSpots[feedingSpotID] =  max((feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat), 0);
-		//TO DO Evento no RadioFrequency que expanda as mudancas aos outros nodes;	
+		if(quantityOfFoodThatICanEat > feedingSpots[feedingSpotID])
+			feedingSpots[feedingSpotID] =  0;
+			else 
+			feedingSpots[feedingSpotID] = feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat;
+	}
+	
+	command nx_uint16_t Memory.getAmountOfFoodEatenByNode(nx_uint16_t nodeID) {
+		int i = 0;
+		for(i; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID)
+			return motesInformation[i].foodEaten;	
+		return 0;
 	}
 	
 }

@@ -23,8 +23,6 @@ implementation {
 			dbg("RFIDSensorC", "....[RFID] Received test order to eat....\n");
 			dbg("RFIDSensorC", "....[RFID] Force animal to eat, food provided....\n");
 			call RFIDSensor.eatFromFeedingSpot(RFIDpkt->feedingSpot);
-			dbg("RFIDSensorC", "....[RFID]Animal Finish eating....\n");
-			dbg("RFIDSensorC", "....[RFID]Move Update To persistent Memory of device....\n");
 		}	
 
 		return msg;
@@ -32,7 +30,9 @@ implementation {
 
 	command void RFIDSensor.eatFromFeedingSpot(nx_uint8_t feedingSpotID){
 		call Memory.updateFeedingSpotAfterEat(feedingSpotID);
-		call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(TOS_NODE_ID , call Memory.getFoodEatenByMe(), call Memory.getCurrentFoodAmount(feedingSpotID));
+		dbg("RFIDSensorC", "....[RFID]Animal Finish eating....\n");
+		dbg("RFIDSensorC", "....[RFID]Move Update To persistent Memory of device....\n");
+		call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(feedingSpotID, call Memory.getCurrentFoodAmount(feedingSpotID), TOS_NODE_ID, call Memory.getFoodEatenByMe());
 	}
 
 }
