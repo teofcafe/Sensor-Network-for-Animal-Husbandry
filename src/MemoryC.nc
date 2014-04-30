@@ -34,9 +34,7 @@ implementation{
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
 		motesInformation[motesInformationIndex].y = y;
-		motesInformation[motesInformationIndex].foodEaten = foodEaten;
-		motesInformation[motesInformationIndex].adjacentNodeID = adjacentNodeID;
-		motesInformation[motesInformationIndex++].migrated = 0;
+		motesInformation[motesInformationIndex++].foodEaten = foodEaten;
 		dbg("MemoryC", "[MoteInformation] Received Mote with ID %hhu, in (%hhu, %hhu) and has eaten %hhu.\n", nodeID, x, y, foodEaten);	
 		if(call Memory.hasAdjacentNode(adjacentNodeID) == TRUE) {
 			if(call Memory.getAdjacentNodeHierarchyLevel(adjacentNodeID) > adjacentNodeHierarchyLevel) 
@@ -45,7 +43,7 @@ implementation{
 	}
 
 	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint16_t foodEaten){
-		int i;
+		uint16_t i;
 		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 			motesInformation[i].foodEaten = foodEaten;
@@ -59,14 +57,14 @@ implementation{
 		return adjacentNodesInformationIndex;
 	}
 	
-	command nx_struct AdjacentMoteInformation Memory.getAdjacentNodeInformation(nx_uint16_t nodeID) {
-		return adjacentNodesInformation[nodeID];
+	command nx_struct AdjacentMoteInformation Memory.getAdjacentNodeInformation(nx_uint16_t index) {
+			return adjacentNodesInformation[index];
 	}
 
 
 	command nx_struct MoteInformation Memory.getNodeInformation(nx_uint16_t nodeID){
-		int i;
-		for(i = 0; i < motesInformationIndex; i++) 
+		uint16_t i;
+		for(i = 0; i <= motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 				return motesInformation[i];
 		return motesInformation[i]; // This never happens
@@ -75,18 +73,9 @@ implementation{
 	command nx_uint16_t Memory.getNumberOfKnownNodes(){
 		return motesInformationIndex;
 	}
-	
-	command void Memory.setInformationMigration(nx_uint16_t nodeID, nx_uint16_t migrationValue) {
-		int i;
-		for(i = 0; i < motesInformationIndex; i++) 
-			if(motesInformation[i].nodeID == nodeID) {
-			motesInformation[i].migrated = migrationValue;
-			break;
-		}
-	}
 
 	command bool Memory.hasMoteInformation(nx_uint16_t nodeID){
-		int i;
+		uint16_t i;
 		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID) 
 			return TRUE;
@@ -94,14 +83,14 @@ implementation{
 	}
 
 	command void Memory.setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel){
-		int i;
-		for(i = 0; i < adjacentNodesInformationIndex; i++) 
+		uint16_t i;
+		for(i = 0; i <= adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) 
 			adjacentNodesInformation[i].hierarchyLevel = hierarchyLevel;
 	}
 
 	command bool Memory.hasAdjacentNode(nx_uint16_t adjacentNodeID){
-		int i;
+		uint16_t i;
 		for(i = 0; i < adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) 
 			return TRUE;
@@ -109,26 +98,15 @@ implementation{
 	}
 	
 	command nx_uint8_t Memory.getAdjacentNodeHierarchyLevel(nx_uint16_t nodeID) {
-		int i;
+		uint16_t i;
 		for(i = 0; i < adjacentNodesInformationIndex; i++) 
 			if(adjacentNodesInformation[i].nodeID == nodeID) 
 			return adjacentNodesInformation[i].hierarchyLevel;
 		return 0;
 	}
 	
-	command void Memory.setAdjacentMoteInMoteInformation(nx_uint16_t nodeID, nx_uint16_t adjacentNodeID) {
-		int i;
-		for(i = 0; i < motesInformationIndex; i++) 
-			if(motesInformation[i].nodeID == nodeID)
-			(motesInformation[i].adjacentNodeID = adjacentNodeID);					
-	}
-	
 	command nx_uint16_t Memory.getFoodEatenByMe(){
 		return foodEatenByMe;	
-	}
-	
-	command void Memory.setFoodEatenByMe(){
-		foodEatenByMe+=	foodEatenByMe;
 	}
 	
 	command nx_uint16_t Memory.getQuantityOfFoodThatICanEat(){
@@ -146,11 +124,10 @@ implementation{
 	}
 	
 	command nx_uint16_t Memory.getAmountOfFoodEatenByNode(nx_uint16_t nodeID) {
-		int i;
+		uint16_t i;
 		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
 			return motesInformation[i].foodEaten;	
 		return 0;
-	}
-	
+	}	
 }

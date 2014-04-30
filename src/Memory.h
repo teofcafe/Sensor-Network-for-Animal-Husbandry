@@ -6,8 +6,6 @@ typedef nx_struct MoteInformation {
 	nx_uint8_t x;
 	nx_uint8_t y;
 	nx_int16_t foodEaten;
-	nx_uint16_t adjacentNodeID;
-	nx_int16_t migrated; //0 false 1 true
 } MoteInformation;
 
 typedef nx_struct AdjacentMoteInformation {
@@ -25,10 +23,6 @@ typedef nx_struct AdjacentMoteInformation {
  
 uint16_t min(uint16_t a, uint16_t b){
 	return (a < b) ? a : b;
-}
-	
-uint16_t max(uint16_t a, uint16_t b){
-	return (a > b) ? a : b;
 }
 
 #endif /* MEMORY_H */

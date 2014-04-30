@@ -48,41 +48,17 @@ implementation{
 			mmpkt->x = moteInformation.x;
 			mmpkt->y = moteInformation.y;
 			mmpkt->requestedNode = moteInformation.nodeID;
-			mmpkt->senderNodeId = TOS_NODE_ID;
-			mmpkt->reply = 1;
 		} else {
 			mmpkt->nodeID = TOS_NODE_ID;
 			mmpkt->foodEaten = call Memory.getFoodEatenByMe();
 			mmpkt->x = call MyCoordinate.getCoordX();
 			mmpkt->y = call MyCoordinate.getCoordY();
-			mmpkt->requestedNode = TOS_NODE_ID;
-			mmpkt->senderNodeId = TOS_NODE_ID;
-			mmpkt->reply = 1;			
+			mmpkt->requestedNode = TOS_NODE_ID;		
 		}
+		
+		mmpkt->reply = 1;
 	
 		return mmpkt;
-	}
-	
-	void migrateData(){
-		//		uint16_t i, j;
-		//		MoteInformationMessage* informationToSend;
-		//		nx_struct AdjacentMoteInformation adjacentMote;
-		//		MoteInformation moteInformation;
-		//	
-		//		for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
-		//			adjacentMote = call Memory.getAdjacentNodeInformation(i);
-		//			for(j = 0; j < call Memory.getNumberOfKnownNodes(); j++) {
-		//				moteInformation = call Memory.getNodeInformation(j);
-		//	
-		//				if(adjacentMote.hierarchyLevel < hierarchyLevel && (adjacentMote.nodeID != moteInformation.nodeID || adjacentMote.nodeID != moteInformation.adjacentNodeID)) {
-		//					dbg("RadioFrequencySensorC", "SENDING %hhu TO %hhu.\n", moteInformation.nodeID, adjacentMote.adjacentNodeID);
-		//					//	informationToSend = PrepareMoteInformationMessage(moteInformation);
-		//					//	SendMoteInformationToNode(informationToSend, adjacentMote.adjacentNodeID);
-		//	
-		//				}
-		//			}
-		//		}
-	
 	}
 	
 	void SendBroadcastMessage() {
@@ -92,13 +68,11 @@ implementation{
 		mmpkt->y = call MyCoordinate.getCoordY();
 		mmpkt->nodeID = TOS_NODE_ID;
 		mmpkt->foodEaten = call Memory.getFoodEatenByMe();
-		mmpkt->senderNodeId = TOS_NODE_ID;
 		mmpkt->senderNodeHierarchyLevel = hierarchyLevel; 
 		mmpkt->requestedNode = nodeRequested;
 		mmpkt->reply = 0;
 	
 		dbg("RadioFrequencySensorC", "Starting BROADCAST message...\n");
-	
 		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
 			dbg("RadioFrequencySensorC", "Success BROADCAST message...\n");	
 			busy = TRUE;
@@ -146,16 +120,15 @@ implementation{
 			AdjacentMoteInformation adjacentMote;
 			MoteInformationMessage* mmpkt = (MoteInformationMessage*)payload;
 	
-			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Node %hhu is on (%hhu, %hhu) and has eaten %hhu amount of food -> reply: %hhu.\n", mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->reply, mmpkt->requestedNode);
+			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Node %hhu is on (%hhu, %hhu) and has eaten %hhu amount of food -> reply: %hhu. -> sended by: %hhu\n", mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->reply, call AMPacket.source(msg));
 
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
-				if(call Memory.hasAdjacentNode(mmpkt->senderNodeId)) {
-					if(call Memory.getAdjacentNodeHierarchyLevel(mmpkt->senderNodeId) > mmpkt->senderNodeHierarchyLevel) {
-						call Memory.setAdjacentNodeHierarchyLevel(mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
-						call Memory.setAdjacentMoteInMoteInformation(mmpkt->nodeID, mmpkt->senderNodeId); 
+				if(call Memory.hasAdjacentNode(call AMPacket.source(msg))) {
+					if(call Memory.getAdjacentNodeHierarchyLevel(call AMPacket.source(msg)) > mmpkt->senderNodeHierarchyLevel) {
+						call Memory.setAdjacentNodeHierarchyLevel(call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
 					} 
-				} else call Memory.addAdjacentNode(mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
-			} else call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->senderNodeId, mmpkt->senderNodeHierarchyLevel);
+				} else call Memory.addAdjacentNode(call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
+			} else call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
 
 			if(mmpkt->reply == 0) {
 	
@@ -175,9 +148,11 @@ implementation{
 					return msg;
 				} else {
 					replyMessage = prepareMoteInformationMessage(mmpkt->requestedNode);
+					
 					for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 						adjacentMote = call Memory.getAdjacentNodeInformation(i);
 						if(adjacentMote.hierarchyLevel < hierarchyLevel) {
+							dbg("RadioFrequencySensorC", "\n\n[TESTE] %hhu [%hhu].\n\n", adjacentMote.nodeID, adjacentMote.hierarchyLevel);	
 							sendMoteInformationToNode(replyMessage, adjacentMote.nodeID);
 							return msg;
 						}
@@ -186,16 +161,6 @@ implementation{
 			} else if(!busy)
 				if(firstMessage) 
 				SendBroadcastMessage();
-	
-	
-			//				else {
-			//					dbg("RadioFrequencySensorC", "PREPARING\n");	
-			//					replyMessage = prepareMoteInformationMessage(mmpkt->requestedNode);
-			//					for(i=0; i < call Memory.getNumberOfAdjacentNodes(); i++)
-			//						if(call Memory.getAdjacentNodeHierarchyLevel(i) == hierarchyLevel - 1)
-			//							sendMoteInformationToNode(replyMessage, i);
-			//					return msg;
-			//				}
 		}
 	
 		else if (len == sizeof(UpdateFeedingSpot)) {

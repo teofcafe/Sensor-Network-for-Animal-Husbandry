@@ -65,7 +65,7 @@ for i in range(1000):
 	t.runNextEvent()
 	
 msg = RequestMsg()
-msg.set_nodeID(5)
+msg.set_nodeID(1)
 pkt = t.newPacket()
 pkt.setData(msg.data)
 pkt.setType(msg.get_amType())
@@ -76,14 +76,14 @@ pkt.deliver(1, t.time() + 1000)
 for i in range(1000):
 	t.runNextEvent()
 
-#mskt = RFID_test_message()
-#pcktrfid = t.newPacket()
-#mskt.set_feedingSpot(4)
-#pcktrfid.setData(mskt.data)
-#pcktrfid.setType(mskt.get_amType())
-#pcktrfid.setDestination(1)
-#print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
-#pcktrfid.deliver(1, t.time() + 1000)
+mskt = RFID_test_message()
+pcktrfid = t.newPacket()
+mskt.set_feedingSpot(4)
+pcktrfid.setData(mskt.data)
+pcktrfid.setType(mskt.get_amType())
+pcktrfid.setDestination(1)
+print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
+pcktrfid.deliver(1, t.time() + 1000)
 
-#for i in range(1000):
-#	t.runNextEvent()
+for i in range(1000):
+	t.runNextEvent()
