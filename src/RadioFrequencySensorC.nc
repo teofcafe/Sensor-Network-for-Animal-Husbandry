@@ -18,16 +18,15 @@ module RadioFrequencySensorC {
 }
 
 implementation{
-	uint8_t hierarchyLevel = 0;
 	bool firstMessage = TRUE, busy = FALSE;
-	message_t pkt;
-	uint16_t counter = 0;	
+	uint8_t hierarchyLevel = 0;
+	uint16_t nodeRequested, counter = 0;	
 	uint32_t timeControl;
-	uint16_t nodeRequested;
+	message_t pkt;
 	
 	void sendMoteInformationToNode(MoteInformationMessage* moteInformationMessage, uint16_t nodeID) {
 		//TODO possivel bug
-		dbg("RadioFrequencySensorC", "Sending %hhu to node %hhu.\n", moteInformationMessage->nodeID, nodeID);		
+		dbg("RadioFrequencySensorC", "[MOTEINFORMATION] Sending node %hhu information to node %hhu.\n", moteInformationMessage->nodeID, nodeID);		
 		call Ack.requestAck(&pkt);
 		if (call AMSend.send(nodeID, &pkt, sizeof(MoteInformationMessage)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
 			busy = TRUE;
@@ -89,17 +88,17 @@ implementation{
 	
 			if(call Memory.getNumberOfAdjacentNodes() > 0)
 				call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(feedingSpotpkt->feedingSpotID, feedingSpotpkt->foodAmount, TOS_NODE_ID, call Memory.getFoodEatenByMe());
-		}
-		
-		else if(len == sizeof(UpdateFoodQuantity)) {
+			return msg;
+			
+		} else if(len == sizeof(UpdateFoodQuantity)) {
 			UpdateFoodQuantity* ufqpkt =(UpdateFoodQuantity*) payload;
 			call Memory.setQuantityOfFoodThatICanEat(ufqpkt->foodQuantity);	
-		}
-	
-		else if(len == sizeof(request_msg)) {
+			return msg;
+			
+		} else if(len == sizeof(request_msg)) {
 			request_msg* rpkt = (request_msg*)payload;
 	
-			dbg("RadioFrequencySensorC", "[REQUEST-MESSAGE] Received request message.\n");
+			dbg("RadioFrequencySensorC", "[REQUEST-MESSAGE] Received message.\n");
 	
 			if(rpkt->nodeID == TOS_NODE_ID) {
 				dbg("RadioFrequencySensorC", "*********************************************************************\n");	
@@ -110,40 +109,34 @@ implementation{
 				dbg("RadioFrequencySensorC", "*********************************************************************\n");	
 				dbg("RadioFrequencySensorC", "[REQUEST-MESSAGE ANSWER] Node %hhu is on (%hhu, %hhu) and has eaten %hhu amount of food!\n", moteInfo.nodeID, moteInfo.x, moteInfo.y, moteInfo.foodEaten);	
 				dbg("RadioFrequencySensorC", "*********************************************************************\n");	
-				return msg;
-			}
-			else {
-	
-				nodeRequested = rpkt->nodeID;	
-			}
+
+			} else nodeRequested = rpkt->nodeID;	
 	
 			hierarchyLevel = 1;
+	
 			if (!busy)
 				if(firstMessage)
 				SendBroadcastMessage();
-	
-	
+			
 		} else if (len == sizeof(MoteInformationMessage)) {
 			uint16_t i;
 			MoteInformationMessage* replyMessage;
 			AdjacentMoteInformation adjacentMote;
 			MoteInformationMessage* mmpkt = (MoteInformationMessage*)payload;
 	
-			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Node %hhu is on (%hhu, %hhu) and has eaten %hhu amount of food -> reply: %hhu. -> sended by: %hhu\n", mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, mmpkt->reply, call AMPacket.source(msg));
+			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Received mote information message.\n");
 
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
 				if(call Memory.hasAdjacentNode(call AMPacket.source(msg))) {
-					if(call Memory.getAdjacentNodeHierarchyLevel(call AMPacket.source(msg)) > mmpkt->senderNodeHierarchyLevel) {
+					if(call Memory.getAdjacentNodeHierarchyLevel(call AMPacket.source(msg)) > mmpkt->senderNodeHierarchyLevel)
 						call Memory.setAdjacentNodeHierarchyLevel(call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
-					} 
 				} else call Memory.addAdjacentNode(call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
 			} else call Memory.insertNewMoteInformation(mmpkt->nodeID, mmpkt->x, mmpkt->y, mmpkt->foodEaten, call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
 
 			if(mmpkt->reply == 0) {
-	
 				if(mmpkt->senderNodeHierarchyLevel + 1 < hierarchyLevel || hierarchyLevel == 0) {
 					hierarchyLevel = ++(mmpkt->senderNodeHierarchyLevel);
-					dbg("RadioFrequencySensorC", "My Hierarchy Level: %hhu.\n", hierarchyLevel);
+					dbg("RadioFrequencySensorC", "My hierarchy level: %hhu.\n", hierarchyLevel);
 				}
 	
 				nodeRequested = mmpkt->requestedNode;
@@ -170,53 +163,42 @@ implementation{
 			} else if(!busy)
 				if(firstMessage) 
 				SendBroadcastMessage();
-		}
-	
-		else if (len == sizeof(UpdateFeedingSpot)) {
+			
+		} else if (len == sizeof(UpdateFeedingSpot)) {
 			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;
 	
-			if(call Memory.hasMoteInformation(mmpkt->nodeID) && call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID) != mmpkt->foodEaten) {
-				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] FS ID: %hhu | FS Amount: %hhu | NODE ID: %hhu | FoodEaten: %hhu.\n", mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
-				if(call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID) != mmpkt->foodEaten) {
-					call Memory.setFoodEatenByMote(mmpkt->nodeID, mmpkt->foodEaten);
-					call Memory.setCurrentFoodAmount(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount);
-					call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
-				} 
-			} else if(call Memory.getCurrentFoodAmount(mmpkt->feedingSpotID) != mmpkt->feedingSpotFoodAmount) {
-				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] FS ID: %hhu | FS Amount: %hhu | NODE ID: %hhu | FoodEaten: %hhu.\n", mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
+			if(call Memory.getCurrentFoodAmount(mmpkt->feedingSpotID) != mmpkt->feedingSpotFoodAmount) {
+				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] Received message.\n");
 				call Memory.setCurrentFoodAmount(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount);
+				if(call Memory.hasMoteInformation(mmpkt->nodeID) && call Memory.getAmountOfFoodEatenByNode(mmpkt->nodeID) != mmpkt->foodEaten)
+					call Memory.setFoodEatenByMote(mmpkt->nodeID, mmpkt->foodEaten);
 				call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount, mmpkt->nodeID, mmpkt->foodEaten);
 			} else dbg("RadioFrequencySensorC", ".::[STOP]::.\n");
-		}	
-
+		} 		
 		return msg;
 	}
 
 	event void AMControl.startDone(error_t err) {
-		if (err == SUCCESS) {
+		if (err == SUCCESS) 
 			call Timer.startPeriodic(TIMER_PERIOD_MILLI);
-		}
-		else {
+		else 
 			call AMControl.start();
-		}
 	}
 
 	event void AMControl.stopDone(error_t err) {}
 
 	void sendUpdateOfFeedingSpot(UpdateFeedingSpot* updateMessage) {
-
 		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(UpdateFeedingSpot)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS)
 			busy = TRUE;
 	}
 	
 	event void AMSend.sendDone(message_t* msg, error_t error) {	
-	
 		if (&pkt == msg) {
 			if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage))
 				if(call Ack.wasAcked(&pkt) == TRUE) {
 				dbg("RadioFrequencySensorC", "[2] TimeStamp: %hhu.\n", call Timer.getNow());
 				dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet sent.\n");			
-				} else if(call Timer.getNow() > timeControl + 10) {
+			} else if(call Timer.getNow() > timeControl + 10) {
 				dbg("RadioFrequencySensorC", "[3] TimeStamp: %hhu.\n", call Timer.getNow());
 				dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet resent.\n");	
 				sendMoteInformationToNode(call Packet.getPayload(msg, call Packet.payloadLength(msg)), call AMPacket.destination(msg));
@@ -232,14 +214,13 @@ implementation{
 
 	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint8_t feedingSpotID, nx_uint16_t feedingSpotAmount, nx_uint16_t nodeID, nx_uint16_t quantityEated) {
 		UpdateFeedingSpot* ufspkt = (UpdateFeedingSpot*)(call Packet.getPayload(&pkt, sizeof (UpdateFeedingSpot)));
-		dbg("RadioFrequencySensorC", "[FEEDING SPOT PREPARE] Preparing update to send...\n");
-	
+
 		ufspkt->feedingSpotID = feedingSpotID;
 		ufspkt->feedingSpotFoodAmount = feedingSpotAmount;
 		ufspkt->nodeID = nodeID;
 		ufspkt->foodEaten = quantityEated;
 	
 		if(!busy)
-		sendUpdateOfFeedingSpot(ufspkt);
+			sendUpdateOfFeedingSpot(ufspkt);
 	}
 }

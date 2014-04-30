@@ -18,24 +18,23 @@ implementation{
 	}
 
 	command void Memory.setCurrentFoodAmount(nx_uint8_t feedingSpotID, nx_uint16_t currentFoodAmount){
-		dbg("MemoryC", "[FeedingSpot] Received FeedingSpot %hhu with %hhu amount of food.\n", feedingSpotID, currentFoodAmount);
+		dbg("MemoryC", "[FeedingSpot] .::UPDATE::. Feeding spot %hhu with %hhu amount of food.\n", feedingSpotID, currentFoodAmount);
 		feedingSpots[feedingSpotID] = currentFoodAmount;
 	}
 	
 	command void Memory.addAdjacentNode(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel) {
 		adjacentNodesInformation[adjacentNodesInformationIndex].nodeID = adjacentNodeID;
 		adjacentNodesInformation[adjacentNodesInformationIndex++].hierarchyLevel = hierarchyLevel;
-		dbg("MemoryC", "[AdjacentMoteInformation] Received Adjacent Mote with ID %hhu with %hhu hierarchy level.\n", adjacentNodeID, hierarchyLevel);	
+		dbg("MemoryC", "[AdjacentMoteInformation] .::NEW::. Adjacent mote %hhu [%hhu].\n", adjacentNodeID, hierarchyLevel);	
 	}
 	
 
 	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint16_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
-
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
 		motesInformation[motesInformationIndex].y = y;
 		motesInformation[motesInformationIndex++].foodEaten = foodEaten;
-		dbg("MemoryC", "[MoteInformation] Received Mote with ID %hhu, in (%hhu, %hhu) and has eaten %hhu.\n", nodeID, x, y, foodEaten);	
+		dbg("MemoryC", "[MoteInformation] .::NEW::. Mote %hhu is at (%hhu, %hhu) and has eaten %hhu amount of food.\n", nodeID, x, y, foodEaten);	
 		if(call Memory.hasAdjacentNode(adjacentNodeID) == TRUE) {
 			if(call Memory.getAdjacentNodeHierarchyLevel(adjacentNodeID) > adjacentNodeHierarchyLevel) 
 				call Memory.setAdjacentNodeHierarchyLevel(adjacentNodeID, adjacentNodeHierarchyLevel);
@@ -45,8 +44,11 @@ implementation{
 	command void Memory.setFoodEatenByMote(nx_uint16_t nodeID, nx_uint16_t foodEaten){
 		uint16_t i;
 		for(i = 0; i < motesInformationIndex; i++) 
-			if(motesInformation[i].nodeID == nodeID)
+			if(motesInformation[i].nodeID == nodeID) {
 			motesInformation[i].foodEaten = foodEaten;
+			dbg("MemoryC", "[MoteInformation] .::UPDATE::. Mote %hhu is at (%hhu, %hhu) and has eaten %hhu amount of food.\n", motesInformation[i].nodeID, motesInformation[i].x, motesInformation[i].y, motesInformation[i].foodEaten);	
+			break;
+		}
 	}
 
 	command void Memory.setMoteCoordinate(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y){
@@ -58,7 +60,7 @@ implementation{
 	}
 	
 	command nx_struct AdjacentMoteInformation Memory.getAdjacentNodeInformation(nx_uint16_t i) {
-			return adjacentNodesInformation[i];
+		return adjacentNodesInformation[i];
 	}
 
 
@@ -66,7 +68,7 @@ implementation{
 		uint16_t i;
 		for(i = 0; i <= motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID)
-				return motesInformation[i];
+			return motesInformation[i];
 		return motesInformation[i]; // This never happens
 	}
 
@@ -85,8 +87,11 @@ implementation{
 	command void Memory.setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel){
 		uint16_t i;
 		for(i = 0; i <= adjacentNodesInformationIndex; i++) 
-			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) 
+			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) { 
 			adjacentNodesInformation[i].hierarchyLevel = hierarchyLevel;
+			dbg("MemoryC", "[AdjacentMoteInformation] .::UPDATE::. Adjacent mote %hhu [%hhu].\n", adjacentNodesInformation[i].nodeID, adjacentNodesInformation[i].hierarchyLevel);	
+			break;
+		}
 	}
 
 	command bool Memory.hasAdjacentNode(nx_uint16_t adjacentNodeID){
@@ -113,8 +118,9 @@ implementation{
 		return quantityOfFoodThatICanEat;
 	}
 	
-	command nx_uint16_t Memory.setQuantityOfFoodThatICanEat(uint8_t quantity){
+	command void Memory.setQuantityOfFoodThatICanEat(uint8_t quantity){
 		quantityOfFoodThatICanEat = quantity;
+		dbg("MemoryC", "[FeedingSpot] .::UPDATE::. I can eat %hhu amount of food.\n", quantityOfFoodThatICanEat);
 	}
 	
 	command void Memory.updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID){
@@ -123,8 +129,11 @@ implementation{
 		foodEatenByMe = foodEatenByMe + eatedNow;
 		if(quantityOfFoodThatICanEat > feedingSpots[feedingSpotID])
 			feedingSpots[feedingSpotID] =  0;
-			else 
+		else 
 			feedingSpots[feedingSpotID] = feedingSpots[feedingSpotID] - quantityOfFoodThatICanEat;
+	
+		dbg("MemoryC", "[FeedingSpot] .::UPDATE::. Feeding spot %hhu has %hhu amount of food.\n", feedingSpotID, feedingSpots[feedingSpotID]);
+		dbg("MemoryC", "[FeedingSpot] .::UPDATE::. I ate %hhu amount of food.\n", foodEatenByMe);
 	}
 	
 	command nx_uint16_t Memory.getAmountOfFoodEatenByNode(nx_uint16_t nodeID) {

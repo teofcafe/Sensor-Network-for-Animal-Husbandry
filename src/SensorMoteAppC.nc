@@ -1,9 +1,7 @@
 #include <Timer.h>
 #include "SensorMote.h"
  
-configuration SensorMoteAppC {
-	
-}
+configuration SensorMoteAppC {}
 
 implementation {
 	components MainC;
@@ -22,17 +20,17 @@ implementation {
 	
 	GPSCoordinateSensor.Receive -> AMReceiverC;	
 	
-	RadioFrequencySensor.Timer -> Timer;
+	RadioFrequencySensor.Timer -> Timer; //TODO discutivel
 	RadioFrequencySensor.MyCoordinate -> GPSCoordinateSensor.GPSCoordinateSensor; 
-	RadioFrequencySensor.Receive -> AMReceiverC;
 	RadioFrequencySensor.Memory -> Memory.Memory;
 	RadioFrequencySensor.AMSend -> AMSenderC;
   	RadioFrequencySensor.Packet -> AMSenderC;
-  	RadioFrequencySensor.AMControl -> ActiveMessageC;
   	RadioFrequencySensor.AMPacket -> AMSenderC;
   	RadioFrequencySensor.Ack -> AMSenderC;
+  	RadioFrequencySensor.Receive -> AMReceiverC;
+  	RadioFrequencySensor.AMControl -> ActiveMessageC;
 
   	RFIDSensorC.Receive -> AMReceiverC;
-  	RFIDSensorC.Memory ->Memory.Memory;
+  	RFIDSensorC.Memory -> Memory.Memory;
   	RFIDSensorC.RadioFrequencySensor -> RadioFrequencySensor.RadioFrequencySensor;
 }

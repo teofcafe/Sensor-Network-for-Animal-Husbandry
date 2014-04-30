@@ -9,20 +9,15 @@ module SensorMoteC {
 }
 
 implementation {
-
 	event void Boot.booted() {
 		dbg("SensorMoteC", "[BOOT] Boot fired.\n");
 		call AMControl.start();
 	}
 	
 	event void AMControl.startDone(error_t err) {
-		if (err == SUCCESS) {
-			; 
-		} else {
-			call AMControl.start();
-		}
+		if (err == SUCCESS) ; 
+		else call AMControl.start();
 	}
 
 	event void AMControl.stopDone(error_t err) {}
-
 }
