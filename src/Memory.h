@@ -11,8 +11,8 @@ typedef nx_struct MoteInformation {
 } MoteInformation;
 
 typedef nx_struct AdjacentMoteInformation {
-	nx_uint16_t adjacentNodeID;
-	nx_uint8_t adjacentNodeHierarchyLevel;
+	nx_uint16_t nodeID;
+	nx_uint8_t hierarchyLevel;
 } AdjacentMoteInformation;
 
  /*As funcoes min e max no codigo abaixo servem como auxiliares ao controlo da quantidade de comida ingerida

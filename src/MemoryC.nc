@@ -23,8 +23,8 @@ implementation{
 	}
 	
 	command void Memory.addAdjacentNode(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel) {
-		adjacentNodesInformation[adjacentNodesInformationIndex].adjacentNodeID = adjacentNodeID;
-		adjacentNodesInformation[adjacentNodesInformationIndex++].adjacentNodeHierarchyLevel = hierarchyLevel;
+		adjacentNodesInformation[adjacentNodesInformationIndex].nodeID = adjacentNodeID;
+		adjacentNodesInformation[adjacentNodesInformationIndex++].hierarchyLevel = hierarchyLevel;
 		dbg("MemoryC", "[AdjacentMoteInformation] Received Adjacent Mote with ID %hhu with %hhu hierarchy level.\n", adjacentNodeID, hierarchyLevel);	
 	}
 	
@@ -65,7 +65,11 @@ implementation{
 
 
 	command nx_struct MoteInformation Memory.getNodeInformation(nx_uint16_t nodeID){
-		return motesInformation[nodeID];
+		int i;
+		for(i = 0; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID)
+				return motesInformation[i];
+		return motesInformation[i]; // This never happens
 	}
 
 	command nx_uint16_t Memory.getNumberOfKnownNodes(){
@@ -92,14 +96,14 @@ implementation{
 	command void Memory.setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel){
 		int i;
 		for(i = 0; i < adjacentNodesInformationIndex; i++) 
-			if(adjacentNodesInformation[i].adjacentNodeID == adjacentNodeID) 
-			adjacentNodesInformation[i].adjacentNodeHierarchyLevel = hierarchyLevel;
+			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) 
+			adjacentNodesInformation[i].hierarchyLevel = hierarchyLevel;
 	}
 
 	command bool Memory.hasAdjacentNode(nx_uint16_t adjacentNodeID){
 		int i;
 		for(i = 0; i < adjacentNodesInformationIndex; i++) 
-			if(adjacentNodesInformation[i].adjacentNodeID == adjacentNodeID) 
+			if(adjacentNodesInformation[i].nodeID == adjacentNodeID) 
 			return TRUE;
 		return FALSE;
 	}
@@ -107,8 +111,8 @@ implementation{
 	command nx_uint8_t Memory.getAdjacentNodeHierarchyLevel(nx_uint16_t nodeID) {
 		int i;
 		for(i = 0; i < adjacentNodesInformationIndex; i++) 
-			if(adjacentNodesInformation[i].adjacentNodeID == nodeID) 
-			return adjacentNodesInformation[i].adjacentNodeHierarchyLevel;
+			if(adjacentNodesInformation[i].nodeID == nodeID) 
+			return adjacentNodesInformation[i].hierarchyLevel;
 		return 0;
 	}
 	
