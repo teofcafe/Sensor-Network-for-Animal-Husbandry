@@ -16,7 +16,7 @@ interface Memory{
 	command void insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint16_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel);
 	
 	// AdjacentMoteInformation - Gets
-	command AdjacentMoteInformation getAdjacentNodeInformation(nx_uint16_t nodeID);
+	command AdjacentMoteInformation getAdjacentNodeInformation(nx_uint16_t i);
 	command nx_uint8_t getAdjacentNodeHierarchyLevel(nx_uint16_t nodeID);
 	command nx_uint16_t getNumberOfAdjacentNodes();
 	command bool hasAdjacentNode(nx_uint16_t adjacentNodeID);

@@ -57,8 +57,8 @@ implementation{
 		return adjacentNodesInformationIndex;
 	}
 	
-	command nx_struct AdjacentMoteInformation Memory.getAdjacentNodeInformation(nx_uint16_t index) {
-			return adjacentNodesInformation[index];
+	command nx_struct AdjacentMoteInformation Memory.getAdjacentNodeInformation(nx_uint16_t i) {
+			return adjacentNodesInformation[i];
 	}
 
 

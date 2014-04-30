@@ -65,7 +65,7 @@ for i in range(1000):
 	t.runNextEvent()
 	
 msg = RequestMsg()
-msg.set_nodeID(1)
+msg.set_nodeID(5)
 pkt = t.newPacket()
 pkt.setData(msg.data)
 pkt.setType(msg.get_amType())
