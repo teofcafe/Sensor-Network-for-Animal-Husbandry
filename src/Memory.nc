@@ -31,4 +31,5 @@ interface Memory{
 	
 	// FeedingSpot - Sets
 	command void updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID);
+	command nx_uint16_t setQuantityOfFoodThatICanEat(uint8_t quantity);
 }

@@ -113,6 +113,10 @@ implementation{
 		return quantityOfFoodThatICanEat;
 	}
 	
+	command nx_uint16_t Memory.setQuantityOfFoodThatICanEat(uint8_t quantity){
+		quantityOfFoodThatICanEat = quantity;
+	}
+	
 	command void Memory.updateFeedingSpotAfterEat(nx_uint8_t feedingSpotID){
 		uint16_t eatedNow;
 		eatedNow = min(quantityOfFoodThatICanEat, feedingSpots[feedingSpotID]);

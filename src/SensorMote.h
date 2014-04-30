@@ -7,7 +7,8 @@ enum {
 	TIMER_PERIOD_MILLI = 250,
 	AM_GPSCOORDINATEMESSAGE = 6,
 	AM_FEEDINGSPOTMESSAGE = 6,
-	AM_RFID_TEST_MESSAGE = 6
+	AM_RFID_TEST_MESSAGE = 6,
+	AM_FOODQUANTITY = 6
 };
 
 typedef nx_struct GPSCoordinateMessage {
@@ -23,6 +24,10 @@ typedef nx_struct FeedingSpotMessage {
 typedef nx_struct request_msg {
 	nx_uint16_t nodeID;
 } request_msg;
+
+typedef nx_struct UpdateFoodQuantity {
+	nx_uint8_t foodQuantity;
+} UpdateFoodQuantity;
 
 /* [RFID_TEST_MESSAGE] -> Esta estrutura de mensagem e apenas de teste, ou seja, este modulo nao vai receber
  * mensagens de nenhuma entidade em funcionamento real, vai apenas ser detectado pela

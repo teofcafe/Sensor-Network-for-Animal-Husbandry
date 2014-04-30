@@ -81,9 +81,9 @@ pcktrfid = t.newPacket()
 mskt.set_feedingSpot(4)
 pcktrfid.setData(mskt.data)
 pcktrfid.setType(mskt.get_amType())
-pcktrfid.setDestination(1)
-print "Delivering " + str(mskt) + " to 1 at " + str(t.time() + 3);
-pcktrfid.deliver(1, t.time() + 1000)
+pcktrfid.setDestination(4)
+print "Delivering " + str(mskt) + " to 4 at " + str(t.time() + 3);
+pcktrfid.deliver(4, t.time() + 1000)
 
 for i in range(1000):
 	t.runNextEvent()
