@@ -14,7 +14,8 @@ implementation {
   	components new AMSenderC(AM_REQUEST_MSG);
 	components new AMReceiverC(AM_REQUEST_MSG);
 	components RFIDSensorC as RFIDSensorC;
-
+	components RandomC;
+	
    	SensorMote.Boot -> MainC;
   	SensorMote.AMControl -> ActiveMessageC;
 	
@@ -33,4 +34,5 @@ implementation {
   	RFIDSensorC.Receive -> AMReceiverC;
   	RFIDSensorC.Memory -> Memory.Memory;
   	RFIDSensorC.RadioFrequencySensor -> RadioFrequencySensor.RadioFrequencySensor;
+  	RFIDSensorC.Random -> RandomC;
 }

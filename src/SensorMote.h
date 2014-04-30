@@ -30,7 +30,6 @@ typedef nx_struct UpdateFoodQuantity {
 } UpdateFoodQuantity;
 
 typedef nx_struct RFID_test_message {
-	nx_uint8_t feedingSpot;
 } RFID_test_message;
  
 #endif

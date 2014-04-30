@@ -5,6 +5,7 @@ module RFIDSensorC {
 		interface Receive;
 		interface Memory;
 		interface RadioFrequencySensor;
+		interface Random;
 	}
 	
 	provides interface RFIDSensor;
@@ -17,7 +18,7 @@ implementation {
 		if(len == sizeof(RFID_test_message)) {
 			RFID_test_message* RFIDpkt = (RFID_test_message*)payload;
 			dbg("RFIDSensorC", "[RFID] I'm going to eat'....\n");
-			call RFIDSensor.eatFromFeedingSpot(RFIDpkt->feedingSpot);
+			call RFIDSensor.eatFromFeedingSpot((uint8_t) call Random.rand16());
 		}	
 		return msg;
 	}

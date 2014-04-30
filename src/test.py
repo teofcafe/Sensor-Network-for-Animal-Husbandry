@@ -48,7 +48,7 @@ for i in range(1, 6):
   pkt.deliver(i, i * 100)
   print "Delivering " + str(coord) + " for ", i; 
   
-for j in range(1, 10): 
+for j in range(1, 101): 
   feedingSpot = FeedingSpotMessage()
   feedingSpot.set_feedingSpotID(j)
   feedingSpot.set_foodAmount(random.randrange(1, 100))
@@ -78,7 +78,6 @@ for i in range(1000):
 
 mskt = RFID_test_message()
 pcktrfid = t.newPacket()
-mskt.set_feedingSpot(4)
 pcktrfid.setData(mskt.data)
 pcktrfid.setType(mskt.get_amType())
 pcktrfid.setDestination(4)

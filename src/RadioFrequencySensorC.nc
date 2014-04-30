@@ -60,7 +60,7 @@ implementation{
 		return mmpkt;
 	}
 	
-	void SendBroadcastMessage() {
+	task void SendBroadcastMessage() {
 		MoteInformationMessage* mmpkt = (MoteInformationMessage*)(call Packet.getPayload(&pkt, sizeof (MoteInformationMessage)));
 	
 		mmpkt->x = call MyCoordinate.getCoordX();
@@ -116,7 +116,7 @@ implementation{
 	
 			if (!busy)
 				if(firstMessage)
-				SendBroadcastMessage();
+				post SendBroadcastMessage();
 			
 		} else if (len == sizeof(MoteInformationMessage)) {
 			uint16_t i;
@@ -154,7 +154,7 @@ implementation{
 	
 					for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 						adjacentMote = call Memory.getAdjacentNodeInformation(i);
-						if(adjacentMote.hierarchyLevel < hierarchyLevel && !busy) {
+						if(adjacentMote.hierarchyLevel == hierarchyLevel - 1 && !busy) {
 							sendMoteInformationToNode(replyMessage, adjacentMote.nodeID);
 							return msg;
 						}
@@ -162,7 +162,7 @@ implementation{
 				}
 			} else if(!busy)
 				if(firstMessage) 
-				SendBroadcastMessage();
+				post SendBroadcastMessage();
 			
 		} else if (len == sizeof(UpdateFeedingSpot)) {
 			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;

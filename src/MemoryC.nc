@@ -9,7 +9,7 @@ implementation{
 	uint16_t quantityOfFoodThatICanEat = 50;
 	nx_struct MoteInformation motesInformation[10000];
 	uint16_t motesInformationIndex = 0;
-	nx_struct AdjacentMoteInformation adjacentNodesInformation[100];
+	nx_struct AdjacentMoteInformation adjacentNodesInformation[10000];
 	uint16_t adjacentNodesInformationIndex = 0;
 	uint16_t foodEatenByMe = 0;
 	
@@ -30,6 +30,8 @@ implementation{
 	
 
 	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint16_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
+		
+
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
 		motesInformation[motesInformationIndex].y = y;
