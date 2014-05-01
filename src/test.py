@@ -33,19 +33,21 @@ for line in noise:
   str1 = line.strip()
   if str1:
     val = int(str1)
-    for i in range(1, 6):
+    for i in range(1, 8):
       t.getNode(i).addNoiseTraceReading(val)
       
 print "\n"
 
-for i in range(1, 6):
+for i in range(1, 8):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel() 
   
+near_node = raw_input("\n" + "Welcome to Sensor Network for Animal Husbandry: " + "\n" + "Where are you located? [Insert the closest node]: ");
+  
 while True:
-	n = raw_input("\n*************************************************************************\n********** Sensor Network for Animal Husbandry - Laptop server **********\n*************************************************************************\n\n Commands: ~ [1] Turn on\n           ~ [2] Check information of an animal\n           ~ [3] Change amount of food in feeding spot\n           ~ [4] Change amount of food an animal can eat\n           ~ [5] Check how much food is left in the feeding spot\n           ~ [6] Turn off\n Actions:  ~ [7] Simulation of an animal eating from a feeding spot\n\n Command: ");
+	n = raw_input("\n*************************************************************************\n********** Sensor Network for Animal Husbandry - Laptop server **********\n*************************************************************************\n\n Commands: ~ [1] Turn on\n           ~ [2] Check information of an animal\n           ~ [3] Change amount of food in feeding spot\n           ~ [4] Change amount of food an animal can eat\n           ~ [5] Check how much food is left in the feeding spot\n           ~ [6] Turn off\n Action:   ~ [7] Simulation of an animal eating from a feeding spot\n\n Command: ");
 	if n.strip() == '1':
-		for i in range(1, 6):
+		for i in range(1, 8):
 			t.getNode(i).turnOn()
 			print "Node " + str(i) + " has turned on!"
 			coord = GPSCoordinateMessage()
@@ -76,7 +78,6 @@ while True:
 		pkt = t.newPacket()
 		pkt.setData(msg.data)
 		pkt.setType(msg.get_amType())
-		near_node = raw_input("  Near node: ")
 		pkt.setDestination(int(near_node.strip()))
 		pkt.deliver(int(near_node.strip()), t.time())
 		for i in range(1000):
@@ -91,7 +92,6 @@ while True:
 		pkt = t.newPacket()
 		pkt.setData(feedingSpot.data)
 		pkt.setType(feedingSpot.get_amType())
-		near_node = raw_input("  Near node: ")
 		pkt.setDestination(int(near_node.strip()))
 		pkt.deliver(int(near_node.strip()), t.time())
 		for i in range(1000):
@@ -103,7 +103,6 @@ while True:
 		pkt = t.newPacket()
 		pkt.setData(changeFood.data)
 		pkt.setType(changeFood.get_amType())
-		near_node = raw_input("  Near node: ")
 		pkt.setDestination(int(near_node.strip()))
 		pkt.deliver(int(near_node.strip()), t.time())
 		for i in range(1000):
@@ -116,7 +115,6 @@ while True:
 		pkt = t.newPacket()
 		pkt.setData(feedingSpot.data)
 		pkt.setType(feedingSpot.get_amType())
-		near_node = raw_input("  Near node: ")
 		pkt.setDestination(int(near_node.strip()))
 		pkt.deliver(int(near_node.strip()), t.time())
 		for i in range(1000):
@@ -127,12 +125,12 @@ while True:
 			print "Node " + str(i) + " has turned off!"
 		break;
 	elif n.strip() == '7':
+		node = raw_input("  Node: ")
 		mskt = RFID_test_message()
 		pkt = t.newPacket()
 		pkt.setData(mskt.data)
 		pkt.setType(mskt.get_amType())
-		near_node = raw_input("  Near node: ")
-		pkt.setDestination(int(near_node.strip()))
-		pkt.deliver(int(near_node.strip()), t.time())
+		pkt.setDestination(int(node.strip()))
+		pkt.deliver(int(node.strip()), t.time())
 		for i in range(1000):
 			t.runNextEvent()
