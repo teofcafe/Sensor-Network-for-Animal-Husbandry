@@ -50,7 +50,8 @@ implementation{
 	MoteInformationMessage* prepareMoteInformationMessage(uint16_t moteID) {
 		MoteInformationMessage* mmpkt = (MoteInformationMessage*)(call Packet.getPayload(&pkt, sizeof (MoteInformationMessage)));
 		MoteInformation moteInformation;
-	
+		
+		
 		if(moteID != TOS_NODE_ID) {
 			moteInformation = call Memory.getNodeInformation(moteID);
 	
@@ -126,11 +127,9 @@ implementation{
 			} else {
 				nodeRequested = rpkt->nodeID;	
 				hierarchyLevel = 1;
-			}
-	
-			if (!busy)
-				if(firstMessage)
+				if (!busy)
 				post SendBroadcastMessage();
+			}
 	
 		} else if (len == sizeof(MoteInformationMessage)) {
 			uint16_t i;
@@ -167,7 +166,6 @@ implementation{
 					dbg("RadioFrequencySensorC", "*********************************************************************\n");	
 					dbg("RadioFrequencySensorC", "[REQUEST-MESSAGE ANSWER] Node %hhu is on (%hhu, %hhu) and has eaten %hhu amount of food!\n", moteInfo.nodeID, moteInfo.x, moteInfo.y, moteInfo.foodEaten);	
 					dbg("RadioFrequencySensorC", "*********************************************************************\n");					
-					hierarchyLevel = 0;
 					return msg;
 				} else {
 					replyMessage = prepareMoteInformationMessage(mmpkt->requestedNode);
@@ -179,11 +177,9 @@ implementation{
 							return msg;
 						}
 					}
-	
-					hierarchyLevel = 0;
 				}
 			} else if(!busy)
-				if(firstMessage) 
+				//if(firstMessage) 
 				post SendBroadcastMessage();
 	
 		} else if (len == sizeof(UpdateFeedingSpot)) {
