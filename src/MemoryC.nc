@@ -7,9 +7,9 @@ module MemoryC{
 implementation{
 	nx_uint16_t feedingSpots[100];
 	uint16_t quantityOfFoodThatICanEat = 50;
-	nx_struct MoteInformation motesInformation[10000];
+	nx_struct MoteInformation motesInformation[100];
 	uint16_t motesInformationIndex = 0;
-	nx_struct AdjacentMoteInformation adjacentNodesInformation[10000];
+	nx_struct AdjacentMoteInformation adjacentNodesInformation[100];
 	uint16_t adjacentNodesInformationIndex = 0;
 	uint16_t foodEatenByMe = 0;
 	
@@ -48,13 +48,20 @@ implementation{
 		for(i = 0; i < motesInformationIndex; i++) 
 			if(motesInformation[i].nodeID == nodeID) {
 			motesInformation[i].foodEaten = foodEaten;
-			dbg("MemoryC", "[MoteInformation] .::UPDATE::. Mote %hhu is at (%hhu, %hhu) and has eaten %hhu amount of food.\n", motesInformation[i].nodeID, motesInformation[i].x, motesInformation[i].y, motesInformation[i].foodEaten);	
+			dbg("MemoryC", "[MoteInformation] .::UPDATE::. Mote %hhu has eaten %hhu amount of food.\n", motesInformation[i].nodeID, motesInformation[i].foodEaten);	
 			break;
 		}
 	}
 
 	command void Memory.setMoteCoordinate(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y){
-		// TODO Auto-generated method stub
+		uint16_t i;
+		for(i = 0; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID) {
+				motesInformation[i].x = x;
+				motesInformation[i].y = y;
+				dbg("MemoryC", "[MoteInformation] .::UPDATE::. Mote %hhu is at (%hhu, %hhu).\n", motesInformation[i].nodeID, motesInformation[i].x, motesInformation[i].y);	
+				break;
+			}
 	}
 
 	command nx_uint16_t Memory.getNumberOfAdjacentNodes() {

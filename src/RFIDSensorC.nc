@@ -16,7 +16,6 @@ implementation {
 	
 	event message_t* Receive.receive(message_t* msg, void* payload, uint8_t len) {
 		if(len == sizeof(RFID_test_message)) {
-			RFID_test_message* RFIDpkt = (RFID_test_message*)payload;
 			dbg("RFIDSensorC", "[RFID] I'm going to eat'....\n");
 			call RFIDSensor.eatFromFeedingSpot((uint8_t) call Random.rand16());
 		}	

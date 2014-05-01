@@ -5,7 +5,6 @@ configuration SensorMoteAppC {}
 
 implementation {
 	components MainC;
-   	components SensorMoteC as SensorMote;
    	components GPSCoordinateSensorC as GPSCoordinateSensor;
    	components RadioFrequencySensorC as RadioFrequencySensor;
    	components MemoryC as Memory;
@@ -16,11 +15,10 @@ implementation {
 	components RFIDSensorC as RFIDSensorC;
 	components RandomC;
 	
-   	SensorMote.Boot -> MainC;
-  	SensorMote.AMControl -> ActiveMessageC;
-	
 	GPSCoordinateSensor.Receive -> AMReceiverC;	
 	
+	RadioFrequencySensor.Boot -> MainC;
+  	RadioFrequencySensor.AMControl -> ActiveMessageC;
 	RadioFrequencySensor.Timer -> Timer; //TODO discutivel
 	RadioFrequencySensor.MyCoordinate -> GPSCoordinateSensor.GPSCoordinateSensor; 
 	RadioFrequencySensor.Memory -> Memory.Memory;

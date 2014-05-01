@@ -18,7 +18,8 @@ typedef nx_struct GPSCoordinateMessage {
 
 typedef nx_struct FeedingSpotMessage {
 	nx_uint8_t feedingSpotID;
-	nx_uint16_t foodAmount;
+	nx_uint8_t foodAmount;
+	nx_uint8_t type; // 0 get; 1 set
 } FeedingSpotMessage;
 
 typedef nx_struct request_msg {
