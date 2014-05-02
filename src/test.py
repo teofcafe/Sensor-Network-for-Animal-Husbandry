@@ -98,7 +98,9 @@ while True:
 			t.runNextEvent()
 	elif n.strip() == '4':
 		changeFood = UpdateFoodQuantity()
+		node = raw_input("  Node: ")
 		amountOfFood = raw_input(" Amount of food: ")
+		changeFood.set_nodeID(int(node.strip()))
 		changeFood.set_foodQuantity(int(amountOfFood.strip()))
 		pkt = t.newPacket()
 		pkt.setData(changeFood.data)

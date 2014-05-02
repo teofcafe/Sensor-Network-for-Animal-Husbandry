@@ -107,7 +107,9 @@ implementation{
 			} return msg;
 		} else if(len == sizeof(UpdateFoodQuantity)) {
 			UpdateFoodQuantity* ufqpkt =(UpdateFoodQuantity*) payload;
+			
 			call Memory.setQuantityOfFoodThatICanEat(ufqpkt->foodQuantity);	
+			
 			return msg;
 	
 		} else if(len == sizeof(request_msg)) {
@@ -174,13 +176,14 @@ implementation{
 						adjacentMote = call Memory.getAdjacentNodeInformation(i);
 						if(adjacentMote.hierarchyLevel == hierarchyLevel - 1 && !busy) {
 							sendMoteInformationToNode(replyMessage, adjacentMote.nodeID);
+							firstMessage = TRUE;
 							return msg;
 						}
 					}
 				}
 			} else if(!busy)
-				//if(firstMessage) 
-				post SendBroadcastMessage();
+				if(firstMessage)
+					post SendBroadcastMessage();
 	
 		} else if (len == sizeof(UpdateFeedingSpot)) {
 			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;
@@ -207,7 +210,7 @@ implementation{
 	
 	event void AMSend.sendDone(message_t* msg, error_t error) {	
 		if (&pkt == msg) {
-			if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage))
+			if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage) || call Packet.payloadLength(msg) == sizeof(UpdateFoodQuantity))
 				if(call Ack.wasAcked(&pkt) == TRUE) {
 				dbg("RadioFrequencySensorC", "[2] TimeStamp: %hhu.\n", call Timer.getNow());
 				dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet sent.\n");			
