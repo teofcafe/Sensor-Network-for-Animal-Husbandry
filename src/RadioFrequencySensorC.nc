@@ -259,14 +259,44 @@ implementation{
 	}
 	
 	event void Timer.fired() {
+//		int i, j;
+//		bool adjacent = FALSE;
+		
 		counter++;
 		dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);		
 	
 		if(counter % 100 == 0) 
 			call MyCoordinate.walk();
 		else if(counter % 500 == 0) {
+			nx_struct MoteInformation moteInfo;
+			nx_struct AdjacentMoteInformation adjacentInfo;
 			nodeRequested = 0;
-			post SendBroadcastMessage();
+			if(!busy)
+				post SendBroadcastMessage();
+//			dbg("RadioFrequencySensorC", "[0] TESTE: NUMBER %hu.\n", call Memory.getNumberOfAdjacentNodes());		
+//					
+//			for(i=0; call Memory.getNumberOfAdjacentNodes(); i++) {
+//				for(j=0; call Memory.getNumberOfKnownNodes(); j++) {
+//					moteInfo = call Memory.getNodeInformation(j);
+//					adjacentInfo = call Memory.getAdjacentNodeInformation(i);
+//					
+//					dbg("RadioFrequencySensorC", "[1] TESTE: NODE %hu | ADJACENT NODE: %hu.\n", moteInfo.nodeID, adjacentInfo.nodeID);		
+//					
+//					if(moteInfo.nodeID == adjacentInfo.nodeID) {
+//						adjacent = TRUE;	
+//						dbg("RadioFrequencySensorC", "[2] TESTE: NODE %hu | ADJACENT NODE: %hu.\n", moteInfo.nodeID, adjacentInfo.nodeID);		
+//						
+//						}
+//				}
+//				
+//				if(!adjacent) {
+//					nodeRequested = moteInfo.nodeID;
+//					if(!busy)
+//						post SendBroadcastMessage();
+//				}
+//				
+//				adjacent = FALSE;
+//			}		
 		}			 
 	}
 
