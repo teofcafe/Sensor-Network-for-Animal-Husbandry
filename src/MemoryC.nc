@@ -30,8 +30,6 @@ implementation{
 	
 
 	command void Memory.insertNewMoteInformation(nx_uint16_t nodeID, nx_uint8_t x, nx_uint8_t y, nx_uint16_t foodEaten, nx_uint16_t adjacentNodeID, nx_uint8_t adjacentNodeHierarchyLevel){
-		
-
 		motesInformation[motesInformationIndex].nodeID = nodeID;
 		motesInformation[motesInformationIndex].x = x;
 		motesInformation[motesInformationIndex].y = y;
@@ -152,4 +150,20 @@ implementation{
 			return motesInformation[i].foodEaten;	
 		return 0;
 	}	
+
+	command nx_uint8_t Memory.getNodeCoordinateX(uint16_t nodeID){
+		uint16_t i;
+		for(i = 0; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID)
+			return motesInformation[i].x;	
+		return 0;
+	}
+
+	command nx_uint8_t Memory.getNodeCoordinateY(uint16_t nodeID){
+		uint16_t i;
+		for(i = 0; i < motesInformationIndex; i++) 
+			if(motesInformation[i].nodeID == nodeID)
+			return motesInformation[i].y;	
+		return 0;
+	}
 }

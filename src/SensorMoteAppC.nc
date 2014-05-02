@@ -19,7 +19,7 @@ implementation {
 	
 	RadioFrequencySensor.Boot -> MainC;
   	RadioFrequencySensor.AMControl -> ActiveMessageC;
-	RadioFrequencySensor.Timer -> Timer; //TODO discutivel
+	RadioFrequencySensor.Timer -> Timer;
 	RadioFrequencySensor.MyCoordinate -> GPSCoordinateSensor.GPSCoordinateSensor; 
 	RadioFrequencySensor.Memory -> Memory.Memory;
 	RadioFrequencySensor.AMSend -> AMSenderC;

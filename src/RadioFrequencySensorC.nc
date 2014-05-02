@@ -31,7 +31,8 @@ implementation{
 	}
 	
 	event void AMControl.startDone(error_t err) {
-		if (err == SUCCESS) ;
+		if (err == SUCCESS) 
+			call Timer.startPeriodic(TIMER_PERIOD_MILLI);
 		else call AMControl.start();
 	}
 
@@ -108,7 +109,8 @@ implementation{
 		} else if(len == sizeof(UpdateFoodQuantity)) {	
 			UpdateFoodQuantity* mmpkt;
 			UpdateFoodQuantity* ufqpkt =(UpdateFoodQuantity*) payload;
-
+			dbg("RadioFrequencySensorC", "[FOOD QUANTITY] Received packet.\n");
+			
 			if(ufqpkt->nodeID == TOS_NODE_ID && ufqpkt->foodQuantity != call Memory.getQuantityOfFoodThatICanEat()) {	 		
 				call Memory.setQuantityOfFoodThatICanEat((uint8_t)ufqpkt->foodQuantity);
 				return msg;
@@ -153,7 +155,7 @@ implementation{
 				hasAnswer = FALSE;
 				nodeRequested = rpkt->nodeID;	
 				hierarchyLevel = 1;
-				if (!busy)
+				if(!busy)
 					post SendBroadcastMessage();
 			}
 	
@@ -166,8 +168,8 @@ implementation{
 			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Received mote information message.\n");
 
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
-				//call Memory.setFoodEatenByMote(mmpkt->nodeID, mmpkt->foodEaten);
-				//call Memory.setMoteCoordinate(mmpkt->nodeID, mmpkt->x, mmpkt->y);
+				if(call Memory.getNodeCoordinateX(mmpkt->nodeID) != mmpkt->x || call Memory.getNodeCoordinateY(mmpkt->nodeID) != mmpkt->y)
+					call Memory.setMoteCoordinate(mmpkt->nodeID, mmpkt->x, mmpkt->y);
 				if(call Memory.hasAdjacentNode(call AMPacket.source(msg))) {
 					if(call Memory.getAdjacentNodeHierarchyLevel(call AMPacket.source(msg)) > mmpkt->senderNodeHierarchyLevel) {
 						call Memory.setAdjacentNodeHierarchyLevel(call AMPacket.source(msg), mmpkt->senderNodeHierarchyLevel);
@@ -258,7 +260,14 @@ implementation{
 	
 	event void Timer.fired() {
 		counter++;
-		//dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);		
+		dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);		
+	
+		if(counter % 100 == 0) 
+			call MyCoordinate.walk();
+		else if(counter % 500 == 0) {
+			nodeRequested = 0;
+			post SendBroadcastMessage();
+		}			 
 	}
 
 	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint8_t feedingSpotID, nx_uint16_t feedingSpotAmount, nx_uint16_t nodeID, nx_uint16_t quantityEated) {

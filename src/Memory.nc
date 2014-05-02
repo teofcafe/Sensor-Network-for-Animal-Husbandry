@@ -4,6 +4,8 @@ interface Memory{
 	// MoteInformation - Gets
 	command nx_uint16_t getCurrentFoodAmount(nx_uint8_t feedingSpotID); 
 	command nx_uint16_t getAmountOfFoodEatenByNode(nx_uint16_t nodeID);
+	command nx_uint8_t getNodeCoordinateX(uint16_t nodeID);
+	command nx_uint8_t getNodeCoordinateY(uint16_t nodeID);
 	command MoteInformation getNodeInformation(nx_uint16_t nodeID);
 	command bool hasMoteInformation(nx_uint16_t nodeID);
 	command nx_uint16_t getNumberOfKnownNodes();
