@@ -15,6 +15,8 @@ t = Tossim([])
 r = t.radio()
 f = open("topo.txt", "r")
 
+nr = 8 #nr de nodes + 1
+
 print "\n~~~ Topology ~~~\n"
 
 for line in f:
@@ -33,12 +35,12 @@ for line in noise:
   str1 = line.strip()
   if str1:
     val = int(str1)
-    for i in range(1, 8):
+    for i in range(1, nr):
       t.getNode(i).addNoiseTraceReading(val)
       
 print "\n"
 
-for i in range(1, 8):
+for i in range(1, nr):
   print "Creating noise model for ",i;
   t.getNode(i).createNoiseModel() 
   
@@ -47,7 +49,7 @@ near_node = raw_input("\n" + "Welcome to Sensor Network for Animal Husbandry: " 
 while True:
 	n = raw_input("\n*************************************************************************\n********** Sensor Network for Animal Husbandry - Laptop server **********\n*************************************************************************\n\n Commands: ~ [1] Turn on\n           ~ [2] Check information of an animal\n           ~ [3] Change amount of food in feeding spot\n           ~ [4] Change amount of food an animal can eat\n           ~ [5] Check how much food is left in the feeding spot\n           ~ [6] Turn off\n Action:   ~ [7] Simulation of an animal eating from a feeding spot\n\n Command: ");
 	if n.strip() == '1':
-		for i in range(1, 8):
+		for i in range(1, nr):
 			t.getNode(i).turnOn()
 			print "Node " + str(i) + " has turned on!"
 			coord = GPSCoordinateMessage()
@@ -63,7 +65,7 @@ while True:
 			feedingSpot.set_feedingSpotID(j)
 			feedingSpot.set_foodAmount(random.randrange(1, 100))
 			feedingSpot.set_type(1)
-			for i in range(1, 6):
+			for i in range(1, nr):
 				pkt = t.newPacket()
 				pkt.setData(feedingSpot.data)
 				pkt.setType(feedingSpot.get_amType())
@@ -122,7 +124,7 @@ while True:
 		for i in range(1000):
 			t.runNextEvent()
 	elif n.strip() == '6':
-		for i in range(1, 6):
+		for i in range(1, nr):
 			t.getNode(i).turnOff()
 			print "Node " + str(i) + " has turned off!"
 		break;

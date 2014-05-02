@@ -15,6 +15,7 @@ module RadioFrequencySensorC {
 		interface PacketAcknowledgements as Ack;
 		interface Timer<TMilli> as Timer;
 	}
+	
 	provides interface RadioFrequencySensor;
 }
 
@@ -39,7 +40,6 @@ implementation{
 	event void AMControl.stopDone(error_t err) {}
 	
 	void sendMoteInformationToNode(MoteInformationMessage* moteInformationMessage, uint16_t nodeID) {
-		//TODO possivel bug
 		dbg("RadioFrequencySensorC", "[MOTEINFORMATION] Sending node %hhu information to node %hhu.\n", moteInformationMessage->nodeID, nodeID);		
 		if (call AMSend.send(nodeID, &pkt, sizeof(MoteInformationMessage)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
 			busy = TRUE;
@@ -48,7 +48,7 @@ implementation{
 		}
 	}
 	
-	MoteInformationMessage* prepareMoteInformationMessage(uint16_t moteID) {
+	MoteInformationMessage* prepareMoteInformationMessage(uint16_t moteID, uint8_t type) {
 		MoteInformationMessage* mmpkt = (MoteInformationMessage*)(call Packet.getPayload(&pkt, sizeof (MoteInformationMessage)));
 		MoteInformation moteInformation;
 	
@@ -69,7 +69,7 @@ implementation{
 			mmpkt->requestedNode = TOS_NODE_ID;		
 		}
 	
-		mmpkt->reply = 1;
+		mmpkt->reply = type;
 	
 		return mmpkt;
 	}
@@ -102,7 +102,6 @@ implementation{
 			if(feedingSpotpkt->type == 0) 	
 				dbg("RadioFrequencySensorC", "[FEEDING SPOT] Feeding spot %hhu has %hhu amount of food.\n", feedingSpotpkt->feedingSpotID, call Memory.getCurrentFoodAmount(feedingSpotpkt->feedingSpotID));
 			else {
-	
 				call Memory.setCurrentFoodAmount(feedingSpotpkt->feedingSpotID, feedingSpotpkt->foodAmount);
 				call RadioFrequencySensor.propagateUpdatesOfFeedingSpots(feedingSpotpkt->feedingSpotID, feedingSpotpkt->foodAmount, TOS_NODE_ID, call Memory.getFoodEatenByMe());
 			} return msg;
@@ -110,7 +109,7 @@ implementation{
 			UpdateFoodQuantity* mmpkt;
 			UpdateFoodQuantity* ufqpkt =(UpdateFoodQuantity*) payload;
 			dbg("RadioFrequencySensorC", "[FOOD QUANTITY] Received packet.\n");
-			
+	
 			if(ufqpkt->nodeID == TOS_NODE_ID && ufqpkt->foodQuantity != call Memory.getQuantityOfFoodThatICanEat()) {	 		
 				call Memory.setQuantityOfFoodThatICanEat((uint8_t)ufqpkt->foodQuantity);
 				return msg;
@@ -167,6 +166,21 @@ implementation{
 	
 			dbg("RadioFrequencySensorC", "[MOTE-MESSAGE] Received mote information message.\n");
 
+			if(mmpkt->reply == 2) {
+				if(call Memory.getNodeCoordinateX(mmpkt->nodeID) != mmpkt->x || call Memory.getNodeCoordinateY(mmpkt->nodeID) != mmpkt->y) {
+					call Memory.setMoteCoordinate(mmpkt->nodeID, mmpkt->x, mmpkt->y);
+					replyMessage = prepareMoteInformationMessage(mmpkt->nodeID, 2);	
+					if(!busy) {
+						dbg("RadioFrequencySensorC", "Starting BROADCAST message...\n");
+						if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
+							dbg("RadioFrequencySensorC", "Success BROADCAST message...\n");	
+							busy = TRUE;
+						}
+					}
+				}
+				return msg;
+			}
+	
 			if(call Memory.hasMoteInformation(mmpkt->nodeID)) {
 				if(call Memory.getNodeCoordinateX(mmpkt->nodeID) != mmpkt->x || call Memory.getNodeCoordinateY(mmpkt->nodeID) != mmpkt->y)
 					call Memory.setMoteCoordinate(mmpkt->nodeID, mmpkt->x, mmpkt->y);
@@ -199,7 +213,7 @@ implementation{
 					}
 					return msg;
 				} else {
-					replyMessage = prepareMoteInformationMessage(mmpkt->requestedNode);
+					replyMessage = prepareMoteInformationMessage(mmpkt->requestedNode, 1);
 	
 					for(i = 0; i < call Memory.getNumberOfAdjacentNodes(); i++) {
 						adjacentMote = call Memory.getAdjacentNodeInformation(i);
@@ -216,7 +230,7 @@ implementation{
 	
 		} else if (len == sizeof(UpdateFeedingSpot)) {
 			UpdateFeedingSpot* mmpkt = (UpdateFeedingSpot*)payload;
-				
+	
 			if(call Memory.getCurrentFoodAmount(mmpkt->feedingSpotID) != mmpkt->feedingSpotFoodAmount) {
 				dbg("RadioFrequencySensorC", "[UpdateFeedingSpot] Received message.\n");
 				call Memory.setCurrentFoodAmount(mmpkt->feedingSpotID, mmpkt->feedingSpotFoodAmount);
@@ -239,7 +253,7 @@ implementation{
 	
 	event void AMSend.sendDone(message_t* msg, error_t error) {	
 		if (&pkt == msg) {
-			if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage) || (call Packet.payloadLength(msg) == sizeof(UpdateFoodQuantity) && call AMPacket.destination(msg) != AM_BROADCAST_ADDR)) {
+			if((call Packet.payloadLength(msg) == sizeof(MoteInformationMessage) || call Packet.payloadLength(msg) == sizeof(UpdateFoodQuantity)) && call AMPacket.destination(msg) != AM_BROADCAST_ADDR) {
 				if(call Ack.wasAcked(&pkt) == TRUE) {
 					dbg("RadioFrequencySensorC", "[2] TimeStamp: %hhu.\n", call Timer.getNow());
 					dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet sent.\n");			
@@ -248,7 +262,7 @@ implementation{
 					dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Packet resent.\n");	
 					if(call Packet.payloadLength(msg) == sizeof(MoteInformationMessage))
 						sendMoteInformationToNode(call Packet.getPayload(msg, call Packet.payloadLength(msg)), call AMPacket.destination(msg));
-					else if(call AMSend.send(call AMSend.send(call AMPacket.destination(msg), msg, call Packet.payloadLength(msg)), &pkt, sizeof(UpdateFoodQuantity)) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
+					else if(call AMSend.send(call AMPacket.destination(msg), msg, call Packet.payloadLength(msg)), &pkt, sizeof(UpdateFoodQuantity) == SUCCESS && call Ack.requestAck(&pkt) == SUCCESS) {
 						timeControl = call Timer.getNow();
 						dbg("RadioFrequencySensorC", "[1] TimeStamp: %hhu.\n", timeControl);
 					}
@@ -258,51 +272,37 @@ implementation{
 		}
 	}
 	
+	task void Update() {
+		MoteInformationMessage* mmpkt = (MoteInformationMessage*)(call Packet.getPayload(&pkt, sizeof (MoteInformationMessage)));
+	
+		mmpkt->nodeID = TOS_NODE_ID;
+		mmpkt->foodEaten = call Memory.getFoodEatenByMe();
+		mmpkt->x = call MyCoordinate.getCoordX();
+		mmpkt->y = call MyCoordinate.getCoordY();
+		mmpkt->reply = 2;
+	
+		dbg("RadioFrequencySensorC", "Starting UPDATE BROADCAST message...\n");
+		if (call AMSend.send(AM_BROADCAST_ADDR, &pkt, sizeof(MoteInformationMessage)) == SUCCESS) {
+			dbg("RadioFrequencySensorC", "Success UPDATE BROADCAST message...\n");	
+			busy = TRUE;
+			firstMessage = FALSE;
+		}
+	}
+	
 	event void Timer.fired() {
-//		int i, j;
-//		bool adjacent = FALSE;
-		
 		counter++;
 		dbg("RadioFrequencySensorC", "RadioFrequencySensorC: Timer fired, counter is %hu.\n", counter);		
 	
 		if(counter % 100 == 0) 
 			call MyCoordinate.walk();
-		else if(counter % 500 == 0) {
-			nx_struct MoteInformation moteInfo;
-			nx_struct AdjacentMoteInformation adjacentInfo;
-			nodeRequested = 0;
+		if(counter % 500 == 0)
 			if(!busy)
-				post SendBroadcastMessage();
-//			dbg("RadioFrequencySensorC", "[0] TESTE: NUMBER %hu.\n", call Memory.getNumberOfAdjacentNodes());		
-//					
-//			for(i=0; call Memory.getNumberOfAdjacentNodes(); i++) {
-//				for(j=0; call Memory.getNumberOfKnownNodes(); j++) {
-//					moteInfo = call Memory.getNodeInformation(j);
-//					adjacentInfo = call Memory.getAdjacentNodeInformation(i);
-//					
-//					dbg("RadioFrequencySensorC", "[1] TESTE: NODE %hu | ADJACENT NODE: %hu.\n", moteInfo.nodeID, adjacentInfo.nodeID);		
-//					
-//					if(moteInfo.nodeID == adjacentInfo.nodeID) {
-//						adjacent = TRUE;	
-//						dbg("RadioFrequencySensorC", "[2] TESTE: NODE %hu | ADJACENT NODE: %hu.\n", moteInfo.nodeID, adjacentInfo.nodeID);		
-//						
-//						}
-//				}
-//				
-//				if(!adjacent) {
-//					nodeRequested = moteInfo.nodeID;
-//					if(!busy)
-//						post SendBroadcastMessage();
-//				}
-//				
-//				adjacent = FALSE;
-//			}		
-		}			 
+			post Update();				 
 	}
 
 	command void RadioFrequencySensor.propagateUpdatesOfFeedingSpots(nx_uint8_t feedingSpotID, nx_uint16_t feedingSpotAmount, nx_uint16_t nodeID, nx_uint16_t quantityEated) {
 		UpdateFeedingSpot* ufspkt = (UpdateFeedingSpot*)(call Packet.getPayload(&pkt, sizeof (UpdateFeedingSpot)));
-					
+	
 		ufspkt->feedingSpotID = feedingSpotID;
 		ufspkt->feedingSpotFoodAmount = feedingSpotAmount;
 		ufspkt->nodeID = nodeID;
