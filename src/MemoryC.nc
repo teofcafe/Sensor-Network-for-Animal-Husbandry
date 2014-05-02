@@ -92,7 +92,7 @@ implementation{
 			return TRUE;
 		return FALSE;
 	}
-
+	
 	command void Memory.setAdjacentNodeHierarchyLevel(nx_uint16_t adjacentNodeID, nx_uint8_t hierarchyLevel){
 		uint16_t i;
 		for(i = 0; i <= adjacentNodesInformationIndex; i++) 
