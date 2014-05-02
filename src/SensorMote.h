@@ -27,7 +27,9 @@ typedef nx_struct request_msg {
 } request_msg;
 
 typedef nx_struct UpdateFoodQuantity {
-	nx_uint8_t foodQuantity;
+	nx_uint16_t nodeID;
+	nx_uint32_t foodQuantity;
+	nx_uint8_t extraPlayload; 
 } UpdateFoodQuantity;
 
 typedef nx_struct RFID_test_message {

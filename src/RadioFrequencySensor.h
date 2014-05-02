@@ -16,12 +16,7 @@ typedef nx_struct UpdateFeedingSpot {
 	nx_uint16_t feedingSpotFoodAmount;
 	nx_uint16_t nodeID;
 	nx_uint16_t foodEaten;
+	nx_uint16_t extraPayload;
 } UpdateFeedingSpot;
-
-typedef nx_struct UpdateNode {
-	nx_uint16_t nodeID;
-	nx_uint8_t x;
-	nx_uint8_t y;
-} UpdateNode;
 
 #endif /* RADIO_FREQUENCY_SENSOR_H */
